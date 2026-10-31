@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rafihamanulan.co.il/sitemap.xml
