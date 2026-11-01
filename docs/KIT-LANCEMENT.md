@@ -44,7 +44,7 @@ Installe « WhatsApp Business » sur ton numéro 054-530-1389 (l'application pro
 ```
 מנעולן – מגיע אליכם בקטנוע לכל אזור השרון, מקיסריה ועד הוד השרון, בדרך כלל תוך כ-25 דקות. פריצת דלתות, החלפת צילינדר, תיקון מנעולים, פתיחת כספות ושדרוג מיגון. מחיר ברור לפני העבודה.
 ```
-**Horaires :** dim–jeu 24 h/24 · ven 09:00–16:00 · sam 19:00–00:00. **Site :** `https://rafi-hamanulan.onrender.com`
+**Horaires :** dim–jeu 24 h/24 · ven 09:00–16:00 · sam 19:00–00:00. **Site :** `https://rafihamanulan.co.il`
 
 **Message d'accueil** (outils → message d'accueil) :
 ```
@@ -115,7 +115,7 @@ Pourquoi : la fiche Google Maps peut prendre des jours ou des semaines (vérific
 - **Calendrier** : dim–jeu toute la journée ; ven 09:00–16:00 ; sam 19:00–23:59. Pas d'annonce pendant Shabbat.
 - **Enchères** : « Maximiser les clics » avec un CPC maximum, la première semaine.
 - **Composant Appel** : `054-530-1389` (l'annonce montre un bouton « appeler » sur mobile).
-- **Page de destination** : `https://rafi-hamanulan.onrender.com` (ou la page de la ville).
+- **Page de destination** : `https://rafihamanulan.co.il` (ou la page de la ville).
 
 **Mots-clés** (entre guillemets = « expression ») :
 ```

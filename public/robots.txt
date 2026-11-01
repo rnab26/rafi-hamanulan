@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://rafi-hamanulan.onrender.com/sitemap.xml
+Sitemap: https://rafihamanulan.co.il/sitemap.xml

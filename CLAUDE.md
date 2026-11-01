@@ -6,7 +6,7 @@
 - Téléphone : 054-530-1389 (+972545301389). WhatsApp : https://wa.me/972545301389
 - Horaires : dimanche–jeudi 24 h/24 ; vendredi 09:00–16:00 ; samedi soir (motzaei Shabbat) 19:00–00:00. Fermé pendant Shabbat.
 - Services : פריצת דלתות, החלפת צילינדר, תיקון והחלפת מנעולים, פתיחת כספות, שדרוג מיגון.
-- Domaine : rafihamanulan.co.il, acheté le 1er nov. 2026 chez LiveDNS (compte de Raphael Nabet). Pas encore relié : DNS + Render à faire. URL actuelle : https://rafi-hamanulan.onrender.com
+- Domaine : rafihamanulan.co.il, acheté le 1er nov. 2026 chez LiveDNS (compte de Raphael Nabet). DNS chez Cloudflare (compte de Raphael, serveurs candy/seth.ns.cloudflare.com ; 2 CNAME @ et www → rafi-hamanulan.onrender.com, proxy « DNS only »). Relié à Render, HTTPS Let's Encrypt OK le 1er nov. 2026 vers 07:10. Site : https://rafihamanulan.co.il (l'ancienne adresse onrender.com marche toujours).
 
 ## Technique
 - Site statique en hébreu (RTL), fichiers HTML à plat à la racine (pas de sous-dossiers).
@@ -16,7 +16,7 @@
 - Automatismes GitHub Actions : `.github/workflows/site.yml` (contrôle à chaque push + IndexNow après mise en ligne), `surveillance.yml` (chaque jour : `check.py --live`, ouvre une issue si problème).
 - `CONTENT_DATE` dans build.py : date de mise à jour du contenu (sitemap/articles), fixe pour que le contrôle « régénérer = identique » passe.
 - Réglages (URL, téléphone, horaires, délai, message WhatsApp, code Search Console, lien avis) : section RÉGLAGES en haut de `_build/build.py`. Une seule source de vérité.
-- `SITE_URL` = https://rafi-hamanulan.onrender.com tant que le domaine n'est pas relié (canonical, sitemap, schema en dépendent). Ne jamais mettre un domaine non relié.
+- `SITE_URL` = https://rafihamanulan.co.il depuis le 1er nov. 2026 (canonical, sitemap, schema en dépendent). Garder le proxy Cloudflare en « DNS only » (sinon le certificat Render peut casser).
 - Images dans `public/img/` (webp, sans EXIF). Photos réelles fournies par Rafi le 1er nov. 2026 (confirmées comme les siennes, usage officiel). Ne jamais publier une photo où l'on voit l'autocollant ou le numéro d'un concurrent.
 - Guides (articles) : liste `GUIDES` dans build.py, pages `guide-*.html`. Contenu factuel, pas de prix.
 - Plan d'acquisition et textes Google Business : `docs/PLAN-CLIENTS.md`. Kit de lancement (WhatsApp Business, groupes, partenaires, Google Ads prêt) : `docs/KIT-LANCEMENT.md`.
@@ -33,6 +33,6 @@
 ## À faire plus tard
 - [x] Photos réelles (1er nov. 2026). Manquent encore : Rafi lui-même, le scooter, un coffre-fort (la tuile « פתיחת כספות » utilise une photo libre CC0).
 - Ajouter un badge « agréé » si un certificat est confirmé.
-- Quand le domaine est acheté : le relier à Render, vérifier canonical/sitemap.
+- [x] Domaine relié et SITE_URL basculé (1er nov. 2026).
 - Après la vérification Google Business : remplir `REVIEW_URL` dans build.py.
 - Search Console : remplir `GSC_VERIFICATION` quand Rafi envoie le code, puis soumettre sitemap.xml.

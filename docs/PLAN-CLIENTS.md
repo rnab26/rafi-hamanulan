@@ -17,7 +17,7 @@ Quand quelqu'un tape « מנעולן » sur son téléphone à Netanya, Google a
 3. Catégorie principale : `מנעולן` (Locksmith).
 4. « Voulez-vous ajouter un lieu que les clients peuvent visiter ? » → **Non** (tu te déplaces). Ton adresse reste cachée.
 5. Zones desservies : ajoute `נתניה`, `חדרה`, `קיסריה`, `אור עקיבא`, `כפר יונה`, `אבן יהודה`, `קדימה-צורן`, `תל מונד`, `פרדסיה`, `כפר סבא`, `רעננה`, `הרצליה`, `הוד השרון` (Google limite à 20).
-6. Téléphone : `054-530-1389`. Site web : `https://rafi-hamanulan.onrender.com`
+6. Téléphone : `054-530-1389`. Site web : `https://rafihamanulan.co.il`
 7. Vérification : Google demande en général une **courte vidéo** (toi, ton outillage, ton scooter, un panneau ou une facture au nom de l'entreprise). Prépare-la avant.
 8. Horaires : dimanche–jeudi « ouvert 24 h/24 », vendredi 09:00–16:00, samedi 19:00–00:00.
 
@@ -50,7 +50,7 @@ Envoie-moi ce lien : je l'ajoute sur le site (réglage `REVIEW_URL` dans `_build
 Ça dit à Google « ce site existe, voici ses pages », et ça montre ensuite **quels mots-clés amènent des visites**.
 
 1. Ouvre https://search.google.com/search-console
-2. « Ajouter une propriété » → choisis **Préfixe de l'URL** → `https://rafi-hamanulan.onrender.com`
+2. « Ajouter une propriété » → choisis **Préfixe de l'URL** → `https://rafihamanulan.co.il`
 3. Méthode « Balise HTML » → copie la longue valeur entre guillemets après `content=`
 4. Envoie-la-moi : je la mets dans le site (réglage `GSC_VERIFICATION`), puis tu cliques « Valider ».
 5. Ensuite : menu « Sitemaps » → tape `sitemap.xml` → Envoyer.
@@ -88,7 +88,7 @@ Je peux préparer la campagne (mots-clés, annonces en hébreu, mots-clés exclu
 
 ---
 
-## 6. Domaine `rafihamanulan.co.il`
+## 6. Domaine `rafihamanulan.co.il` – ✅ FAIT le 1er nov. 2026 (LiveDNS + DNS Cloudflare + Render, HTTPS Let's Encrypt vérifié)
 
 Le domaine semble libre : il n'existe pas dans le DNS au 1er nov. 2026 (déduit, pas une garantie).
 GitHub ne vend pas de domaines.

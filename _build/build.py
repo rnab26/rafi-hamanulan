@@ -13,7 +13,7 @@ LEGACY_ROOT_COPY = True
 # ============================ RÉGLAGES ============================
 # URL publique du site. Quand le domaine rafihamanulan.co.il sera acheté et relié à Render,
 # remplacer UNIQUEMENT cette ligne, relancer le script, commit, push.
-SITE_URL = "https://rafi-hamanulan.onrender.com"
+SITE_URL = "https://rafihamanulan.co.il"
 NAME = "רפי המנעולן"
 PHONE_INTL = "+972545301389"
 PHONE = "054-530-1389"
