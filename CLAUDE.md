@@ -6,7 +6,7 @@
 - Téléphone : 054-530-1389 (+972545301389). WhatsApp : https://wa.me/972545301389
 - Horaires : dimanche–jeudi 24 h/24 ; vendredi 09:00–16:00 ; samedi soir (motzaei Shabbat) 19:00–00:00. Fermé pendant Shabbat.
 - Services : פריצת דלתות, החלפת צילינדר, תיקון והחלפת מנעולים, פתיחת כספות, שדרוג מיגון.
-- Domaine prévu : rafihamanulan.co.il (pas encore acheté). URL actuelle : https://rafi-hamanulan.onrender.com
+- Domaine : rafihamanulan.co.il, acheté le 1er nov. 2026 chez LiveDNS (compte de Raphael Nabet). Pas encore relié : DNS + Render à faire. URL actuelle : https://rafi-hamanulan.onrender.com
 
 ## Technique
 - Site statique en hébreu (RTL), fichiers HTML à plat à la racine (pas de sous-dossiers).
