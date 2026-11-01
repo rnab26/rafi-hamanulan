@@ -1,14 +1,38 @@
-import os, json
-OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
-PHONE_INTL="+972545301389"; PHONE="054-530-1389"; WA="https://wa.me/972545301389"
-DOMAIN="https://rafihamanulan.co.il"
-I={ # stroke icons 24x24
+"""Générateur du site « רפי המנעולן ».
+
+Lancer depuis la racine du dépôt :  python3 _build/build.py
+Tout ce qui est réglable est dans la section RÉGLAGES ci-dessous (une seule source de vérité).
+"""
+import os, json, datetime
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
+
+# ============================ RÉGLAGES ============================
+# URL publique du site. Quand le domaine rafihamanulan.co.il sera acheté et relié à Render,
+# remplacer UNIQUEMENT cette ligne, relancer le script, commit, push.
+SITE_URL = "https://rafi-hamanulan.onrender.com"
+NAME = "רפי המנעולן"
+PHONE_INTL = "+972545301389"
+PHONE = "054-530-1389"
+WA_NUMBER = "972545301389"
+WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
+ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
+BASE_CITY = "נתניה"
+GEO = (32.3215, 34.8532)                            # centre de Netanya (zone de service, pas d'adresse publique)
+# Horaires : jour (0=dimanche … 6=samedi) -> liste de créneaux (heure début, heure fin), fin 24 = minuit
+HOURS = {0: [(0, 24)], 1: [(0, 24)], 2: [(0, 24)], 3: [(0, 24)], 4: [(0, 24)], 5: [(9, 16)], 6: [(19, 24)]}
+HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:00–16:00"), ("מוצאי שבת", "19:00–00:00")]
+# Code de vérification Google Search Console (balise HTML) : coller seulement la valeur content="..."
+GSC_VERIFICATION = ""
+# Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
+REVIEW_URL = ""
+# ==================================================================
+
+WA = f"https://wa.me/{WA_NUMBER}"
+WA_LINK = WA + "?text=" + __import__("urllib.parse").parse.quote(WA_TEXT)
+TODAY = datetime.date.today().isoformat()
+
+I = {  # icônes trait 24x24
 "door":'<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><circle cx="14.5" cy="12" r="1"/>',
-"cyl":'<rect x="4" y="7" width="16" height="10" rx="5"/><circle cx="9" cy="12" r="2"/><path d="M11 12h6"/>',
-"lock":'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/>',
-"safe":'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="4"/><path d="M12 8v1M12 15v1M8 12h1M15 12h1M6 20v1M18 20v1"/>',
-"shield":'<path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
-"clock":'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
 "tag":'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
 "user":'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
 "phone":'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
@@ -16,10 +40,17 @@ I={ # stroke icons 24x24
 "scooter":'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l3-7h-3M15 10l-2-5h-3M6 14l2-4h4"/>',
 "check":'<path d="M5 12l5 5L20 7"/>',
 "key":'<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/>',
+"shield":'<path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+"chat":'<path d="M4 5h16v11H8l-4 4z"/>',
+"arrow":'<path d="M15 6l-6 6 6 6"/>',
 }
-def ic(n,cls="ic"): return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
-WA_SVG='<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>'
-CITIES=[("netanya","נתניה","בנתניה","כל השכונות – רמת פולג, עין התכלת, קריית השרון, קריית צאנז, אגמים ומרכז העיר"),
+def ic(n, cls="ic"):
+    return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
+WA_SVG = '<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>'
+
+# (slug, nom, "ב+nom", quartiers/secteurs couverts)
+CITIES = [
+("netanya","נתניה","בנתניה","רמת פולג, עין התכלת, קריית השרון, קריית צאנז, אגמים, נאות גנים, דורה ומרכז העיר"),
 ("hadera","חדרה","בחדרה","מרכז העיר, גבעת אולגה, נווה חיים והשכונות החדשות"),
 ("caesarea","קיסריה","בקיסריה","השכונות, הבתים הפרטיים ופארק התעשייה"),
 ("or-akiva","אור עקיבא","באור עקיבא","כל שכונות העיר"),
@@ -32,168 +63,285 @@ CITIES=[("netanya","נתניה","בנתניה","כל השכונות – רמת �
 ("raanana","רעננה","ברעננה","כל שכונות העיר"),
 ("herzliya","הרצליה","בהרצליה","הרצליה פיתוח, מרכז העיר והשכונות"),
 ("hod-hasharon","הוד השרון","בהוד השרון","כל שכונות העיר"),
-("moshavim","מושבי השרון","במושבי השרון","אודים, יקום, מכמורת, כפר ויתקין, בית יהושע, חבצלת השרון, אביחיל ועוד")]
-SERVICES=[("door-opening","פריצת דלתות","door","ננעלתם בחוץ? פתיחת הדלת ללא נזק ככל שניתן.",["דלת כניסה ופלדלת","דלתות פנים וחדרי אמבטיה","מפתח שנשבר בתוך המנעול","מפתח שנשאר בצד הפנימי"]),
-("cylinder","החלפת צילינדר","cyl","אחרי מעבר דירה, אובדן מפתחות או פריצה.",["צילינדרים רגילים ומוגנים","החלפה אחרי מעבר דירה","החלפה אחרי פריצה או אובדן מפתחות","מפתח אחד לכמה דלתות"]),
-("lock-repair","תיקון והחלפת מנעולים","lock","מנעול שנתקע, ידית שנשברה, דלת שלא נסגרת.",["מנעולי רב-בריח","ידיות ומנגנונים","מנעולים לשערים ולתיבות דואר","כיוון דלת שנתקעת"]),
-("safe","פתיחת כספות","safe","קוד שנשכח או מנגנון שנתקע.",["כספות עם קוד","כספות עם מפתח","החלפת קוד אחרי פתיחה"]),
-("security","שדרוג מיגון","shield","בדיקת הדלת והמנעולים והמלצה במחיר ברור.",["שדרוג צילינדר ומנעולים","מנעולי עזר","מיגון לעסקים ולמחסנים"])]
-FAQ=[("תוך כמה זמן אתה מגיע?","אני יוצא מנתניה בקטנוע, אז גם בפקקים אני מגיע בדרך כלל תוך כ-25 דקות לכל מקום באזור, מקיסריה ועד הוד השרון."),
+("moshavim","מושבי השרון","במושבי השרון","אודים, יקום, מכמורת, כפר ויתקין, בית יהושע, חבצלת השרון, אביחיל ועוד"),
+]
+# (slug, nom, image, phrase courte, ce qui est inclus, mots-clés secondaires pour la description)
+SERVICES = [
+("door-opening","פריצת דלתות","door-opening","ננעלתם בחוץ? פותח את הדלת ללא נזק ככל שניתן.",
+ ["דלת כניסה ופלדלת","דלתות פנים וחדרי אמבטיה","מפתח שנשבר בתוך המנעול","מפתח שנשאר בצד הפנימי"],"פורץ דלתות ופורץ מנעולים"),
+("cylinder","החלפת צילינדר","cylinder","אחרי מעבר דירה, אובדן מפתחות או פריצה.",
+ ["צילינדרים רגילים ומוגנים – מולטילוק, רב-בריח, מגנום ועוד","החלפה אחרי מעבר דירה","החלפה אחרי פריצה או אובדן מפתחות","מפתח אחד לכמה דלתות"],"החלפת צילינדר מולטילוק ורב-בריח"),
+("lock-repair","תיקון והחלפת מנעולים","lock-repair","מנעול תקוע, ידית שבורה, דלת שלא נסגרת.",
+ ["מנעולי רב-בריח","ידיות ומנגנונים","מנעולים לשערים ולתיבות דואר","כיוון דלת שנתקעת"],"תיקון מנעולים ומנעולי רב-בריח"),
+("safe","פתיחת כספות","safe","קוד שנשכח או מנגנון שנתקע.",
+ ["כספות עם קוד","כספות עם מפתח","החלפת קוד אחרי פתיחה"],"פריצת כספות"),
+("security","שדרוג מיגון","security","בדיקת הדלת והמנעולים והמלצה במחיר ברור.",
+ ["שדרוג צילינדר ומנעולים","מנעולי עזר","מיגון לעסקים ולמחסנים"],"שדרוג מיגון לדלת"),
+]
+FAQ = [
+("תוך כמה זמן אתה מגיע?",f"אני יוצא מ{BASE_CITY} בקטנוע, אז גם בפקקים אני מגיע בדרך כלל תוך כ-{ETA_MIN} דקות לכל מקום באזור, מקיסריה ועד הוד השרון."),
 ("אני יודע כמה זה יעלה לפני שמתחילים?","כן. אחרי שאני רואה את הדלת או המנעול אני אומר מחיר ברור, ורק אחרי שאתם מאשרים מתחילים לעבוד."),
 ("הדלת תיפגע בזמן הפריצה?","ברוב המקרים אפשר לפתוח ללא נזק לדלת. אם צריך להחליף את הצילינדר אחרי הפתיחה, אני מחליף אותו באותו ביקור."),
 ("מתי אתה זמין?","24 שעות בימים ראשון עד חמישי, ביום שישי מ-09:00 עד 16:00, ובמוצאי שבת עד חצות."),
-("לאילו אזורים אתה מגיע?","נתניה, חדרה, קיסריה, אור עקיבא, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך."),
-("מה עושים אחרי פריצה לבית?","מומלץ להחליף צילינדר כמה שיותר מהר. אני מגיע, מחליף ויכול להמליץ על שדרוג מיגון לדלת.")]
-CSS=r"""
-:root{--bg:#FFFFFF;--soft:#F3F6FB;--ink:#0E1A2B;--muted:#5B6878;--line:#E3E9F1;--blue:#1A56DB;--blue-d:#1446B4;--blue-soft:#E8EFFD;--wa:#18A957;--amber:#F5A524;--green:#16A34A;--r:18px;--shadow:0 1px 2px rgba(14,26,43,.06),0 8px 24px rgba(14,26,43,.06)}
+("מה עושים אחרי פריצה לבית?","מומלץ להחליף צילינדר כמה שיותר מהר. אני מגיע, מחליף ויכול להמליץ על שדרוג מיגון לדלת."),
+]
+
+# ------------------------------------------------------------------ CSS
+CSS = r"""
+:root{--bg:#fff;--soft:#F5F7FB;--ink:#0E1A2B;--muted:#5B6878;--line:#E6EBF2;--blue:#1A56DB;--blue-d:#1446B4;--blue-soft:#EAF0FD;--wa:#18A957;--amber:#F5A524;--green:#16A34A;--r:20px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Rubik",Arial,sans-serif;font-size:17px;line-height:1.6;padding-bottom:88px}
-a{color:var(--blue)}h1,h2,h3{line-height:1.2;margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Rubik",Arial,sans-serif;font-size:17px;line-height:1.6;padding-bottom:84px}
+a{color:var(--blue)}h1,h2,h3{line-height:1.2;margin:0;font-weight:700}p{margin:0}
+img{display:block;max-width:100%;height:auto}
 a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:8px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 .ic{width:22px;height:22px;flex:none}
 /* header */
-.hd{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.hd .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:20px}
-.logo .mk{width:38px;height:38px;border-radius:12px;background:var(--blue);color:#fff;display:grid;place-items:center}
-.logo .mk .ic{width:22px;height:22px}
-.pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);color:var(--blue-d);text-decoration:none;font-weight:700;padding:9px 14px;border-radius:999px;font-size:16px}
-.pill span{direction:ltr}
+.hd{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:19px}
+.logo .mk{width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center}
+.logo .mk .ic{width:20px;height:20px}
+.pill{display:inline-flex;align-items:center;gap:6px;color:var(--blue);text-decoration:none;font-weight:700;font-size:16px}
+.pill span{direction:ltr}.pill .ic{width:18px;height:18px}
 /* hero */
-.hero{background:linear-gradient(180deg,var(--soft),#fff);padding:28px 0 36px}
-.hero .wrap{display:grid;gap:28px}
-@media(min-width:900px){.hero .wrap{grid-template-columns:1.15fr .85fr;align-items:center;padding-top:28px;padding-bottom:28px}}
-.status{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:500;color:var(--muted)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}
-.status.on .dot{background:var(--green);box-shadow:0 0 0 4px rgba(22,163,74,.18)}
-.status.on{color:var(--green)}
-.hero h1{font-size:clamp(32px,6.4vw,52px);font-weight:700;letter-spacing:-.01em;margin:16px 0 12px}
-.hero .sub{color:var(--muted);font-size:18px;margin:0 0 22px;max-width:44ch}
-.cta{display:grid;gap:10px;max-width:460px}
-@media(min-width:520px){.cta{grid-template-columns:1fr 1fr}}
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border-radius:14px;font-weight:700;font-size:18px;text-decoration:none;padding:0 18px}
-.btn-call{background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(26,86,219,.28)}
-.btn-call:hover{background:var(--blue-d)}
-.btn-wa{background:#fff;color:var(--wa);border:2px solid var(--wa)}
-.trust{display:flex;flex-wrap:wrap;gap:8px 18px;margin:20px 0 0;padding:0;list-style:none;color:var(--muted);font-size:15px}
-.trust li{display:flex;align-items:center;gap:6px}.trust .ic{width:18px;height:18px;color:var(--green)}
-/* eta card */
-.eta{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:20px;max-width:420px;width:100%;justify-self:center}
-.eta-top{display:flex;align-items:center;gap:12px}
-.av{width:48px;height:48px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:20px}
-.eta-top b{display:block;font-size:17px}.eta-top small{color:var(--muted);font-size:14px}
-.eta-time{margin-inline-start:auto;text-align:center;background:var(--blue);color:#fff;border-radius:14px;padding:6px 12px;line-height:1.1}
-.eta-time strong{display:block;font-size:22px;direction:ltr}.eta-time span{font-size:12px}
-.map{margin:16px 0 14px;height:130px;border-radius:16px;background:var(--soft);position:relative;overflow:hidden}
-.map svg{position:absolute;inset:0;width:100%;height:100%}
-.eta-steps{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
-.eta-steps span{display:flex;align-items:center;gap:6px}.eta-steps .ic{width:16px;height:16px;color:var(--blue)}
+.hero{padding:20px 0 8px}
+.hero .wrap{display:grid;gap:24px}
+.hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3;background:var(--soft)}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.eta-badge{position:absolute;bottom:14px;inset-inline-start:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
+.eta-badge .ic{color:var(--blue)}.eta-badge b{display:block;font-size:20px;line-height:1}.eta-badge small{color:var(--muted);font-size:13px}
+@media(min-width:880px){.hero{padding:56px 0 24px}.hero .wrap{grid-template-columns:1fr 1fr;align-items:center;gap:56px}.hero-img{aspect-ratio:4/5;grid-column:2;grid-row:1/3;max-height:560px}.hero-txt{grid-column:1;grid-row:1}.trust{grid-column:1;grid-row:2;align-self:start}}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.status.on{color:var(--green)}.status.on .dot{background:var(--green);box-shadow:0 0 0 4px rgba(22,163,74,.16)}
+.hero h1{font-size:clamp(34px,7vw,56px);letter-spacing:-.015em;margin:10px 0 12px}
+.hero .sub{color:var(--muted);font-size:19px;margin:0 0 28px}
+.cta{display:grid;gap:10px;max-width:440px;grid-template-columns:1fr 1fr}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:14px;font-weight:700;font-size:17px;text-decoration:none;padding:0 16px}
+.btn-call{background:var(--blue);color:#fff}.btn-call:hover{background:var(--blue-d)}
+.btn-wa{background:var(--wa);color:#fff}
+.crumb{font-size:14px;color:var(--muted);margin-bottom:14px}.crumb a{color:var(--muted);text-decoration:none}
+/* trust */
+.trust{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);list-style:none;margin:0;padding:28px 0 0}
+.trust li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;font-size:14px;color:var(--muted);line-height:1.35}
+.trust .ic{width:44px;height:44px;padding:11px;border-radius:14px;background:var(--blue-soft);color:var(--blue)}
+
 /* sections */
-.sec{padding:52px 0}.sec.alt{background:var(--soft)}
-.sec h2{font-size:clamp(26px,4.5vw,34px);font-weight:700;margin-bottom:8px}
-.sec .lede{color:var(--muted);margin:0 0 26px;max-width:56ch}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-.card{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s}
-a.card:hover{border-color:var(--blue);box-shadow:var(--shadow)}
-.card .bub{width:46px;height:46px;border-radius:14px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;margin-bottom:14px}
-.card .bub .ic{width:24px;height:24px}
-.card h3{font-size:19px;margin-bottom:4px}
-@media(max-width:600px){.card{display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;padding:16px}.card .bub{margin:0;grid-row:span 2}.card h3{margin:0}.grid{gap:10px}.step{padding:16px}}.card p{margin:0;color:var(--muted);font-size:15px}
-.steps{display:grid;gap:14px;counter-reset:s;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.step{background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--line)}
-.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;margin-bottom:12px}
-.step h3{font-size:18px;margin-bottom:4px}.step p{margin:0;color:var(--muted);font-size:15px}
+.sec{padding:64px 0}.sec.alt{background:var(--soft)}
+.sec h2{font-size:clamp(26px,4.6vw,36px);letter-spacing:-.01em;margin-bottom:28px}
+.sec h2 small{display:block;font-size:17px;font-weight:400;color:var(--muted);margin-top:8px;letter-spacing:0}
+.intro{font-size:18px;color:var(--muted);max-width:60ch;margin:-12px 0 28px}
+/* services: tuiles photo */
+.tiles{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.tiles{grid-template-columns:repeat(3,1fr);gap:20px}}
+.tile{display:block;text-decoration:none;color:var(--ink)}
+.tile img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;background:var(--soft);transition:transform .2s}
+.tile:hover img{transform:scale(1.02)}
+.tile h3{font-size:17px;margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.tile h3 .ic{width:18px;height:18px;color:var(--blue)}
+.gal{display:grid;gap:8px;grid-template-columns:repeat(3,1fr);list-style:none;margin:0;padding:0}
+@media(min-width:760px){.gal{grid-template-columns:repeat(6,1fr);gap:12px}}
+.gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:var(--soft)}
+/* étapes */
+.steps{display:grid;gap:28px;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
+@media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.steps li{display:flex;gap:16px;align-items:flex-start}
+.steps .ic{width:52px;height:52px;padding:13px;border-radius:16px;background:#fff;color:var(--blue);box-shadow:0 2px 10px rgba(14,26,43,.06)}
+.steps h3{font-size:18px;margin:4px 0 2px}.steps p{color:var(--muted);font-size:15px}
+/* zones */
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
-.chips a{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;text-decoration:none;color:var(--ink);font-size:15px}
-.chips a:hover{border-color:var(--blue);color:var(--blue)}.chips .ic{width:16px;height:16px;color:var(--blue)}
-.faq{max-width:760px}
-.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
-.faq summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:500;display:flex;justify-content:space-between;gap:12px}
+.chips a{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;text-decoration:none;color:var(--ink);font-size:15px}
+.chips a:hover{border-color:var(--blue);color:var(--blue)}
+/* faq + horaires */
+.two{display:grid;gap:48px}@media(min-width:880px){.two{grid-template-columns:3fr 2fr}}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:500;display:flex;justify-content:space-between;gap:12px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-size:22px;line-height:1;color:var(--blue)}
+.faq summary::after{content:"+";font-size:24px;line-height:1;color:var(--blue)}
 .faq details[open] summary::after{content:"–"}
-.faq details p{margin:0;padding:0 18px 16px;color:var(--muted)}
-.hours{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:6px 18px;max-width:440px}
-.hours div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
-.hours div:last-child{border:0}.hours b{font-weight:500}.hours span{direction:ltr;color:var(--muted)}
-.two{display:grid;gap:28px}@media(min-width:860px){.two{grid-template-columns:1fr 1fr}}
-.incl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.incl li{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-.incl .ic{color:var(--green)}
-.band{background:var(--blue);color:#fff;border-radius:24px;padding:30px 24px;display:grid;gap:18px;align-items:center}
-@media(min-width:760px){.band{grid-template-columns:1fr auto}}
-.band h2{color:#fff;margin:0}.band p{margin:6px 0 0;opacity:.85}
-.band .btn{background:#fff;color:var(--blue)}
-.crumb{font-size:14px;color:var(--muted);margin:0}.crumb a{color:var(--muted)}
-footer{padding:30px 0 40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
-footer .wrap{display:grid;gap:6px}
-.bar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:1.4fr 1fr;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
-.bar .btn{min-height:52px;font-size:17px}
-@media(min-width:900px){.bar{display:none}body{padding-bottom:0}}
+.faq details p{padding:0 0 18px;color:var(--muted)}
+.hours div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}
+.hours b{font-weight:500}.hours span{direction:ltr;color:var(--muted)}
+.note{color:var(--muted);font-size:15px;margin-top:14px}
+/* page service */
+.incl{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.incl li{display:flex;gap:12px;align-items:center;font-size:17px}
+.incl .ic{width:28px;height:28px;padding:5px;border-radius:50%;background:#E7F6EC;color:var(--green)}
+/* bandeau final */
+.band{text-align:center;padding:72px 0}
+.band h2{font-size:clamp(28px,5vw,40px);margin-bottom:10px}
+.band p{color:var(--muted);margin-bottom:28px}
+.band .cta{margin:0 auto}
+footer{padding:32px 0 40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+footer a{color:var(--muted)}
+.bar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar .btn{min-height:50px;font-size:16px}
+@media(min-width:880px){.bar{display:none}body{padding-bottom:0}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 """
-JS=r"""<script>(function(){try{var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',hour12:false});var p=f.formatToParts(new Date());var d=p.find(function(x){return x.type==='weekday'}).value,h=+p.find(function(x){return x.type==='hour'}).value;var on=(['Sun','Mon','Tue','Wed','Thu'].indexOf(d)>-1)||(d==='Fri'&&h>=9&&h<16)||(d==='Sat'&&h>=19);document.querySelectorAll('.status').forEach(function(el){if(on){el.classList.add('on');el.querySelector('.t').textContent='זמין עכשיו – אפשר להתקשר'}else{el.querySelector('.t').textContent='כרגע שבת – אפשר להשאיר הודעה בוואטסאפ'}})}catch(e){}})();</script>"""
-MAP='''<svg viewBox="0 0 360 130" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="#DCE4EF" stroke-width="10" fill="none" stroke-linecap="round"><path d="M-10 30H380"/><path d="M-10 95H380"/><path d="M80 -10V140"/><path d="M250 -10V140"/></g><path d="M300 108 C 250 108, 250 40, 190 40 S 110 70, 62 34" fill="none" stroke="#1A56DB" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 9"/><circle cx="300" cy="108" r="8" fill="#1A56DB"/><circle cx="300" cy="108" r="14" fill="#1A56DB" opacity=".15"/><g transform="translate(50 12)"><path d="M12 30s-10-8.5-10-16a10 10 0 0 1 20 0c0 7.5-10 16-10 16z" fill="#F5A524"/><circle cx="12" cy="14" r="4" fill="#fff"/></g></svg>'''
-def eta(where="אליכם"):
-    return f'''<div class="eta" role="img" aria-label="הגעה משוערת כ-25 דקות"><div class="eta-top"><div class="av">ר</div><div><b>רפי המנעולן</b><small>יוצא אליכם בקטנוע</small></div><div class="eta-time"><strong>25</strong><span>דק׳ בערך</span></div></div><div class="map">{MAP}</div><div class="eta-steps"><span>{ic("scooter")}נתניה</span><span>{ic("pin")}{where}</span></div></div>'''
-def schema(area,faq=True):
-    d=[{"@context":"https://schema.org","@type":"Locksmith","name":"רפי המנעולן","telephone":PHONE_INTL,"url":DOMAIN,"areaServed":area,
-    "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday"],"opens":"00:00","closes":"23:59"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Friday","opens":"09:00","closes":"16:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"19:00","closes":"23:59"}]}]
-    if faq: d.append({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]})
-    return '<script type="application/ld+json">'+json.dumps(d,ensure_ascii=False)+'</script>'
-def page(slug,title,desc,body,area):
-    url=DOMAIN+"/"+("" if slug=="index" else slug+".html")
+
+# ------------------------------------------------------------------ statut « disponible » (calculé depuis HOURS)
+JS = ("<script>(function(){try{var H=" + json.dumps({str(k): v for k, v in HOURS.items()}) + ";"
+      "var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',hour12:false});"
+      "var p=f.formatToParts(new Date());var D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];"
+      "var d=D.indexOf(p.find(function(x){return x.type==='weekday'}).value),h=+p.find(function(x){return x.type==='hour'}).value%24;"
+      "var on=(H[d]||[]).some(function(s){return h>=s[0]&&h<s[1]});"
+      "document.querySelectorAll('.status').forEach(function(el){if(on){el.classList.add('on');el.querySelector('.t').textContent='זמין עכשיו'}"
+      "else{el.querySelector('.t').textContent='מחוץ לשעות – השאירו הודעה בוואטסאפ'}})}catch(e){}})();</script>")
+
+def img(name, alt, w, h, eager=False):
+    attrs = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+    return f'<img src="img/{name}.webp" alt="{alt}" width="{w}" height="{h}" {attrs}>'
+
+def url_of(slug):
+    return SITE_URL + "/" + ("" if slug == "index" else slug + ".html")
+
+# ------------------------------------------------------------------ données structurées
+BIZ_ID = SITE_URL + "/#business"
+def business(area_names):
+    days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    spec = []
+    for d, slots in HOURS.items():
+        for a, b in slots:
+            spec.append({"@type":"OpeningHoursSpecification","dayOfWeek":days[d],
+                         "opens":f"{a:02d}:00","closes":"23:59" if b == 24 else f"{b:02d}:00"})
+    return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
+            "image":SITE_URL+"/img/og.jpg","logo":SITE_URL+"/img/logo.png",
+            "address":{"@type":"PostalAddress","addressLocality":BASE_CITY,"addressCountry":"IL"},
+            "geo":{"@type":"GeoCoordinates","latitude":GEO[0],"longitude":GEO[1]},
+            "areaServed":[{"@type":"City","name":n} for n in area_names],
+            "openingHoursSpecification":spec,
+            "contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
+
+def ld(objs):
+    return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@graph":objs}, ensure_ascii=False) + '</script>'
+
+def crumbs_ld(items):
+    return {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":i+1,"name":n,"item":u} for i,(n,u) in enumerate(items)]}
+
+def faq_ld(faq):
+    return {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}
+
+# ------------------------------------------------------------------ gabarit
+def page(slug, title, desc, body, graph, og_img="og"):
+    url = url_of(slug)
+    gsc = f'<meta name="google-site-verification" content="{GSC_VERIFICATION}">' if GSC_VERIFICATION and slug == "index" else ""
     return f'''<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#1A56DB">
-<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231A56DB'/%3E%3Ccircle cx='12' cy='16' r='5' fill='none' stroke='white' stroke-width='2.5'/%3E%3Cpath d='M17 16h9M23 16v4' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">{schema(area)}</head><body>
-<header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>רפי המנעולן</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
+<link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
+<header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
-<footer><div class="wrap"><b style="color:var(--ink)">רפי המנעולן</b><span>מנעולן באזור השרון – מקיסריה ועד הוד השרון. יוצא מנתניה.</span><span>טלפון: <a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a></span></div></footer>
-<nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו עכשיו</a><a class="btn btn-wa" href="{WA}">{WA_SVG}וואטסאפ</a></nav>
+<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן ב{BASE_CITY} והשרון</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a></span></div></footer>
+<nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
 {JS}</body></html>'''
-def hero(h1,sub,where="אליכם",crumb=""):
-    return f'''<section class="hero"><div class="wrap"><div>{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימי חול ובמוצאי שבת</span></span>
-<h1>{h1}</h1><p class="sub">{sub}</p>
-<div class="cta"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו עכשיו</a><a class="btn btn-wa" href="{WA}">{WA_SVG}שלחו וואטסאפ</a></div>
-<ul class="trust"><li>{ic("check")}מחיר ברור לפני העבודה</li><li>{ic("check")}פתיחה ללא נזק ככל שניתן</li><li>{ic("check")}מדברים ישירות איתי</li></ul></div>{eta(where)}</div></section>'''
-def services_sec(title="השירותים שלי",lede="כל מה שקשור לדלתות, מנעולים וכספות – לבית ולעסק."):
-    cards="".join(f'<a class="card" href="{s}.html"><span class="bub">{ic(i)}</span><h3>{n}</h3><p>{t}</p></a>' for s,n,i,t,_ in SERVICES)
-    return f'<section class="sec"><div class="wrap"><h2>{title}</h2><p class="lede">{lede}</p><div class="grid">{cards}</div></div></section>'
-STEPS=f'''<section class="sec alt"><div class="wrap"><h2>איך זה עובד</h2><p class="lede">שלושה צעדים, בלי מוקד ובלי המתנה על הקו.</p><div class="steps">
-<div class="step"><h3>מתקשרים או שולחים וואטסאפ</h3><p>מספרים לי מה קרה ואיפה אתם. אני עונה בעצמי.</p></div>
-<div class="step"><h3>אני מגיע תוך כ-25 דקות</h3><p>בקטנוע, כך שגם בפקקים ההגעה מהירה.</p></div>
-<div class="step"><h3>מחיר ברור, ואז עבודה</h3><p>אתם מאשרים את המחיר לפני שמתחילים, ואני פותר את הבעיה.</p></div></div></div></section>'''
-WHY=f'''<section class="sec"><div class="wrap"><h2>למה להתקשר אליי</h2><p class="lede">מנעולן עצמאי, לא מוקד שמעביר את הפנייה הלאה.</p><div class="grid">
-<div class="card"><span class="bub">{ic("scooter")}</span><h3>הגעה בקטנוע</h3><p>בדרך כלל תוך כ-25 דקות לכל מקום באזור, גם בשעות העומס.</p></div>
-<div class="card"><span class="bub">{ic("tag")}</span><h3>מחיר ידוע מראש</h3><p>בלי הפתעות בסוף העבודה. המחיר נאמר ומאושר לפני שמתחילים.</p></div>
-<div class="card"><span class="bub">{ic("user")}</span><h3>ישירות מול בעל המקצוע</h3><p>מי שעונה לטלפון הוא מי שמגיע אליכם.</p></div>
-<div class="card"><span class="bub">{ic("clock")}</span><h3>זמין גם בלילה</h3><p>24 שעות בימי חול, ביום שישי עד 16:00 ובמוצאי שבת.</p></div></div></div></section>'''
-def area_sec(title="אזורי שירות"):
-    chips="".join(f'<li><a href="{s}.html">{ic("pin")}מנעולן {b}</a></li>' for s,n,b,_ in CITIES)
-    return f'<section class="sec alt"><div class="wrap"><h2>{title}</h2><p class="lede">יוצא מנתניה לכל אזור השרון – מקיסריה בצפון ועד הוד השרון בדרום.</p><ul class="chips">{chips}</ul></div></section>'
-def faq_sec():
-    q="".join(f'<details><summary>{a}</summary><p>{b}</p></details>' for a,b in FAQ)
-    hrs='<div class="hours"><div><b>ראשון – חמישי</b><span>24 שעות</span></div><div><b>שישי</b><span>09:00–16:00</span></div><div><b>מוצאי שבת</b><span>19:00–00:00</span></div></div>'
-    return f'<section class="sec"><div class="wrap two"><div><h2>שאלות נפוצות</h2><p class="lede">התשובות לשאלות שהכי שואלים אותי בטלפון.</p><div class="faq">{q}</div></div><div><h2>שעות זמינות</h2><p class="lede">מחוץ לשעות האלה אפשר להשאיר הודעה בוואטסאפ.</p>{hrs}</div></div></section>'
-BAND=f'<section class="sec"><div class="wrap"><div class="band"><div><h2>ננעלתם בחוץ? אל תחכו.</h2><p>מתקשרים, ואני בדרך.</p></div><a class="btn" href="tel:{PHONE_INTL}">{ic("phone")}{PHONE}</a></div></div></section>'
-ALL=[n for _,n,_,_ in CITIES]
-open(f"{OUT}/style.css","w").write(CSS)
-home=hero("מנעולן בנתניה והשרון, אצלכם תוך כ-25 דקות","פריצת דלתות, החלפת צילינדרים, תיקון מנעולים ופתיחת כספות. מקיסריה ועד הוד השרון.")+services_sec()+STEPS+WHY+area_sec()+faq_sec()+BAND
-open(f"{OUT}/index.html","w").write(page("index","רפי המנעולן | מנעולן בנתניה והשרון – הגעה תוך כ-25 דקות","מנעולן מנתניה לכל השרון, מקיסריה ועד הוד השרון. פריצת דלתות, החלפת צילינדרים, תיקון מנעולים ופתיחת כספות. מחיר ברור לפני העבודה.",home,ALL))
-for s,n,b,hood in CITIES:
-    cr=f'<p class="crumb"><a href="index.html">ראשי</a> / מנעולן {b}</p><br>'
-    body=hero(f"מנעולן {b}, אצלכם תוך כ-25 דקות",f"רפי המנעולן מגיע {b} בקטנוע. שירות ב{hood}.",n if s!="netanya" else "אליכם",cr)+services_sec(f"שירותי מנעולנות {b}",f"פריצת דלתות, צילינדרים, מנעולים וכספות {b} – לבית ולעסק.")+STEPS+WHY+faq_sec()+area_sec("עוד אזורים שאני מגיע אליהם")+BAND
-    open(f"{OUT}/{s}.html","w").write(page(s,f"מנעולן {b} | רפי המנעולן – הגעה תוך כ-25 דקות",f"מנעולן {b}: פריצת דלתות, החלפת צילינדרים, תיקון מנעולים ופתיחת כספות. רפי המנעולן מגיע בקטנוע, מחיר ברור לפני העבודה.",body,[n]))
-for s,n,i,t,items in SERVICES:
-    cr=f'<p class="crumb"><a href="index.html">ראשי</a> / {n}</p><br>'
-    inc="".join(f'<li>{ic("check")}<span>{x}</span></li>' for x in items)
-    body=hero(f"{n} בנתניה והשרון",f"{t} מגיע בקטנוע מקיסריה ועד הוד השרון, בדרך כלל תוך כ-25 דקות.","אליכם",cr)+f'<section class="sec"><div class="wrap two"><div><h2>מה כולל השירות</h2><p class="lede">המחיר נאמר ומאושר לפני שמתחילים לעבוד.</p><ul class="incl">{inc}</ul></div><div><h2>שירותים נוספים</h2><p class="lede">גם את זה אפשר לסגור באותו ביקור.</p><div class="grid">'+"".join(f'<a class="card" href="{s2}.html"><span class="bub">{ic(i2)}</span><h3>{n2}</h3></a>' for s2,n2,i2,_,_ in SERVICES if s2!=s)+'</div></div></div></section>'+STEPS+faq_sec()+area_sec()+BAND
-    open(f"{OUT}/{s}.html","w").write(page(s,f"{n} בנתניה והשרון | רפי המנעולן",f"{n} בנתניה והשרון – {t} הגעה בקטנוע תוך כ-25 דקות, מחיר ברור לפני העבודה.",body,ALL))
-urls=[""]+[f"{s}.html" for s,*_ in CITIES]+[f"{s}.html" for s,*_ in SERVICES]
-open(f"{OUT}/sitemap.xml","w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+"".join(f"<url><loc>{DOMAIN}/{u}</loc></url>" for u in urls)+"</urlset>")
-open(f"{OUT}/robots.txt","w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
-print("Site généré dans",OUT)
+
+def cta():
+    return f'<div class="cta"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></div>'
+
+def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול רב-בריח", crumb=""):
+    return f'''<section class="hero"><div class="wrap">
+<div class="hero-img">{img(photo, alt, 900 if photo=="hero" else 800, 1125 if photo=="hero" else 600, eager=True)}<div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
+<div class="hero-txt">{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24/6</span></span><h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
+<ul class="trust"><li>{ic("tag")}מחיר ברור לפני העבודה</li><li>{ic("door")}פתיחה ללא נזק ככל שניתן</li><li>{ic("user")}ישירות מול רפי, בלי מוקד</li></ul>
+</div></section>'''
+
+def services_sec(title="שירותים", sub="", exclude=None):
+    t = "".join(f'<a class="tile" href="{s}.html">{img(im, n, 800, 600)}<h3>{n}{ic("arrow")}</h3></a>'
+                for s, n, im, *_ in SERVICES if s != exclude)
+    small = f"<small>{sub}</small>" if sub else ""
+    return f'<section class="sec"><div class="wrap"><h2>{title}{small}</h2><div class="tiles">{t}</div></div></section>'
+
+# Galerie : photos réelles de Rafi (img/g1..g6.webp). Pour en ajouter : déposer gN.webp (600x600) et ajouter une ligne.
+GALLERY = [("g1","מנעול רב-בריח בדלת פלדלת"),("g2","ידית וצילינדר בדלת כניסה"),("g3","מנעול ישן בדלת עץ"),
+           ("g4","מנעול רב-בריח בדלת לבנה"),("g5","מנעול בדלת פנים"),("g6","מנעול בדלת זכוכית")]
+def gallery_sec():
+    g = "".join(f'<li>{img(n, a, 600, 600)}</li>' for n, a in GALLERY)
+    return f'<section class="sec"><div class="wrap"><h2>מהעבודה בשטח</h2><ul class="gal">{g}</ul></div></section>'
+
+STEPS = f'''<section class="sec alt"><div class="wrap"><h2>איך זה עובד</h2><ol class="steps">
+<li>{ic("chat")}<div><h3>מתקשרים או שולחים וואטסאפ</h3><p>אני עונה בעצמי.</p></div></li>
+<li>{ic("scooter")}<div><h3>מגיע תוך כ-{ETA_MIN} דקות</h3><p>בקטנוע, גם בפקקים.</p></div></li>
+<li>{ic("check")}<div><h3>מחיר ברור, ואז עבודה</h3><p>מתחילים רק אחרי שאישרתם.</p></div></li></ol></div></section>'''
+
+def area_sec(title="אזורי שירות", current=None):
+    chips = "".join(f'<li><a href="{s}.html">מנעולן {b}</a></li>' for s, n, b, _ in CITIES if s != current)
+    return f'<section class="sec"><div class="wrap"><h2>{title}<small>יוצא מ{BASE_CITY} – מקיסריה ועד הוד השרון.</small></h2><ul class="chips">{chips}</ul></div></section>'
+
+def faq_sec(faq):
+    q = "".join(f'<details><summary>{a}</summary><p>{b}</p></details>' for a, b in faq)
+    hrs = "".join(f'<div><b>{d}</b><span>{h}</span></div>' for d, h in HOURS_DISPLAY)
+    return (f'<section class="sec alt"><div class="wrap two"><div><h2>שאלות נפוצות</h2><div class="faq">{q}</div></div>'
+            f'<div><h2>שעות זמינות</h2><div class="hours">{hrs}</div><p class="note">בשבת סגור. מחוץ לשעות אפשר להשאיר הודעה בוואטסאפ.</p></div></div></section>')
+
+def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
+    rev = f'<p class="note"><a href="{REVIEW_URL}">עבדתי אצלכם? אשמח לביקורת בגוגל</a></p>' if REVIEW_URL else ""
+    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{rev}</div></section>'
+
+def crumb_html(label):
+    return f'<p class="crumb"><a href="index.html">ראשי</a> / {label}</p>'
+
+# ------------------------------------------------------------------ génération
+ALL = [n for _, n, _, _ in CITIES]
+pages = []  # (slug, html)
+
+# Accueil
+home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "נתניה, חדרה, קיסריה, אור עקיבא, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
+body = (hero(f"מנעולן ב{BASE_CITY} והשרון", f"פריצת דלתות, צילינדרים, מנעולים וכספות. אצלכם תוך כ-{ETA_MIN} דקות.")
+        + services_sec() + STEPS + gallery_sec() + area_sec() + faq_sec(home_faq) + band())
+pages.append(("index", page("index",
+    f"מנעולן בנתניה והשרון | {NAME} – {PHONE}",
+    f"מנעולן בנתניה והשרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
+    body, [business(ALL), {"@type":"WebSite","@id":SITE_URL+"/#website","url":SITE_URL+"/","name":NAME,"inLanguage":"he"}, faq_ld(home_faq)])))
+
+# Pages villes
+for s, n, b, hood in CITIES:
+    faq = [(f"תוך כמה זמן מגיע מנעולן {b}?", f"בדרך כלל תוך כ-{ETA_MIN} דקות. אני יוצא מ{BASE_CITY} בקטנוע, כך שגם בשעות העומס ההגעה {b} מהירה."),
+           (f"באילו אזורים {b} אתה עובד?", f"{hood}.")] + FAQ[1:]
+    intro = (f"צריכים מנעולן {b}? רפי המנעולן מגיע בקטנוע ל{hood}. "
+             f"פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות – לבית ולעסק, עם מחיר ברור לפני העבודה.")
+    body = (hero(f"מנעולן {b}", f"פורץ דלתות ומנעולים {b}. אצלכם תוך כ-{ETA_MIN} דקות.", crumb=crumb_html(f"מנעולן {b}"))
+            + services_sec(f"שירותי מנעולן {b}", intro)
+            + STEPS + faq_sec(faq) + area_sec("עוד אזורים", current=s) + band())
+    pages.append((s, page(s,
+        f"מנעולן {b} – הגעה תוך כ-{ETA_MIN} דק׳ | {NAME}",
+        f"מנעולן {b}: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. {NAME} מגיע בקטנוע תוך כ-{ETA_MIN} דקות. מחיר ברור לפני העבודה. {PHONE}",
+        body, [business([n]), crumbs_ld([("ראשי", SITE_URL+"/"), (f"מנעולן {b}", url_of(s))]), faq_ld(faq)])))
+
+# Pages services
+for s, n, im, t, items, kw in SERVICES:
+    inc = "".join(f'<li>{ic("check")}<span>{x}</span></li>' for x in items)
+    faq = FAQ[1:3] + FAQ[:1] + FAQ[3:]
+    body = (hero(f"{n} בנתניה והשרון", f"{t} אצלכם תוך כ-{ETA_MIN} דקות.", photo=im, alt=n, crumb=crumb_html(n))
+            + f'<section class="sec"><div class="wrap"><h2>מה כולל השירות<small>{kw} – המחיר נאמר ומאושר לפני שמתחילים.</small></h2><ul class="incl">{inc}</ul></div></section>'
+            + services_sec("שירותים נוספים", exclude=s) + STEPS + faq_sec(faq) + area_sec() + band())
+    svc = {"@type":"Service","name":n,"serviceType":n,"provider":{"@id":BIZ_ID},"areaServed":[{"@type":"City","name":c} for c in ALL],"description":t}
+    pages.append((s, page(s,
+        f"{n} בנתניה והשרון | {NAME} – {PHONE}",
+        f"{n} בנתניה והשרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
+        body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)], og_img="og")))
+
+with open(f"{OUT}/style.css", "w") as f: f.write(CSS)
+for slug, html in pages:
+    with open(f"{OUT}/{slug}.html", "w") as f: f.write(html)
+
+# 404
+with open(f"{OUT}/404.html", "w") as f:
+    f.write(page("404", f"הדף לא נמצא | {NAME}", "הדף לא נמצא.",
+                 f'<section class="band"><div class="wrap"><h2>הדף לא נמצא</h2><p>אבל אני כן כאן. <a href="index.html">לדף הראשי</a></p>{cta()}</div></section>',
+                 [business(ALL)]).replace('<link rel="canonical" href="' + url_of("404") + '">', '<meta name="robots" content="noindex">'))
+
+with open(f"{OUT}/favicon.svg", "w") as f:
+    f.write("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='#1A56DB'/><circle cx='12' cy='16' r='5' fill='none' stroke='white' stroke-width='2.5'/><path d='M17 16h9M23 16v4' stroke='white' stroke-width='2.5' stroke-linecap='round'/></svg>")
+
+urls = [url_of(s) for s, _ in pages]
+with open(f"{OUT}/sitemap.xml", "w") as f:
+    f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + "".join(f"<url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n")
+with open(f"{OUT}/robots.txt", "w") as f:
+    f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+print(f"{len(pages)} pages générées dans {OUT} (SITE_URL={SITE_URL})")
