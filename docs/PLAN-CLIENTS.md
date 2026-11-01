@@ -24,7 +24,7 @@ Quand quelqu'un tape « מנעולן » sur son téléphone à Netanya, Google a
 **Description (à coller, 750 caractères max) :**
 
 ```
-רפי המנעולן – מנעולן עצמאי מנתניה, מגיע בקטנוע לכל אזור השרון, מקיסריה ועד הוד השרון, בדרך כלל תוך כ-25 דקות.
+רפי המנעולן – מנעולן עצמאי שמגיע בקטנוע לכל אזור השרון, מקיסריה ועד הוד השרון, בדרך כלל תוך כ-25 דקות.
 פריצת דלתות ופלדלתות, החלפת צילינדרים (מולטילוק, רב-בריח, מגנום ועוד), תיקון והחלפת מנעולים, פתיחת כספות ושדרוג מיגון לבית ולעסק.
 מחיר ברור לפני שמתחילים לעבוד, ופתיחה ללא נזק ככל שניתן. מי שעונה לטלפון הוא מי שמגיע אליכם – בלי מוקד.
 זמין 24 שעות בימים א'–ה', ביום שישי 09:00–16:00 ובמוצאי שבת עד חצות.
@@ -90,9 +90,22 @@ Je peux préparer la campagne (mots-clés, annonces en hébreu, mots-clés exclu
 
 ## 6. Domaine `rafihamanulan.co.il`
 
-Un vrai nom de domaine rassure et se retient mieux sur un autocollant. Coût estimé : environ 60 à 100 ₪ par an chez un registraire israélien agréé (**à vérifier**).
-Quand il est acheté : je le relie à Render et je change une seule ligne (`SITE_URL`). Le site, les liens et le sitemap suivent tout seuls.
-**Il vaut mieux le faire tôt** : changer d'adresse après que Google a classé le site fait perdre un peu de terrain.
+Le domaine semble libre : il n'existe pas dans le DNS au 1er nov. 2026 (déduit, pas une garantie).
+GitHub ne vend pas de domaines.
+
+**Recommandation : LiveDNS**, le plus gros registraire israélien agréé par l'ISOC. Site en hébreu, paiement en shekels, éditeur DNS inclus.
+Lien direct : https://domains.livedns.co.il/ → tape `rafihamanulan`, choisis `.co.il`, paie.
+Prix : non vérifié (leur page ne l'affiche pas sans passer commande). Les comparateurs donnent environ 25 à 50 $ par an pour un `.co.il`. Attention aux offres « 1re année pas chère, renouvellement cher » : regarde le prix du renouvellement.
+Ne prends aucune option (hébergement, e-mail, « protection »). Seulement le domaine.
+
+**Après l'achat (environ 5 minutes, je te guide en direct) :**
+1. Render → service `rafi-hamanulan` → Settings → Custom Domains → ajoute `rafihamanulan.co.il`. Render ajoute `www` tout seul.
+2. LiveDNS → ton domaine → gestion DNS → ajoute 2 lignes :
+   - type `A`, nom `@` (vide), valeur `216.24.57.1`
+   - type `CNAME`, nom `www`, valeur `rafi-hamanulan.onrender.com`
+3. Dis-moi « c'est fait » : je vérifie que le domaine répond, je passe `SITE_URL` sur le nouveau domaine, je republie et je contrôle le certificat HTTPS.
+
+Valeurs tirées de la documentation Render (https://render.com/docs/configure-other-dns). Render te les réaffiche à l'étape 1 : en cas de différence, ce sont les siennes qui comptent.
 
 ---
 

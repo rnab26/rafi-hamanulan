@@ -19,6 +19,7 @@
 - Design : épuré, aéré, peu de texte, beaucoup de photos (demande de Rafi, 1er nov. 2026). Clair et moderne, style application. Police Rubik, bleu #1A56DB, vert WhatsApp #18A957. Mobile d'abord, barre fixe « appeler / WhatsApp » en bas sur mobile.
 
 ## Règles de contenu
+- Ne JAMAIS présenter Netanya comme point de départ (« יוצא מנתניה ») : chaque client doit sentir que Rafi est dans sa ville (demande du 1er nov. 2026). Netanya n'apparaît que comme une ville parmi d'autres.
 - Jamais de faux avis, de faux chiffres ni de prix inventés.
 - Ne pas affirmer « מנעולן מורשה » ou une autorisation de la police tant que ce n'est pas confirmé.
 - Garder les infos (nom, téléphone, horaires, zone) identiques à la fiche Google Business.

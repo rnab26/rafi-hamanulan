@@ -16,8 +16,7 @@ PHONE = "054-530-1389"
 WA_NUMBER = "972545301389"
 WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
-BASE_CITY = "נתניה"
-GEO = (32.3215, 34.8532)                            # centre de Netanya (zone de service, pas d'adresse publique)
+REGION = "השרון"                                    # zone affichée. Volontairement AUCUNE ville de départ (demande de Rafi, 1er nov. 2026)
 # Horaires : jour (0=dimanche … 6=samedi) -> liste de créneaux (heure début, heure fin), fin 24 = minuit
 HOURS = {0: [(0, 24)], 1: [(0, 24)], 2: [(0, 24)], 3: [(0, 24)], 4: [(0, 24)], 5: [(9, 16)], 6: [(19, 24)]}
 HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:00–16:00"), ("מוצאי שבת", "19:00–00:00")]
@@ -79,7 +78,7 @@ SERVICES = [
  ["שדרוג צילינדר ומנעולים","מנעולי עזר","מיגון לעסקים ולמחסנים"],"שדרוג מיגון לדלת"),
 ]
 FAQ = [
-("תוך כמה זמן אתה מגיע?",f"אני יוצא מ{BASE_CITY} בקטנוע, אז גם בפקקים אני מגיע בדרך כלל תוך כ-{ETA_MIN} דקות לכל מקום באזור, מקיסריה ועד הוד השרון."),
+("תוך כמה זמן אתה מגיע?",f"אני עובד בקטנוע בכל אזור {REGION}, אז גם בפקקים אני מגיע בדרך כלל תוך כ-{ETA_MIN} דקות, מקיסריה ועד הוד השרון."),
 ("אני יודע כמה זה יעלה לפני שמתחילים?","כן. אחרי שאני רואה את הדלת או המנעול אני אומר מחיר ברור, ורק אחרי שאתם מאשרים מתחילים לעבוד."),
 ("הדלת תיפגע בזמן הפריצה?","ברוב המקרים אפשר לפתוח ללא נזק לדלת. אם צריך להחליף את הצילינדר אחרי הפתיחה, אני מחליף אותו באותו ביקור."),
 ("מתי אתה זמין?","24 שעות בימים ראשון עד חמישי, ביום שישי מ-09:00 עד 16:00, ובמוצאי שבת עד חצות."),
@@ -209,8 +208,7 @@ def business(area_names):
                          "opens":f"{a:02d}:00","closes":"23:59" if b == 24 else f"{b:02d}:00"})
     return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
             "image":SITE_URL+"/img/og.jpg","logo":SITE_URL+"/img/logo.png",
-            "address":{"@type":"PostalAddress","addressLocality":BASE_CITY,"addressCountry":"IL"},
-            "geo":{"@type":"GeoCoordinates","latitude":GEO[0],"longitude":GEO[1]},
+            "address":{"@type":"PostalAddress","addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
             "contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
@@ -236,7 +234,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
-<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן ב{BASE_CITY} והשרון</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a></span></div></footer>
+<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
 {JS}</body></html>'''
 
@@ -270,7 +268,7 @@ STEPS = f'''<section class="sec alt"><div class="wrap"><h2>איך זה עובד<
 
 def area_sec(title="אזורי שירות", current=None):
     chips = "".join(f'<li><a href="{s}.html">מנעולן {b}</a></li>' for s, n, b, _ in CITIES if s != current)
-    return f'<section class="sec"><div class="wrap"><h2>{title}<small>יוצא מ{BASE_CITY} – מקיסריה ועד הוד השרון.</small></h2><ul class="chips">{chips}</ul></div></section>'
+    return f'<section class="sec"><div class="wrap"><h2>{title}<small>מגיע אליכם – מקיסריה ועד הוד השרון.</small></h2><ul class="chips">{chips}</ul></div></section>'
 
 def faq_sec(faq):
     q = "".join(f'<details><summary>{a}</summary><p>{b}</p></details>' for a, b in faq)
@@ -290,17 +288,17 @@ ALL = [n for _, n, _, _ in CITIES]
 pages = []  # (slug, html)
 
 # Accueil
-home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "נתניה, חדרה, קיסריה, אור עקיבא, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
-body = (hero(f"מנעולן ב{BASE_CITY} והשרון", f"פריצת דלתות, צילינדרים, מנעולים וכספות. אצלכם תוך כ-{ETA_MIN} דקות.")
+home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
+body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
         + services_sec() + STEPS + gallery_sec() + area_sec() + faq_sec(home_faq) + band())
 pages.append(("index", page("index",
-    f"מנעולן בנתניה והשרון | {NAME} – {PHONE}",
-    f"מנעולן בנתניה והשרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
+    f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
+    f"מנעולן בכל אזור {REGION}, מקיסריה ועד הוד השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
     body, [business(ALL), {"@type":"WebSite","@id":SITE_URL+"/#website","url":SITE_URL+"/","name":NAME,"inLanguage":"he"}, faq_ld(home_faq)])))
 
 # Pages villes
 for s, n, b, hood in CITIES:
-    faq = [(f"תוך כמה זמן מגיע מנעולן {b}?", f"בדרך כלל תוך כ-{ETA_MIN} דקות. אני יוצא מ{BASE_CITY} בקטנוע, כך שגם בשעות העומס ההגעה {b} מהירה."),
+    faq = [(f"תוך כמה זמן מגיע מנעולן {b}?", f"בדרך כלל תוך כ-{ETA_MIN} דקות. אני מגיע בקטנוע, כך שגם בשעות העומס ההגעה {b} מהירה."),
            (f"באילו אזורים {b} אתה עובד?", f"{hood}.")] + FAQ[1:]
     intro = (f"צריכים מנעולן {b}? רפי המנעולן מגיע בקטנוע ל{hood}. "
              f"פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות – לבית ולעסק, עם מחיר ברור לפני העבודה.")
@@ -316,13 +314,13 @@ for s, n, b, hood in CITIES:
 for s, n, im, t, items, kw in SERVICES:
     inc = "".join(f'<li>{ic("check")}<span>{x}</span></li>' for x in items)
     faq = FAQ[1:3] + FAQ[:1] + FAQ[3:]
-    body = (hero(f"{n} בנתניה והשרון", f"{t} אצלכם תוך כ-{ETA_MIN} דקות.", photo=im, alt=n, crumb=crumb_html(n))
+    body = (hero(f"{n} – מגיע אליכם", f"{t} אצלכם תוך כ-{ETA_MIN} דקות.", photo=im, alt=n, crumb=crumb_html(n))
             + f'<section class="sec"><div class="wrap"><h2>מה כולל השירות<small>{kw} – המחיר נאמר ומאושר לפני שמתחילים.</small></h2><ul class="incl">{inc}</ul></div></section>'
             + services_sec("שירותים נוספים", exclude=s) + STEPS + faq_sec(faq) + area_sec() + band())
     svc = {"@type":"Service","name":n,"serviceType":n,"provider":{"@id":BIZ_ID},"areaServed":[{"@type":"City","name":c} for c in ALL],"description":t}
     pages.append((s, page(s,
-        f"{n} בנתניה והשרון | {NAME} – {PHONE}",
-        f"{n} בנתניה והשרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
+        f"{n} בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME}",
+        f"{n} בכל אזור {REGION}, מקיסריה ועד הוד השרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
         body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)], og_img="og")))
 
 with open(f"{OUT}/style.css", "w") as f: f.write(CSS)
