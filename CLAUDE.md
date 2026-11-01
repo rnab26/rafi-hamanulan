@@ -14,8 +14,10 @@
 - TOUT le site est généré par _build/build.py. Ne jamais éditer les .html à la main : modifier build.py, lancer `python3 _build/build.py` depuis la racine, vérifier, commit, push.
 - Réglages (URL, téléphone, horaires, délai, message WhatsApp, code Search Console, lien avis) : section RÉGLAGES en haut de `_build/build.py`. Une seule source de vérité.
 - `SITE_URL` = https://rafi-hamanulan.onrender.com tant que le domaine n'est pas relié (canonical, sitemap, schema en dépendent). Ne jamais mettre un domaine non relié.
-- Images dans `img/` (webp, sans EXIF). Photos réelles fournies par Rafi le 1er nov. 2026. Ne jamais publier une photo où l'on voit l'autocollant ou le numéro d'un concurrent.
-- Plan d'acquisition et textes Google Business : `docs/PLAN-CLIENTS.md`.
+- Images dans `img/` (webp, sans EXIF). Photos réelles fournies par Rafi le 1er nov. 2026 (confirmées comme les siennes, usage officiel). Ne jamais publier une photo où l'on voit l'autocollant ou le numéro d'un concurrent.
+- Plan d'acquisition et textes Google Business : `docs/PLAN-CLIENTS.md`. Kit de lancement (WhatsApp Business, groupes, partenaires, Google Ads prêt) : `docs/KIT-LANCEMENT.md`.
+- Imprimés (autocollant 60x40, carte 90x50, flyer A6, QR WhatsApp) : `python3 _build/print.py` → `marketing/` (nécessite `pip install qrcode`). Mêmes réglages que build.py.
+- IndexNow (Bing) : clé `INDEXNOW_KEY` dans build.py, fichier `<clé>.txt` à la racine ; après une grosse mise à jour, soumettre les URL du sitemap à https://api.indexnow.org/indexnow.
 - Design : épuré, aéré, peu de texte, beaucoup de photos (demande de Rafi, 1er nov. 2026). Clair et moderne, style application. Police Rubik, bleu #1A56DB, vert WhatsApp #18A957. Mobile d'abord, barre fixe « appeler / WhatsApp » en bas sur mobile.
 
 ## Règles de contenu

@@ -24,6 +24,8 @@ HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:
 GSC_VERIFICATION = ""
 # Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
 REVIEW_URL = ""
+# Clé IndexNow (Bing/Yandex) : fichier <clé>.txt publié à la racine. Ne pas changer sans republier.
+INDEXNOW_KEY = "b8684d5c82d2840ec10bbd84289ad0c2"
 # ==================================================================
 
 WA = f"https://wa.me/{WA_NUMBER}"
@@ -234,7 +236,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
-<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a></span></div></footer>
+<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
 {JS}</body></html>'''
 
@@ -278,7 +280,8 @@ def faq_sec(faq):
 
 def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
     rev = f'<p class="note"><a href="{REVIEW_URL}">עבדתי אצלכם? אשמח לביקורת בגוגל</a></p>' if REVIEW_URL else ""
-    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{rev}</div></section>'
+    save = '<p class="note"><a href="rafi-hamanulan.vcf" download>שמרו את המספר באנשי הקשר – למקרה חירום</a></p>'
+    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{save}{rev}</div></section>'
 
 def crumb_html(label):
     return f'<p class="crumb"><a href="index.html">ראשי</a> / {label}</p>'
@@ -335,6 +338,11 @@ with open(f"{OUT}/404.html", "w") as f:
 
 with open(f"{OUT}/favicon.svg", "w") as f:
     f.write("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='#1A56DB'/><circle cx='12' cy='16' r='5' fill='none' stroke='white' stroke-width='2.5'/><path d='M17 16h9M23 16v4' stroke='white' stroke-width='2.5' stroke-linecap='round'/></svg>")
+
+with open(f"{OUT}/rafi-hamanulan.vcf", "w", encoding="utf-8") as f:
+    f.write("BEGIN:VCARD\r\nVERSION:3.0\r\nN:;" + NAME + ";;;\r\nFN:" + NAME + "\r\nORG:" + NAME + "\r\nTITLE:מנעולן\r\n"
+            + "TEL;TYPE=CELL,VOICE:" + PHONE_INTL + "\r\nURL:" + SITE_URL + "/\r\nNOTE:מנעולן – פריצת דלתות, צילינדרים, מנעולים וכספות\r\nEND:VCARD\r\n")
+with open(f"{OUT}/{INDEXNOW_KEY}.txt", "w") as f: f.write(INDEXNOW_KEY)
 
 urls = [url_of(s) for s, _ in pages]
 with open(f"{OUT}/sitemap.xml", "w") as f:
