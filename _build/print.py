@@ -56,7 +56,7 @@ ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 3mm;font
 .bot{display:grid;grid-template-columns:1fr 24mm;gap:4mm;align-items:center;background:#1A56DB;color:#fff;border-radius:4mm;padding:4mm}
 .bot .p{font-size:7.4mm}.bot small{font-size:2.8mm;opacity:.9;display:block;margin-top:.5mm}
 .q{background:#fff;border-radius:2.5mm;padding:1.2mm;text-align:center}.q img{width:100%;display:block}.q span{color:#1A56DB;font-size:2.3mm;font-weight:700}
-</style></head><body><div class="ph-img" style="background-image:url('""" + img_uri("img/g1.webp") + """')"><div class="badge"><b>~""" + str(ETA) + """ דק׳</b>הגעה בקטנוע</div></div>
+</style></head><body><div class="ph-img" style="background-image:url('""" + img_uri("public/img/g1.webp") + """')"><div class="badge"><b>~""" + str(ETA) + """ דק׳</b>הגעה בקטנוע</div></div>
 <div class="c"><h1>ננעלתם בחוץ?<br>מנעולן קרוב אליכם.</h1><p class="sub">""" + NAME + """ – מחיר ברור לפני העבודה, ישירות מול בעל המקצוע.</p>
 <ul><li>פריצת דלתות</li><li>החלפת צילינדר</li><li>תיקון מנעולים</li><li>פתיחת כספות</li><li>שדרוג מיגון</li><li>לבית ולעסק</li></ul>
 <div class="bot"><div><div class="p ph">""" + PHONE + """</div><small>24 שעות בימי חול · שישי עד <span class="tm">16:00</span> · מוצ״ש עד חצות</small></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></div></body></html>""")

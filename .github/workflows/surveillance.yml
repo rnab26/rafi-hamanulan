@@ -1,0 +1,33 @@
+# Chaque jour : toutes les pages répondent, le numéro est présent, le HTTPS n'expire pas.
+# En cas de problème : une « issue » GitHub est ouverte (notification e-mail au propriétaire du dépôt).
+name: Site – surveillance quotidienne
+on:
+  schedule:
+    - cron: "17 4 * * *"   # 06:17 / 07:17 heure d'Israël
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  surveillance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier le site en ligne
+        id: live
+        run: python3 _build/check.py --live | tee rapport.txt
+        continue-on-error: true
+      - name: Ouvrir une alerte si problème
+        if: steps.live.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          titre="Alerte site : problème détecté"
+          if gh issue list --state open --search "$titre in:title" --json number --jq '.[0].number' | grep -q .; then
+            num=$(gh issue list --state open --search "$titre in:title" --json number --jq '.[0].number')
+            gh issue comment "$num" --body-file rapport.txt
+          else
+            gh issue create --title "$titre" --body-file rapport.txt
+          fi
+          exit 1

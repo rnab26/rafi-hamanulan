@@ -189,7 +189,75 @@ Si tu veux que je t'aide à la créer en direct, dis-le-moi avec ton budget maxi
 
 ---
 
-## 6. Ce que je ne peux pas faire à ta place (et pourquoi)
+## 6. Vidéos courtes (Instagram Reels, TikTok, YouTube Shorts) – gratuit, juste toi et ton téléphone
+
+Les vidéos de serrurier « satisfaisantes » (porte qui s'ouvre, cylindre qu'on change) font beaucoup de vues localement. Chaque vidéo = ton numéro vu par des centaines de gens du coin.
+
+**Règles** : 15 à 30 secondes, téléphone à la verticale, jamais le visage d'un client ni son numéro de rue, toujours avec l'accord du client. Ne filme pas comment on ouvre une porte en détail (ça aiderait les cambrioleurs) : montre le résultat.
+
+**Légende type** (à coller sous chaque vidéo, change la 1re ligne) :
+```
+[מה עשינו היום] 🔑
+רפי המנעולן – מגיע אליכם בקטנוע בכל אזור השרון.
+📞 054-530-1389
+#מנעולן #מנעולןבשרון #פריצתדלתות #החלפתצילינדר #נתניה #כפרסבא #רעננה #הרצליה #חדרה #הודהשרון
+```
+
+**30 idées, une par jour** (choisis celles qui collent à ta journée) :
+1. Avant / après : vieux cylindre → nouveau cylindre (gros plan).
+2. « Ce que je vois le plus souvent cette semaine » en 3 plans.
+3. Le scooter qui démarre + texte « en route » (sans plaque visible).
+4. Un cylindre usé à côté d'un neuf : « la différence ».
+5. La boîte d'un cylindre protégé qu'on ouvre (MTL, רב-בריח…).
+6. « 3 erreurs quand on est enfermé dehors » (texte à l'écran, reprend le guide du site).
+7. Un mortaise (מנעול רב-בריח) démonté : « voilà ce qu'il y a dans votre porte ».
+8. Clé cassée extraite du cylindre (gros plan sur le morceau).
+9. Porte fermée → porte ouverte (sans montrer la technique).
+10. « Quand changer son cylindre ? » 5 cas, texte à l'écran.
+11. Ton matériel rangé (boîtes, cylindres) : « toujours prêt ».
+12. Le trajet de nuit (lumières de la ville) : « 24 h en semaine ».
+13. Après une effraction : la porte réparée (accord du client).
+14. Poignée cassée → poignée neuve.
+15. Question d'un client + ta réponse en 15 secondes.
+16 à 30 : refais les meilleures (celles qui ont eu le plus de vues), dans une autre ville.
+
+**Astuce de lieu** : sur Instagram et TikTok, ajoute la ville en lieu (נתניה, כפר סבא…) en changeant à chaque vidéo. C'est ce qui la montre aux gens de cette ville.
+
+---
+
+## 7. Publications sur la fiche Google (quand elle existe) – 1 par semaine
+
+Google montre les fiches actives en priorité. Chaque semaine : 1 photo d'une intervention + 2 lignes.
+```
+החלפנו היום צילינדר מוגן בדלת כניסה. מחיר ברור לפני העבודה, והגעה בקטנוע תוך כ-25 דקות.
+📞 054-530-1389
+```
+
+---
+
+## 8. Faire revenir les clients et le bouche-à-oreille (gratuit)
+
+- **Après chaque intervention** : l'autocollant sur la porte + la carte au client + le message d'avis Google (section 2).
+- **Liste de diffusion WhatsApp** (WhatsApp Business → Outils → « Listes de diffusion ») : ajoute tes clients. 3 ou 4 fois par an, pas plus, envoie un conseil utile :
+```
+שלום, כאן רפי המנעולן 🔑 תזכורת קטנה: אם עברתם דירה השנה או איבדתם מפתח – כדאי להחליף צילינדר. אני זמין בכל אזור השרון: 054-530-1389
+```
+  (Seuls les gens qui ont ton numéro dans leurs contacts reçoivent une liste de diffusion : d'où le bouton « שמרו את המספר » sur le site.)
+- **Statut WhatsApp** : poste tes vidéos (section 7) en statut. Tous tes contacts les voient, gratuitement.
+- **Commerçants du quartier** (épiceries, quincailleries, gardiens d'immeuble) : laisse 5 cartes. Ce sont eux qu'on interroge quand on est enfermé dehors.
+
+---
+
+## 9. Ce qui tourne tout seul (mis en place le 1er nov. 2026)
+
+- **Contrôle à chaque mise à jour du site** (GitHub Actions) : liens cassés, données pour Google, textes interdits (ex. « יוצא מנתניה », numéro d'un concurrent). En cas d'erreur, la mise à jour est signalée en rouge sur GitHub.
+- **Envoi automatique à Bing** (IndexNow) 3 minutes après chaque mise à jour.
+- **Surveillance quotidienne** : chaque matin, toutes les pages en ligne sont testées (affichage, numéro présent, cadenas HTTPS valide encore au moins 14 jours). En cas de problème, une alerte s'ouvre dans l'onglet « Issues » du dépôt GitHub, et GitHub t'envoie un e-mail.
+- **4 guides pratiques sur le site** (enfermé dehors, changer de cylindre, clé cassée, après un cambriolage) : ils attirent les recherches de gens qui ont le problème **en ce moment**.
+
+---
+
+## 10. Ce que je ne peux pas faire à ta place (et pourquoi)
 
 - Publier, envoyer des messages, payer : c'est en ton nom, ça doit venir de toi.
 - Créer la fiche Google Business ou le compte Google Ads : il faut ton compte Google et ta vérification.

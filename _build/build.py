@@ -4,7 +4,11 @@ Lancer depuis la racine du dépôt :  python3 _build/build.py
 Tout ce qui est réglable est dans la section RÉGLAGES ci-dessous (une seule source de vérité).
 """
 import os, json, datetime
-OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
+OUT = os.path.join(ROOT, "public")  # SEUL dossier publié par Render (Publish Directory = public)
+# Transition : tant que Render publie encore la racine (« ./ »), on recopie le site à la racine.
+# Passer à False dès que Render publie « public », puis supprimer les copies à la racine.
+LEGACY_ROOT_COPY = True
 
 # ============================ RÉGLAGES ============================
 # URL publique du site. Quand le domaine rafihamanulan.co.il sera acheté et relié à Render,
@@ -15,6 +19,7 @@ PHONE_INTL = "+972545301389"
 PHONE = "054-530-1389"
 WA_NUMBER = "972545301389"
 WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
+CONTENT_DATE = "2026-11-01"                         # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
 REGION = "השרון"                                    # zone affichée. Volontairement AUCUNE ville de départ (demande de Rafi, 1er nov. 2026)
 # Horaires : jour (0=dimanche … 6=samedi) -> liste de créneaux (heure début, heure fin), fin 24 = minuit
@@ -30,7 +35,7 @@ INDEXNOW_KEY = "b8684d5c82d2840ec10bbd84289ad0c2"
 
 WA = f"https://wa.me/{WA_NUMBER}"
 WA_LINK = WA + "?text=" + __import__("urllib.parse").parse.quote(WA_TEXT)
-TODAY = datetime.date.today().isoformat()
+TODAY = CONTENT_DATE  # date fixe : le site régénéré un autre jour reste identique (contrôle GitHub)
 
 I = {  # icônes trait 24x24
 "door":'<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><circle cx="14.5" cy="12" r="1"/>',
@@ -169,6 +174,12 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .incl{list-style:none;margin:0;padding:0;display:grid;gap:14px}
 .incl li{display:flex;gap:12px;align-items:center;font-size:17px}
 .incl .ic{width:28px;height:28px;padding:5px;border-radius:50%;background:#E7F6EC;color:var(--green)}
+/* articles */
+.art{max-width:720px}.art h1{font-size:clamp(28px,6vw,40px);margin:8px 0 14px}.art .intro{margin:0 0 24px}
+.art img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;margin-bottom:12px}
+.art h2{font-size:22px;margin:32px 0 10px}.art p,.art li{color:#2B3A4D}.art ul{padding-inline-start:20px;margin:0}.art li{margin-bottom:8px}
+.cta-box{background:var(--soft);border-radius:20px;padding:22px;margin:36px 0 8px}.cta-box b{display:block;font-size:19px;margin-bottom:14px}
+.links{list-style:none;padding:0;margin:0}.links li{border-bottom:1px solid var(--line)}.links a{display:block;padding:14px 0;text-decoration:none;color:var(--ink);font-weight:500}.links a:hover{color:var(--blue)}
 /* bandeau final */
 .band{text-align:center;padding:72px 0}
 .band h2{font-size:clamp(28px,5vw,40px);margin-bottom:10px}
@@ -286,6 +297,47 @@ def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
 def crumb_html(label):
     return f'<p class="crumb"><a href="index.html">ראשי</a> / {label}</p>'
 
+
+# ------------------------------------------------------------------ guides (articles utiles, longue traîne SEO)
+# Contenu factuel et général. Pas de prix, pas de promesse non vérifiée.
+GUIDES = [
+("guide-locked-out", "ננעלתם מחוץ לבית? מה עושים עכשיו", "g1",
+ "מה לעשות כשננעלתם בחוץ: מתי להתקשר ל-100 או ל-102, מה לא לנסות לבד, ואיך מנעולן פותח את הדלת בלי לשבור.",
+ [("קודם כול: יש מישהו בסכנה?", ["אם ילד קטן, אדם שזקוק לעזרה או חיית מחמד נשארו בפנים, או שהגז או הכיריים דולקים – התקשרו מיד למשטרה (100) או לכבאות והצלה (102). זה קודם לכל דבר אחר."]),
+  ("מה לא לעשות", ["לא לטפס דרך חלון או מרפסת – זה מסוכן, גם בקומה נמוכה.", "לא לנסות לפתוח עם מברג, כרטיס או סיכה – ברוב הדלתות זה לא עובד, ועלול להזיק לצילינדר ולהעלות את מחיר התיקון.", "לא לשבור את הדלת או את המשקוף."]),
+  ("מה כן לעשות", ["בדקו אם למישהו אחר יש מפתח: בן משפחה, שכן, בעל הדירה.", "התקשרו למנעולן ותגידו מה סוג הדלת (פלדלת, דלת עץ) ומה קרה (נטרקה, מפתח נשבר, מפתח בפנים).", "הכינו תעודה מזהה או מסמך עם הכתובת – מנעולן אחראי יבקש לוודא שאתם גרים במקום לפני שהוא פותח."]),
+  ("איך זה נראה בפועל", ["ברוב המקרים אפשר לפתוח את הדלת ללא נזק. אם צריך להחליף צילינדר אחרי הפתיחה, אפשר לעשות את זה באותו ביקור.", "אצלי המחיר נאמר לפני שמתחילים, ומתחילים רק אחרי שאישרתם."])]),
+("guide-cylinder", "מתי צריך להחליף צילינדר בדלת?", "cylinder",
+ "חמישה מצבים שבהם כדאי להחליף צילינדר, ההבדל בין צילינדר רגיל למוגן, ומה לשאול לפני ההחלפה.",
+ [("חמישה מצבים שבהם כדאי להחליף", ["עברתם דירה – אין לכם דרך לדעת לכמה אנשים יש עותק של המפתח.", "איבדתם מפתח, או שנגנב לכם תיק עם מפתחות.", "הייתה פריצה או ניסיון פריצה.", "המפתח נכנס או מסתובב בקושי.", "הצילינדר ישן ופשוט, בלי הגנה מפני פריצה."]),
+  ("צילינדר רגיל או מוגן?", ["צילינדר מוגן בנוי כך שיהיה קשה יותר לפרוץ, לשבור או להעתיק את המפתח שלו. בדלת כניסה זו בדרך כלל ההמלצה.", "יש דגמים של חברות שונות, כמו מולטילוק, רב-בריח ומגנום. ההתאמה תלויה בדלת ובמנעול הקיים."]),
+  ("מה לשאול לפני ההחלפה", ["איזה דגם מתאים לדלת שלי?", "כמה מפתחות מקבלים, ואיך משכפלים עוד?", "אפשר שמפתח אחד יפתח כמה דלתות?"]),
+  ("כמה זמן זה לוקח?", ["החלפת צילינדר היא עבודה קצרה, ובדרך כלל נעשית באותו ביקור. המחיר תלוי בדגם – אני אומר אותו לפני שמתחילים."])]),
+("guide-broken-key", "המפתח נשבר בתוך המנעול – מה עושים?", "lock-repair",
+ "מפתח שנשבר בצילינדר: מה לא לעשות כדי לא להחמיר, ואיך מוציאים אותו – לפעמים בלי להחליף צילינדר.",
+ [("מה לא לעשות", ["לא לדחוף את החלק השבור פנימה עם המפתח השני או עם חפץ אחר.", "לא לשים דבק, שמן או סיליקון בתוך המנעול.", "לא לנסות לסובב את הצילינדר עם פלאייר או מברג."]),
+  ("מה כן לעשות", ["שמרו את החלק השני של המפתח – הוא עוזר לזהות את הדגם ולשכפל מפתח חדש.", "אם הדלת פתוחה, השאירו אותה פתוחה עד שהבעיה נפתרת.", "התקשרו למנעולן ותגידו אם הדלת נעולה או פתוחה."]),
+  ("מה אפשר לעשות", ["במקרים רבים אפשר לחלץ את החלק השבור בלי להחליף את הצילינדר.", "אם הצילינדר נפגע או ישן, כדאי להחליף אותו באותו ביקור."])]),
+("guide-after-burglary", "מה עושים אחרי פריצה לדירה?", "security",
+ "צעד אחרי צעד אחרי פריצה: משטרה, תיעוד לביטוח, החלפת צילינדר ושדרוג המיגון של הדלת.",
+ [("מיד אחרי שגיליתם", ["אל תיכנסו אם יש חשש שמישהו עדיין בפנים. התקשרו למשטרה (100).", "אל תגעו ואל תסדרו – המשטרה עשויה לבקש לבדוק את המקום."]),
+  ("לביטוח", ["צלמו את הדלת, המנעול וכל נזק לפני שמתקנים.", "רשמו מה חסר, ובקשו מהמשטרה את מספר התיק או את אישור הגשת התלונה."]),
+  ("לאבטח את הדלת מחדש", ["החליפו צילינדר כמה שיותר מהר – ייתכן שלפורץ יש דרך לפתוח את הקיים.", "בדקו שהמנעול והמשקוף לא נפגעו, ושהדלת ננעלת עד הסוף.", "שקלו שדרוג: צילינדר מוגן, מנעול עזר או חיזוק לדלת."]),
+  ("אני יכול לעזור", ["אני מגיע, מחליף צילינדר ובודק את הדלת והמנעולים. המחיר נאמר לפני שמתחילים."])]),
+]
+
+def guide_body(slug, title, im, desc, sections):
+    secs = "".join(f'<h2>{h}</h2>' + ("<ul>" + "".join(f"<li>{p}</li>" for p in ps) + "</ul>" if len(ps) > 1 else f"<p>{ps[0]}</p>") for h, ps in sections)
+    others = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES if s != slug)
+    return (f'<article class="sec"><div class="wrap art">{crumb_html("מדריכים")}<h1>{title}</h1><p class="intro">{desc}</p>'
+            f'{img(im, title, 800, 600, eager=True)}{secs}'
+            f'<div class="cta-box"><b>צריכים מנעולן עכשיו?</b>{cta()}</div>'
+            f'<h2>מדריכים נוספים</h2><ul class="links">{others}</ul></div></article>' + area_sec() + band())
+
+def guides_sec():
+    li = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES)
+    return f'<section class="sec"><div class="wrap"><h2>מדריכים קצרים</h2><ul class="links">{li}</ul></div></section>'
+
 # ------------------------------------------------------------------ génération
 ALL = [n for _, n, _, _ in CITIES]
 pages = []  # (slug, html)
@@ -293,7 +345,7 @@ pages = []  # (slug, html)
 # Accueil
 home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
 body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
-        + services_sec() + STEPS + gallery_sec() + area_sec() + faq_sec(home_faq) + band())
+        + services_sec() + STEPS + gallery_sec() + area_sec() + faq_sec(home_faq) + guides_sec() + band())
 pages.append(("index", page("index",
     f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
     f"מנעולן בכל אזור {REGION}, מקיסריה ועד הוד השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
@@ -326,6 +378,12 @@ for s, n, im, t, items, kw in SERVICES:
         f"{n} בכל אזור {REGION}, מקיסריה ועד הוד השרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
         body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)], og_img="og")))
 
+for slug, title, im, desc, sections in GUIDES:
+    art = {"@type":"Article","headline":title,"description":desc,"inLanguage":"he","image":f"{SITE_URL}/img/{im}.webp",
+           "author":{"@id":BIZ_ID},"publisher":{"@id":BIZ_ID},"mainEntityOfPage":url_of(slug),"dateModified":TODAY}
+    pages.append((slug, page(slug, f"{title} | {NAME}", desc, guide_body(slug, title, im, desc, sections),
+        [business(ALL), art, crumbs_ld([("ראשי", SITE_URL+"/"), (title, url_of(slug))])])))
+
 with open(f"{OUT}/style.css", "w") as f: f.write(CSS)
 for slug, html in pages:
     with open(f"{OUT}/{slug}.html", "w") as f: f.write(html)
@@ -351,3 +409,13 @@ with open(f"{OUT}/sitemap.xml", "w") as f:
 with open(f"{OUT}/robots.txt", "w") as f:
     f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
 print(f"{len(pages)} pages générées dans {OUT} (SITE_URL={SITE_URL})")
+
+if LEGACY_ROOT_COPY:
+    import shutil
+    for name in os.listdir(OUT):
+        src, dst = os.path.join(OUT, name), os.path.join(ROOT, name)
+        if os.path.isdir(src):
+            shutil.copytree(src, dst, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src, dst)
+    print("Copie de transition à la racine : OK (LEGACY_ROOT_COPY=True)")

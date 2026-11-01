@@ -1,0 +1,33 @@
+# Vérifie le site à chaque envoi, puis prévient Bing (IndexNow) après la mise en ligne.
+name: Site – contrôle et indexation
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Régénérer le site (doit être identique à ce qui est versionné)
+        run: |
+          python3 _build/build.py
+          git diff --stat --exit-code || (echo "::error::Les .html versionnés ne correspondent pas à build.py : lancer python3 _build/build.py puis commit" && exit 1)
+      - name: Contrôles (liens, données Google, textes interdits)
+        run: python3 _build/check.py
+  indexation:
+    needs: controle
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attendre la mise en ligne par Render
+        run: sleep 180
+      - name: Envoyer les pages à IndexNow (Bing)
+        run: python3 _build/indexnow.py
