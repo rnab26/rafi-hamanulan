@@ -48,12 +48,12 @@ def fit(lst, n, mx):
     return out[:n]
 
 H_COLS = [f"Headline {i}" for i in range(1, 16)]; D_COLS = [f"Description {i}" for i in range(1, 5)]
-COLS = ["Campaign", "Campaign Type", "Networks", "Budget", "Budget type", "Bid Strategy Type", "Campaign Status",
+COLS = ["Campaign", "Campaign Type", "Networks", "Budget", "Budget type", "Bid Strategy Type", "Campaign Status", "EU political ads", "Ad type",
         "Ad Group", "Ad Group Status", "Keyword", "Criterion Type", *H_COLS, *D_COLS, "Final URL", "Path 1", "Path 2", "Status"]
 rows = [{"Campaign": CAMPAIGN, "Campaign Type": "Search", "Networks": "Google search", "Budget": BUDGET_PLACEHOLDER,
-         "Budget type": "Daily", "Bid Strategy Type": "Maximize clicks", "Campaign Status": "Paused"}]
-for kw in NEGATIVES:
-    rows.append({"Campaign": CAMPAIGN, "Keyword": kw, "Criterion Type": "Negative Phrase"})
+         "Budget type": "Daily", "Bid Strategy Type": "Maximize clicks", "Campaign Status": "Paused", "EU political ads": "No"}]
+# Les mots-clés à exclure ne passent pas par l'import web (valeurs refusées, essai du 3 nov. 2026) :
+# ils sont listés dans campagne-lisible.md et s'ajoutent à la main (Mots-clés → Mots-clés à exclure).
 problems = []
 for g in GROUPS:
     rows.append({"Campaign": CAMPAIGN, "Ad Group": g["name"], "Ad Group Status": "Enabled"})
@@ -63,7 +63,7 @@ for g in GROUPS:
     if len(hs) < 3: problems.append(f"{g['name']}: seulement {len(hs)} titres")
     for p in (g["p1"], g["p2"]):
         if len(p) > 15: problems.append(f"{g['name']}: chemin trop long « {p} »")
-    ad = {"Campaign": CAMPAIGN, "Ad Group": g["name"], "Final URL": g["url"], "Path 1": g["p1"], "Path 2": g["p2"], "Status": "Enabled"}
+    ad = {"Campaign": CAMPAIGN, "Ad Group": g["name"], "Ad type": "Responsive search ad", "Final URL": g["url"], "Path 1": g["p1"], "Path 2": g["p2"], "Status": "Enabled"}
     ad.update({H_COLS[i]: h for i, h in enumerate(hs)}); ad.update({D_COLS[i]: d for i, d in enumerate(ds)})
     rows.append(ad)
 if problems: raise SystemExit("PROBLÈMES : " + "; ".join(problems))
