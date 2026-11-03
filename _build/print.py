@@ -61,28 +61,34 @@ ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 3mm;font
 <ul><li>פריצת דלתות</li><li>החלפת צילינדר</li><li>תיקון מנעולים</li><li>פתיחת כספות</li><li>שדרוג מיגון</li><li>לבית ולעסק</li></ul>
 <div class="bot"><div><div class="p ph">""" + PHONE + """</div><small>24 שעות בימי חול · שישי עד <span class="tm">16:00</span> · מוצ״ש עד חצות</small></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></div></body></html>""")
 
-# 4) Stickers scooter (vinyle extérieur) : lisibles à distance, à l'arrêt comme en roulant.
+# 4) Stickers scooter (vinyle extérieur) : fond noir, illustration serrure, format en largeur.
 SITE_HOST = cfg["SITE_URL"].split("//")[1]
-SC_CSS = """body{background:#1A56DB;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
-.hd{display:flex;align-items:center;gap:4%}.hd .mk{background:#fff;color:#1A56DB}.nm{font-weight:700;line-height:1}.act{font-weight:500;opacity:.92;line-height:1.15}
-.phone{font-weight:700;line-height:1;direction:ltr;unicode-bidi:isolate;white-space:nowrap;text-align:right}
-.ft{display:flex;align-items:flex-end;justify-content:space-between}.ft .tx{line-height:1.3}.ft .url{direction:ltr;unicode-bidi:isolate;font-weight:500}
-.q{background:#fff;border-radius:6%;padding:1.2%;text-align:center}.q img{width:100%;display:block}.q span{color:#1A56DB;font-weight:700;display:block}"""
-# Panneau latéral / dossier : 30 x 15 cm
-ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", HEAD + BASE_CSS + SC_CSS + """
-body{width:300mm;height:150mm;padding:13mm 16mm}.hd .mk{width:30mm;height:30mm}.nm{font-size:22mm}.act{font-size:9.5mm;margin-top:2mm}
-.phone{font-size:31mm;margin:3mm 0}.ft .tx{font-size:8mm}.q{width:36mm}.q span{font-size:3.6mm}
-</style></head><body><div class="hd"><div class="mk">""" + KEY + """</div><div><div class="nm">""" + NAME + """</div><div class="act">פריצת דלתות · צילינדרים · מנעולים · כספות</div></div></div>
-<div class="phone">""" + PHONE + """</div>
-<div class="ft"><div class="tx">24 שעות בימי חול · שישי עד <span class="tm">16:00</span> · מוצ״ש<br><span class="url">""" + SITE_HOST + """</span></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></body></html>""")
-# Top case / arrière : 25 x 25 cm
-ITEMS["sticker-scooter-25x25"] = ("250mm", "250mm", HEAD + BASE_CSS + SC_CSS + """
-body{width:250mm;height:250mm;padding:16mm;text-align:center;align-items:center}.hd{flex-direction:column;gap:5mm}.hd .mk{width:34mm;height:34mm}
-.nm{font-size:25mm}.act{font-size:9.5mm;margin-top:3mm}.phone{font-size:30mm;text-align:center}
-.ft{width:100%}.ft .tx{font-size:8mm;text-align:right}.q{width:44mm}.q span{font-size:4mm}
-</style></head><body><div class="hd"><div class="mk">""" + KEY + """</div><div><div class="nm">""" + NAME + """</div><div class="act">מנעולן – מגיע אליכם בקטנוע</div></div></div>
-<div class="phone">""" + PHONE + """</div>
-<div class="ft"><div class="tx">פריצת דלתות · צילינדרים<br>מנעולים · כספות<br><span class="url">""" + SITE_HOST + """</span></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></body></html>""")
+LOCK_ART = """<svg viewBox="20 0 200 210" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M58 92V64a42 42 0 0 1 84 0v28" stroke="#C9D3E3" stroke-width="13"/>
+<rect x="34" y="88" width="132" height="100" rx="18" fill="#1A56DB"/>
+<rect x="34" y="88" width="132" height="100" rx="18" stroke="#3D74F0" stroke-width="3"/>
+<circle cx="100" cy="128" r="13" fill="#0B0B0D"/><path d="M100 136v24" stroke="#0B0B0D" stroke-width="12"/>
+<g transform="translate(150 182) rotate(180) scale(.9)"><circle cx="0" cy="0" r="17" stroke="#F5A524" stroke-width="7" fill="#0B0B0D"/>
+<path d="M17 0h56M58 0v12M70 0v9" stroke="#F5A524" stroke-width="7"/></g></svg>"""
+SC_CSS = """body{background:#0B0B0D;color:#fff;display:grid;align-items:center}
+.nm{font-weight:700;line-height:1}.act{font-weight:500;color:#C9D3E3;line-height:1.2}
+.chips{display:flex;flex-wrap:wrap;gap:2mm}.chips span{border:.5mm solid #3D74F0;color:#fff;border-radius:99mm;padding:1mm 3.5mm;font-weight:500}
+.phone{font-weight:700;line-height:1;direction:ltr;unicode-bidi:isolate;white-space:nowrap;text-align:right;color:#fff}
+.phone b{color:#3D74F0}.bar{height:1.2mm;background:#1A56DB;border-radius:1mm}
+.url{direction:ltr;unicode-bidi:isolate;font-weight:500;color:#C9D3E3;text-align:right}
+.art svg{width:100%;height:auto;display:block}.q{background:#fff;border-radius:6%;padding:1.3%}.q img{width:100%;display:block}"""
+def scooter(w, h, k):  # k = facteur d'échelle par rapport au 30x15
+    return HEAD + BASE_CSS + SC_CSS + f"""
+body{{width:{w}mm;height:{h}mm;padding:{11*k}mm {14*k}mm;grid-template-columns:1fr {78*k}mm;gap:{9*k}mm}}
+.nm{{font-size:{19*k}mm}}.act{{font-size:{8*k}mm;margin:{2*k}mm 0 {4*k}mm}}.chips span{{font-size:{5.2*k}mm}}
+.phone{{font-size:{24*k}mm;margin:{5*k}mm 0 {3*k}mm}}.bar{{width:{70*k}mm;margin:0 0 {3*k}mm auto}}.url{{font-size:{6.5*k}mm}}
+.side{{display:flex;flex-direction:column;align-items:center;gap:{3*k}mm}}.art{{width:{70*k}mm}}.q{{width:{26*k}mm}}
+</style></head><body><div><div class="nm">{NAME}</div><div class="act">מנעולן – מגיע אליכם בקטנוע</div>
+<div class="chips"><span>פריצת דלתות</span><span>צילינדרים</span><span>מנעולים</span><span>כספות</span></div>
+<div class="phone">{PHONE}</div><div class="bar"></div><div class="url">{SITE_HOST}</div></div>
+<div class="side"><div class="art">{LOCK_ART}</div><div class="q"><img src="{QR}"></div></div></body></html>"""
+ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", scooter(300, 150, 1))      # flanc / dossier
+ITEMS["sticker-topcase-36x18"] = ("360mm", "180mm", scooter(360, 180, 1.2))    # top case, en largeur
 
 OUT = os.path.join(ROOT, "marketing"); os.makedirs(OUT, exist_ok=True)
 jobs = []
