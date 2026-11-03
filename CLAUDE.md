@@ -35,4 +35,4 @@
 - Ajouter un badge « agréé » si un certificat est confirmé.
 - [x] Domaine relié et SITE_URL basculé (1er nov. 2026).
 - Après la vérification Google Business : remplir `REVIEW_URL` dans build.py.
-- Search Console : remplir `GSC_VERIFICATION` quand Rafi envoie le code, puis soumettre sitemap.xml.
+- [x] Search Console : propriété « Domaine » rafihamanulan.co.il validée le 3 nov. 2026 via Cloudflare (enregistrement TXT google-site-verification dans Cloudflare — NE PAS SUPPRIMER). `GSC_VERIFICATION` dans build.py inutile, laisser vide. Sitemap à soumettre : sitemap.xml.
