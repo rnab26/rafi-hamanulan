@@ -93,9 +93,9 @@ ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", scooter(300, 150, 1))      #
 def band(w, h):  # bandeau très allongé : arrière du top case, sous les verrous
     k = h / 110
     return HEAD + BASE_CSS + SC_CSS + f"""
-body{{width:{w}mm;height:{h}mm;padding:{9*k}mm {14*k}mm;grid-template-columns:{58*k}mm auto 1fr {54*k}mm;gap:{11*k}mm}}
-.art{{width:{58*k}mm}}.nm{{font-size:{17*k}mm}}.act{{font-size:{6.8*k}mm;margin-top:{2.5*k}mm}}
-.phone{{font-size:{27*k}mm}}.url{{font-size:{6.2*k}mm;margin-top:{3*k}mm;text-align:center}}.q{{width:{54*k}mm}}
+body{{width:{w}mm;height:{h}mm;padding:{9*k}mm {14*k}mm;grid-template-columns:{50*k}mm auto 1fr {50*k}mm;gap:{9*k}mm}}
+.art{{width:{50*k}mm}}.nm{{font-size:{16*k}mm;white-space:nowrap}}.act{{font-size:{6.3*k}mm;margin-top:{2.5*k}mm;white-space:nowrap}}
+.phone{{font-size:{24*k}mm}}.url{{font-size:{6.2*k}mm;margin-top:{3*k}mm;text-align:center}}.q{{width:{50*k}mm}}
 .mid{{display:flex;flex-direction:column;align-items:center}}
 </style></head><body><div class="art">{LOCK_ART}</div>
 <div><div class="nm">{NAME}</div><div class="act">מנעולן · פריצת דלתות · צילינדרים</div></div>
@@ -111,7 +111,7 @@ body{{width:{w}mm;height:{h}mm;padding:{12*k}mm;display:flex;flex-direction:colu
 </style></head><body><div class="art">{LOCK_ART}</div><div><div class="nm">{NAME}</div><div class="act">מנעולן · פריצת דלתות · צילינדרים</div></div>
 <div class="phone">{PHONE}</div><div class="bot"><div class="url">{SITE_HOST}</div><div class="q"><img src="{QR}"></div></div></body></html>"""
 
-ITEMS["sticker-topcase-arriere-48x11"] = ("480mm", "110mm", band(480, 110))   # arrière du top case (sous les verrous)
+ITEMS["sticker-topcase-arriere-44x11"] = ("440mm", "110mm", band(440, 110))   # arrière du top case (max imprimeur : 44 x 11 cm)
 ITEMS["sticker-topcase-cote-18x16"] = ("180mm", "160mm", square(180, 160))    # côtés du top case (x2)
 
 OUT = os.path.join(ROOT, "marketing"); os.makedirs(OUT, exist_ok=True)
