@@ -26,7 +26,8 @@
 
 ## Accès API (secrets de l'environnement, 3 nov. 2026)
 - Render : secret réseau Bearer sur `api.render.com` (clé « claude-env »), vérifié OK le 3 nov. Service `srv-dbj7en142hec73c7ntc0` (publishPath public, autoDeploy yes, 2 domaines vérifiés). Les clés ne sont jamais visibles : le proxy les ajoute.
-- Cloudflare : secret réseau Bearer sur `api.cloudflare.com` — REFUSÉ le 3 nov. (« Invalid access token ») : à recréer.
+- Cloudflare : secret réseau Bearer sur `api.cloudflare.com` (token « claude », Zone DNS Edit, All zones, sans expiration), vérifié OK le 3 nov. Zone rafihamanulan.co.il = `5c83406223612057357ae7ed46edbee6` : 2 CNAME (@, www → rafi-hamanulan.onrender.com, DNS only) + TXT google-site-verification (ne pas supprimer).
+- Ces secrets valent pour l'environnement « Full access » : utilisables sur tout autre projet de Raphaël lancé dans cet environnement.
 
 ## Règles de contenu
 - Ne JAMAIS présenter Netanya comme point de départ (« יוצא מנתניה ») : chaque client doit sentir que Rafi est dans sa ville (demande du 1er nov. 2026). Netanya n'apparaît que comme une ville parmi d'autres.
