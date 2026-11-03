@@ -21,7 +21,8 @@ Préparé la nuit du 1er nov. 2026. Tout est prêt à copier-coller. Rien n'a é
 | `carte-visite-90x50.pdf` | 90 × 50 mm, recto-verso | À laisser au client, au gardien, au commerçant. |
 | `flyer-A6.pdf` | 105 × 148 mm | Boîtes aux lettres, tableaux d'affichage d'immeuble, épiceries. |
 | `sticker-scooter-30x15.pdf` | 30 × 15 cm | Flanc ou dossier du scooter. |
-| `sticker-topcase-50x25.pdf` | 50 × 25 cm, en largeur | Top case (arrière, ~50 cm de large). |
+| `sticker-topcase-arriere-48x11.pdf` | 48 × 11 cm, bandeau | Arrière du top case, sous les verrous. |
+| `sticker-topcase-cote-18x16.pdf` | 18 × 16 cm | Côtés du top case (à imprimer en 2 exemplaires). |
 
 Le **QR code** ouvre WhatsApp avec un message déjà rédigé. J'ai testé les 3 : ils mènent bien à ton numéro.
 

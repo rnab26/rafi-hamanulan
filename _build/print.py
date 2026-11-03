@@ -88,8 +88,31 @@ body{{width:{w}mm;height:{h}mm;padding:{11*k}mm {14*k}mm;grid-template-columns:1
 <div class="chips"><span>פריצת דלתות</span><span>צילינדרים</span><span>מנעולים</span><span>כספות</span></div>
 <div class="phone">{PHONE}</div><div class="bar"></div><div class="url">{SITE_HOST}</div></div>
 <div class="side"><div class="art">{LOCK_ART}</div><div class="q"><img src="{QR}"></div></div></body></html>"""
-ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", scooter(300, 150, 1))      # flanc / dossier
-ITEMS["sticker-topcase-50x25"] = ("500mm", "250mm", scooter(500, 250, 500/300))  # top case (~50 cm de large)
+ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", scooter(300, 150, 1))      # flanc / dossier du scooter
+
+def band(w, h):  # bandeau très allongé : arrière du top case, sous les verrous
+    k = h / 110
+    return HEAD + BASE_CSS + SC_CSS + f"""
+body{{width:{w}mm;height:{h}mm;padding:{9*k}mm {14*k}mm;grid-template-columns:{58*k}mm auto 1fr {54*k}mm;gap:{11*k}mm}}
+.art{{width:{58*k}mm}}.nm{{font-size:{17*k}mm}}.act{{font-size:{6.8*k}mm;margin-top:{2.5*k}mm}}
+.phone{{font-size:{27*k}mm}}.url{{font-size:{6.2*k}mm;margin-top:{3*k}mm;text-align:center}}.q{{width:{54*k}mm}}
+.mid{{display:flex;flex-direction:column;align-items:center}}
+</style></head><body><div class="art">{LOCK_ART}</div>
+<div><div class="nm">{NAME}</div><div class="act">מנעולן · פריצת דלתות · צילינדרים</div></div>
+<div class="mid"><div class="phone">{PHONE}</div><div class="url">{SITE_HOST}</div></div>
+<div class="side"><div class="q"><img src="{QR}"></div></div></body></html>"""
+
+def square(w, h):  # presque carré : côtés du top case
+    k = w / 180
+    return HEAD + BASE_CSS + SC_CSS + f"""
+body{{width:{w}mm;height:{h}mm;padding:{12*k}mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center}}
+.art{{width:{58*k}mm}}.nm{{font-size:{17*k}mm}}.act{{font-size:{6.2*k}mm;margin-top:{2*k}mm}}
+.phone{{font-size:{19*k}mm;text-align:center}}.bot{{display:flex;align-items:center;gap:{6*k}mm}}.q{{width:{30*k}mm}}.url{{font-size:{5.6*k}mm}}
+</style></head><body><div class="art">{LOCK_ART}</div><div><div class="nm">{NAME}</div><div class="act">מנעולן · פריצת דלתות · צילינדרים</div></div>
+<div class="phone">{PHONE}</div><div class="bot"><div class="url">{SITE_HOST}</div><div class="q"><img src="{QR}"></div></div></body></html>"""
+
+ITEMS["sticker-topcase-arriere-48x11"] = ("480mm", "110mm", band(480, 110))   # arrière du top case (sous les verrous)
+ITEMS["sticker-topcase-cote-18x16"] = ("180mm", "160mm", square(180, 160))    # côtés du top case (x2)
 
 OUT = os.path.join(ROOT, "marketing"); os.makedirs(OUT, exist_ok=True)
 jobs = []
