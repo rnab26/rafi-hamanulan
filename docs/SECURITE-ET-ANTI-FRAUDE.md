@@ -25,10 +25,17 @@ Un concurrent ne peut pas « faire sauter » un site statique, mais quelqu'un qu
 ## Google Ads : clics frauduleux et budget
 - **Google filtre lui-même les clics invalides** (robots, clics répétés) et ne les facture pas ; quand un clic invalide passe, il est recrédité. On le vérifie avec les colonnes « Clics incorrects ».
 - **Le plafond absolu** : le budget par jour. Même en cas d'attaque, Google ne dépasse pas en moyenne ton budget journalier (jusqu'à 2× un jour donné, compensé sur le mois).
-- **Déjà réglé** : Réseau de Recherche uniquement (pas de Display ni partenaires, où la fraude est la plus forte), zones en « Présence » (seulement les gens physiquement dans tes villes), calendrier, mots-clés en expression exacte, 18 exclusions.
+- **Déjà réglé** : Réseau de Recherche uniquement (pas de Display ni partenaires, où la fraude est la plus forte), zones en « Présence » (seulement les gens physiquement dans tes villes), calendrier, mots-clés en « expression exacte » (= phrase match dans l'interface anglaise), 18 exclusions.
 - **À régler** (consigne Claude in Chrome ci-dessous) : couper « AI Max » / requête large / extension d'URL (qui dépensent sur des recherches qu'on n'a pas choisies), plafond de coût par clic, colonnes de clics incorrects.
 - **Outils payants anti-fraude** (ClickCease, Lunio…) : inutiles à ce stade pour un petit budget ; à reconsidérer seulement si le taux de clics incorrects dépasse ~10-15 % plusieurs semaines.
 - **Exclusion d'adresses IP** : si tu connais l'IP d'un concurrent qui clique (rare), Paramètres → Exclusions d'adresses IP.
+
+## État vérifié le 3 nov. 2026 (par Claude in Chrome)
+- AI Max OFF, extension d'URL finale OFF, requête large OFF, composants automatiques OFF, réseaux = Recherche uniquement.
+- Accès au compte : un seul utilisateur (refamanoulan@gmail.com, Admin).
+- Limite de CPC : non posée (Google exige un montant) – décision de Raphaël, après la semaine de test.
+- Colonnes « clics incorrects » : indisponibles tant que la campagne n'a pas diffusé – à ajouter après activation.
+- Bing Webmaster et validation en 2 étapes : à faire par Raphaël (l'agent refuse de créer des comptes ou de toucher la sécurité).
 
 ## Consigne à coller dans Claude in Chrome (Google Ads + Bing)
 ```
