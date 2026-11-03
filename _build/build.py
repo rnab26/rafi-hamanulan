@@ -30,6 +30,11 @@ GSC_VERIFICATION = ""
 # Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
 REVIEW_URL = ""
 # Clé IndexNow (Bing/Yandex) : fichier <clé>.txt publié à la racine. Ne pas changer sans republier.
+# Google Ads – suivi des conversions (appel / WhatsApp). Vide = aucun script Google Ads sur le site.
+# Valeurs à recopier depuis Google Ads → Objectifs → Conversions → la conversion → « Configurer la balise ».
+GADS_ID = ""            # ex. "AW-123456789"
+GADS_LABEL_CALL = ""    # libellé de la conversion « Clic sur appel »   (la partie après le « / » de send_to)
+GADS_LABEL_WA = ""      # libellé de la conversion « Clic WhatsApp »
 INDEXNOW_KEY = "b8684d5c82d2840ec10bbd84289ad0c2"
 # ==================================================================
 
@@ -236,6 +241,16 @@ def faq_ld(faq):
     return {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}
 
 # ------------------------------------------------------------------ gabarit
+def gads_js():
+    if not GADS_ID:
+        return ""
+    ev = ("document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
+          + (f"if(h.indexOf('tel:')===0)gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_CALL}'}});" if GADS_LABEL_CALL else "")
+          + (f"if(h.indexOf('wa.me')>-1)gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_WA}'}});" if GADS_LABEL_WA else "")
+          + "});")
+    return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GADS_ID}"></script>'
+            f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GADS_ID}');{ev}</script>")
+
 def page(slug, title, desc, body, graph, og_img="og"):
     url = url_of(slug)
     gsc = f'<meta name="google-site-verification" content="{GSC_VERIFICATION}">' if GSC_VERIFICATION and slug == "index" else ""
@@ -249,7 +264,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <main>{body}</main>
 <footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
-{JS}</body></html>'''
+{JS}{gads_js()}</body></html>'''
 
 def cta():
     return f'<div class="cta"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></div>'

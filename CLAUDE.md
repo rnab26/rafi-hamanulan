@@ -21,6 +21,7 @@
 - Guides (articles) : liste `GUIDES` dans build.py, pages `guide-*.html`. Contenu factuel, pas de prix.
 - Plan d'acquisition et textes Google Business : `docs/PLAN-CLIENTS.md`. Kit de lancement (WhatsApp Business, groupes, partenaires, Google Ads prêt) : `docs/KIT-LANCEMENT.md`.
 - Imprimés (autocollant 60x40, carte 90x50, flyer A6, QR WhatsApp) : `python3 _build/print.py` → `marketing/` (nécessite `pip install qrcode` et Playwright). Mêmes réglages que build.py.
+- Google Ads : campagne générée par `python3 _build/ads.py` → `docs/google-ads/campagne.csv` (format Google Ads Editor, importée EN PAUSE) + `MODE-EMPLOI.md`. Suivi des conversions appel/WhatsApp : `GADS_ID`, `GADS_LABEL_CALL`, `GADS_LABEL_WA` dans build.py (vides = aucun script Google sur le site ; testé le 3 nov. avec un faux ID). Budget et activation : décision de Raphaël uniquement.
 - IndexNow (Bing) : clé `INDEXNOW_KEY` dans build.py, fichier `<clé>.txt` à la racine ; après une grosse mise à jour, soumettre les URL du sitemap à https://api.indexnow.org/indexnow.
 - Design : épuré, aéré, peu de texte, beaucoup de photos (demande de Rafi, 1er nov. 2026). Clair et moderne, style application. Police Rubik, bleu #1A56DB, vert WhatsApp #18A957. Mobile d'abord, barre fixe « appeler / WhatsApp » en bas sur mobile.
 

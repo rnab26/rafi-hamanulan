@@ -112,6 +112,8 @@ Pourquoi : la fiche Google Maps peut prendre des jours ou des semaines (vérific
 
 **Ce que je te propose** (c'est à toi de décider) : un test de 7 jours avec un **budget fixe par jour** que tu choisis. Google ne dépasse pas, en moyenne, le budget par jour que tu fixes. Le prix d'un clic sur « מנעולן » est élevé parce que c'est une urgence : **je ne le connais pas pour ta zone**, on le mesure pendant la semaine de test avant d'augmenter.
 
+**➡ La campagne complète, prête à importer, et le mode d'emploi pas à pas sont dans `docs/google-ads/` (MODE-EMPLOI.md). Ce qui suit est le résumé d'origine.**
+
 **Création** : https://ads.google.com → « Nouvelle campagne » → objectif « Prospects » → type **Réseau de Recherche** (décoche le Réseau Display et les partenaires).
 
 - **Zones** : ajoute une par une les villes : קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון. Options de zone → « **Présence** : personnes qui se trouvent dans vos zones ».
