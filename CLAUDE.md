@@ -9,10 +9,10 @@
 - Domaine : rafihamanulan.co.il, acheté le 1er nov. 2026 chez LiveDNS (compte de Raphael Nabet). DNS chez Cloudflare (compte de Raphael, serveurs candy/seth.ns.cloudflare.com ; 2 CNAME @ et www → rafi-hamanulan.onrender.com, proxy « DNS only »). Relié à Render, HTTPS Let's Encrypt OK le 1er nov. 2026 vers 07:10. Site : https://rafihamanulan.co.il (l'ancienne adresse onrender.com marche toujours).
 
 ## Technique
-- Site statique en hébreu (RTL), fichiers HTML à plat à la racine (pas de sous-dossiers).
+- Site statique en hébreu (RTL), fichiers HTML à plat dans `public/` (pas de sous-dossiers).
 - Hébergé sur Render (static site « rafi-hamanulan »), auto-deploy à chaque push sur main.
 - TOUT le site est généré par _build/build.py dans `public/`. Ne jamais éditer les .html à la main : modifier build.py, lancer `python3 _build/build.py` puis `python3 _build/check.py` depuis la racine, commit, push.
-- `public/` = seul dossier qui doit être publié. TRANSITION (1er nov. 2026) : Render publie encore la racine `./`, ce qui expose CLAUDE.md, docs/, _build/ au public. `LEGACY_ROOT_COPY=True` recopie le site à la racine en attendant que Rafi passe « Publish Directory » à `public` dans Render. Ensuite : `LEGACY_ROOT_COPY=False`, supprimer les .html/img/… de la racine, commit.
+- `public/` = seul dossier publié par Render (Publish Directory = `public`, confirmé le 3 nov. 2026). Rien d'autre (CLAUDE.md, docs/, _build/, marketing/) ne doit être en ligne. `LEGACY_ROOT_COPY=False` (copie à la racine supprimée le 3 nov.).
 - Automatismes GitHub Actions : `.github/workflows/site.yml` (contrôle à chaque push + IndexNow après mise en ligne), `surveillance.yml` (chaque jour : `check.py --live`, ouvre une issue si problème).
 - `CONTENT_DATE` dans build.py : date de mise à jour du contenu (sitemap/articles), fixe pour que le contrôle « régénérer = identique » passe.
 - Réglages (URL, téléphone, horaires, délai, message WhatsApp, code Search Console, lien avis) : section RÉGLAGES en haut de `_build/build.py`. Une seule source de vérité.

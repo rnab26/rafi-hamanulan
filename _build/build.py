@@ -8,7 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du 
 OUT = os.path.join(ROOT, "public")  # SEUL dossier publié par Render (Publish Directory = public)
 # Transition : tant que Render publie encore la racine (« ./ »), on recopie le site à la racine.
 # Passer à False dès que Render publie « public », puis supprimer les copies à la racine.
-LEGACY_ROOT_COPY = True
+LEGACY_ROOT_COPY = False
 
 # ============================ RÉGLAGES ============================
 # URL publique du site. Quand le domaine rafihamanulan.co.il sera acheté et relié à Render,
