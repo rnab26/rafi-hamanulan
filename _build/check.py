@@ -39,6 +39,14 @@ def check_live():
                 if r.status != 200: problems.append(f"{u}: HTTP {r.status}")
                 elif cfg["PHONE"] not in body: problems.append(f"{u}: numéro de téléphone absent de la page")
         except Exception as e: problems.append(f"{u}: inaccessible ({e})")
+    # Fichiers internes qui ne doivent JAMAIS être en ligne (Publish Directory = public)
+    for priv in ["CLAUDE.md", "docs/KIT-LANCEMENT.md", "docs/PLAN-CLIENTS.md", "_build/build.py", "public/index.html"]:
+        try:
+            urllib.request.urlopen(urllib.request.Request(f"{SITE}/{priv}", headers={"User-Agent": "site-monitor"}), timeout=20)
+            problems.append(f"{SITE}/{priv} est accessible publiquement (vérifier Publish Directory = public sur Render, puis « Clear build cache & deploy »)")
+        except urllib.error.HTTPError as e:
+            if e.code != 404: problems.append(f"{SITE}/{priv}: HTTP {e.code} inattendu")
+        except Exception as e: problems.append(f"{SITE}/{priv}: {e}")
     host = SITE.split("//")[1].split("/")[0]
     try:
         ctx = ssl.create_default_context()
