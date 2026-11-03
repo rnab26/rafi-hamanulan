@@ -24,6 +24,10 @@
 - IndexNow (Bing) : clé `INDEXNOW_KEY` dans build.py, fichier `<clé>.txt` à la racine ; après une grosse mise à jour, soumettre les URL du sitemap à https://api.indexnow.org/indexnow.
 - Design : épuré, aéré, peu de texte, beaucoup de photos (demande de Rafi, 1er nov. 2026). Clair et moderne, style application. Police Rubik, bleu #1A56DB, vert WhatsApp #18A957. Mobile d'abord, barre fixe « appeler / WhatsApp » en bas sur mobile.
 
+## Accès API (secrets de l'environnement, 3 nov. 2026)
+- Render : secret réseau Bearer sur `api.render.com` (clé « claude-env »), vérifié OK le 3 nov. Service `srv-dbj7en142hec73c7ntc0` (publishPath public, autoDeploy yes, 2 domaines vérifiés). Les clés ne sont jamais visibles : le proxy les ajoute.
+- Cloudflare : secret réseau Bearer sur `api.cloudflare.com` — REFUSÉ le 3 nov. (« Invalid access token ») : à recréer.
+
 ## Règles de contenu
 - Ne JAMAIS présenter Netanya comme point de départ (« יוצא מנתניה ») : chaque client doit sentir que Rafi est dans sa ville (demande du 1er nov. 2026). Netanya n'apparaît que comme une ville parmi d'autres.
 - Jamais de faux avis, de faux chiffres ni de prix inventés.
