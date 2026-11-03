@@ -20,6 +20,8 @@ Préparé la nuit du 1er nov. 2026. Tout est prêt à copier-coller. Rien n'a é
 | `autocollant-porte-60x40.pdf` | 60 × 40 mm | À coller sur le cadre de porte, près du cylindre, **après chaque intervention**. |
 | `carte-visite-90x50.pdf` | 90 × 50 mm, recto-verso | À laisser au client, au gardien, au commerçant. |
 | `flyer-A6.pdf` | 105 × 148 mm | Boîtes aux lettres, tableaux d'affichage d'immeuble, épiceries. |
+| `sticker-scooter-30x15.pdf` | 30 × 15 cm | Flanc ou dossier du scooter. |
+| `sticker-scooter-25x25.pdf` | 25 × 25 cm | Top case (arrière). |
 
 Le **QR code** ouvre WhatsApp avec un message déjà rédigé. J'ai testé les 3 : ils mènent bien à ton numéro.
 
@@ -27,6 +29,7 @@ Le **QR code** ouvre WhatsApp avec un message déjà rédigé. J'ai testé les 3
 - Autocollant : **vinyle résistant à l'eau**, coins arrondis, 500 à 1000 exemplaires.
 - Carte : 350 g mat, recto-verso, 500 exemplaires.
 - Flyer : 135 g, 500 à 1000 exemplaires.
+- Stickers scooter : **vinyle extérieur laminé, anti-UV** (le soleil israélien décolore un vinyle non laminé en quelques mois), découpe à la forme, 2 exemplaires de chaque. Mesure ton top case et ton flanc avant : si les dimensions diffèrent, dis-les-moi, je régénère au bon format.
 - Demande-lui d'**ajouter 2 mm de fond perdu** (les fichiers sont au format exact, sans marge) et de t'envoyer une épreuve avant d'imprimer.
 - Prix : je ne les connais pas. Demande deux devis.
 

@@ -61,12 +61,35 @@ ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 3mm;font
 <ul><li>פריצת דלתות</li><li>החלפת צילינדר</li><li>תיקון מנעולים</li><li>פתיחת כספות</li><li>שדרוג מיגון</li><li>לבית ולעסק</li></ul>
 <div class="bot"><div><div class="p ph">""" + PHONE + """</div><small>24 שעות בימי חול · שישי עד <span class="tm">16:00</span> · מוצ״ש עד חצות</small></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></div></body></html>""")
 
+# 4) Stickers scooter (vinyle extérieur) : lisibles à distance, à l'arrêt comme en roulant.
+SITE_HOST = cfg["SITE_URL"].split("//")[1]
+SC_CSS = """body{background:#1A56DB;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.hd{display:flex;align-items:center;gap:4%}.hd .mk{background:#fff;color:#1A56DB}.nm{font-weight:700;line-height:1}.act{font-weight:500;opacity:.92;line-height:1.15}
+.phone{font-weight:700;line-height:1;direction:ltr;unicode-bidi:isolate;white-space:nowrap;text-align:right}
+.ft{display:flex;align-items:flex-end;justify-content:space-between}.ft .tx{line-height:1.3}.ft .url{direction:ltr;unicode-bidi:isolate;font-weight:500}
+.q{background:#fff;border-radius:6%;padding:1.2%;text-align:center}.q img{width:100%;display:block}.q span{color:#1A56DB;font-weight:700;display:block}"""
+# Panneau latéral / dossier : 30 x 15 cm
+ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", HEAD + BASE_CSS + SC_CSS + """
+body{width:300mm;height:150mm;padding:13mm 16mm}.hd .mk{width:30mm;height:30mm}.nm{font-size:22mm}.act{font-size:9.5mm;margin-top:2mm}
+.phone{font-size:31mm;margin:3mm 0}.ft .tx{font-size:8mm}.q{width:36mm}.q span{font-size:3.6mm}
+</style></head><body><div class="hd"><div class="mk">""" + KEY + """</div><div><div class="nm">""" + NAME + """</div><div class="act">פריצת דלתות · צילינדרים · מנעולים · כספות</div></div></div>
+<div class="phone">""" + PHONE + """</div>
+<div class="ft"><div class="tx">24 שעות בימי חול · שישי עד <span class="tm">16:00</span> · מוצ״ש<br><span class="url">""" + SITE_HOST + """</span></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></body></html>""")
+# Top case / arrière : 25 x 25 cm
+ITEMS["sticker-scooter-25x25"] = ("250mm", "250mm", HEAD + BASE_CSS + SC_CSS + """
+body{width:250mm;height:250mm;padding:16mm;text-align:center;align-items:center}.hd{flex-direction:column;gap:5mm}.hd .mk{width:34mm;height:34mm}
+.nm{font-size:25mm}.act{font-size:9.5mm;margin-top:3mm}.phone{font-size:30mm;text-align:center}
+.ft{width:100%}.ft .tx{font-size:8mm;text-align:right}.q{width:44mm}.q span{font-size:4mm}
+</style></head><body><div class="hd"><div class="mk">""" + KEY + """</div><div><div class="nm">""" + NAME + """</div><div class="act">מנעולן – מגיע אליכם בקטנוע</div></div></div>
+<div class="phone">""" + PHONE + """</div>
+<div class="ft"><div class="tx">פריצת דלתות · צילינדרים<br>מנעולים · כספות<br><span class="url">""" + SITE_HOST + """</span></div><div class="q"><img src=\"""" + QR + """\"><span>וואטסאפ</span></div></div></body></html>""")
+
 OUT = os.path.join(ROOT, "marketing"); os.makedirs(OUT, exist_ok=True)
 jobs = []
 for name, (w, h, html) in ITEMS.items():
     p = os.path.join(OUT, name + ".html"); open(p, "w", encoding="utf-8").write(html); jobs.append([name, w, h, p])
 js = """const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const jobs=%s;
-for(const [n,w,h,p] of jobs){const pg=await b.newPage({deviceScaleFactor:6,viewport:{width:Math.round(parseFloat(w)*3.78),height:Math.round(parseFloat(h)*3.78)}});
+for(const [n,w,h,p] of jobs){const pg=await b.newPage({deviceScaleFactor:(parseFloat(w)>150?2.5:6),viewport:{width:Math.round(parseFloat(w)*3.78),height:Math.round(parseFloat(h)*3.78)}});
 await pg.goto('file://'+p,{waitUntil:'networkidle'});await pg.evaluate(()=>document.fonts.ready);
 const ok=await pg.evaluate(()=>document.fonts.check('700 12px Rubik'));if(!ok)throw new Error('Rubik non chargée: '+n);
 await pg.pdf({path:p.replace('.html','.pdf'),width:w,height:h,printBackground:true});
