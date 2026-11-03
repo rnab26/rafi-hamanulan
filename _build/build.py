@@ -32,9 +32,9 @@ REVIEW_URL = ""
 # Clé IndexNow (Bing/Yandex) : fichier <clé>.txt publié à la racine. Ne pas changer sans republier.
 # Google Ads – suivi des conversions (appel / WhatsApp). Vide = aucun script Google Ads sur le site.
 # Valeurs à recopier depuis Google Ads → Objectifs → Conversions → la conversion → « Configurer la balise ».
-GADS_ID = ""            # ex. "AW-123456789"
-GADS_LABEL_CALL = ""    # libellé de la conversion « Clic sur appel »   (la partie après le « / » de send_to)
-GADS_LABEL_WA = ""      # libellé de la conversion « Clic WhatsApp »
+GADS_ID = "AW-18553668064"            # ex. "AW-123456789"
+GADS_LABEL_CALL = "NJHACOy_prEdEOCDio9F"    # libellé de la conversion « Clic sur appel »   (la partie après le « / » de send_to)
+GADS_LABEL_WA = "S4QNCO-_prEdEOCDio9F"      # libellé de la conversion « Clic WhatsApp »
 INDEXNOW_KEY = "b8684d5c82d2840ec10bbd84289ad0c2"
 # ==================================================================
 
@@ -262,7 +262,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
-<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a></span></div></footer>
+<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
 {JS}{gads_js()}</body></html>'''
 
@@ -402,6 +402,15 @@ for slug, title, im, desc, sections in GUIDES:
 with open(f"{OUT}/style.css", "w") as f: f.write(CSS)
 for slug, html in pages:
     with open(f"{OUT}/{slug}.html", "w") as f: f.write(html)
+
+# Politique de confidentialité (le site utilise la balise Google Ads quand GADS_ID est renseigné)
+PRIVACY = f"""<section class="sec"><div class="wrap art"><h1>מדיניות פרטיות</h1>
+<p>האתר שייך ל{NAME}. אין באתר טפסים, ואנחנו לא אוספים שם, כתובת או פרטים אישיים דרך האתר.</p>
+<h2>עוגיות ומדידה</h2><p>כדי לדעת אילו מודעות מביאות פניות, האתר משתמש בתג של Google Ads, שעשוי לשמור עוגיות בדפדפן ולספור לחיצות על כפתורי ההתקשרות והוואטסאפ. Google מעבדת את המידע לפי מדיניות הפרטיות שלה: <a href="https://policies.google.com/privacy?hl=iw">policies.google.com/privacy</a>.</p>
+<p>אפשר לחסום או למחוק עוגיות בהגדרות הדפדפן, והאתר ימשיך לעבוד כרגיל.</p>
+<h2>יצירת קשר</h2><p>לכל שאלה על פרטיות: <a href="tel:{PHONE_INTL}">{PHONE}</a> או בוואטסאפ.</p></div></section>"""
+pages.append(("privacy", page("privacy", f"מדיניות פרטיות | {NAME}", f"מדיניות הפרטיות והעוגיות של אתר {NAME}.", PRIVACY, [business(ALL)])))
+with open(f"{OUT}/privacy.html", "w") as f: f.write(pages[-1][1])
 
 # 404
 with open(f"{OUT}/404.html", "w") as f:
