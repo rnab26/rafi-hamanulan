@@ -63,13 +63,14 @@ ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 3mm;font
 
 # 4) Stickers scooter (vinyle extérieur) : fond noir, illustration serrure, format en largeur.
 SITE_HOST = cfg["SITE_URL"].split("//")[1]
-LOCK_ART = """<svg viewBox="20 0 200 210" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path d="M58 92V64a42 42 0 0 1 84 0v28" stroke="#C9D3E3" stroke-width="13"/>
-<rect x="34" y="88" width="132" height="100" rx="18" fill="#1A56DB"/>
-<rect x="34" y="88" width="132" height="100" rx="18" stroke="#3D74F0" stroke-width="3"/>
-<circle cx="100" cy="128" r="13" fill="#0B0B0D"/><path d="M100 136v24" stroke="#0B0B0D" stroke-width="12"/>
-<g transform="translate(150 182) rotate(180) scale(.9)"><circle cx="0" cy="0" r="17" stroke="#F5A524" stroke-width="7" fill="#0B0B0D"/>
-<path d="M17 0h56M58 0v12M70 0v9" stroke="#F5A524" stroke-width="7"/></g></svg>"""
+LOCK_ART = """<svg viewBox="0 0 220 220" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<rect x="70" y="8" width="62" height="204" rx="31" fill="#1A56DB" stroke="#3D74F0" stroke-width="3"/>
+<circle cx="101" cy="62" r="17" fill="#0B0B0D" stroke="#C9D3E3" stroke-width="5"/>
+<path d="M101 62H18" stroke="#C9D3E3" stroke-width="17"/><circle cx="18" cy="62" r="8.5" fill="#C9D3E3"/>
+<rect x="85" y="128" width="32" height="54" rx="16" fill="#0B0B0D" stroke="#C9D3E3" stroke-width="5"/>
+<circle cx="101" cy="145" r="7" fill="#C9D3E3"/><path d="M101 150v18" stroke="#C9D3E3" stroke-width="6"/>
+<path d="M101 152h70" stroke="#F5A524" stroke-width="9"/><path d="M128 152v11M142 152v8" stroke="#F5A524" stroke-width="7"/>
+<circle cx="190" cy="152" r="20" stroke="#F5A524" stroke-width="9" fill="#0B0B0D"/></svg>"""
 SC_CSS = """body{background:#0B0B0D;color:#fff;display:grid;align-items:center}
 .nm{font-weight:700;line-height:1}.act{font-weight:500;color:#C9D3E3;line-height:1.2}
 .chips{display:flex;flex-wrap:wrap;gap:2mm}.chips span{border:.5mm solid #3D74F0;color:#fff;border-radius:99mm;padding:1mm 3.5mm;font-weight:500}
@@ -88,7 +89,7 @@ body{{width:{w}mm;height:{h}mm;padding:{11*k}mm {14*k}mm;grid-template-columns:1
 <div class="phone">{PHONE}</div><div class="bar"></div><div class="url">{SITE_HOST}</div></div>
 <div class="side"><div class="art">{LOCK_ART}</div><div class="q"><img src="{QR}"></div></div></body></html>"""
 ITEMS["sticker-scooter-30x15"] = ("300mm", "150mm", scooter(300, 150, 1))      # flanc / dossier
-ITEMS["sticker-topcase-36x18"] = ("360mm", "180mm", scooter(360, 180, 1.2))    # top case, en largeur
+ITEMS["sticker-topcase-50x25"] = ("500mm", "250mm", scooter(500, 250, 500/300))  # top case (~50 cm de large)
 
 OUT = os.path.join(ROOT, "marketing"); os.makedirs(OUT, exist_ok=True)
 jobs = []
