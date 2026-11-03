@@ -47,6 +47,27 @@ def check_live():
         except urllib.error.HTTPError as e:
             if e.code != 404: problems.append(f"{SITE}/{priv}: HTTP {e.code} inattendu")
         except Exception as e: problems.append(f"{SITE}/{priv}: {e}")
+    # Intégrité DNS (détourne-t-on le domaine ?) via le résolveur public de Google
+    host0 = SITE.split("//")[1].split("/")[0]
+    def dns(name, typ):
+        with urllib.request.urlopen(f"https://dns.google/resolve?name={name}&type={typ}", timeout=20) as r:
+            return [a["data"].rstrip(".").lower() for a in json.load(r).get("Answer", [])]
+    try:
+        ns = dns(host0, "NS")
+        if not ns or not all(n.endswith(".ns.cloudflare.com") for n in ns):
+            problems.append(f"DNS : serveurs de noms inattendus {ns} (attendu *.ns.cloudflare.com) – possible détournement du domaine")
+        www = dns("www." + host0, "CNAME")
+        if www and www != ["rafi-hamanulan.onrender.com"]:
+            problems.append(f"DNS : www pointe vers {www} au lieu de Render")
+    except Exception as e: problems.append(f"DNS : vérification impossible ({e})")
+    # En-têtes de sécurité et balise Google Ads sur l'accueil
+    try:
+        with urllib.request.urlopen(urllib.request.Request(SITE + "/", headers={"User-Agent": "site-monitor"}), timeout=30) as r:
+            hdr = {k.lower(): v for k, v in r.headers.items()}; home = r.read().decode("utf-8", "ignore")
+        for h in ["strict-transport-security", "x-frame-options", "referrer-policy"]:
+            if h not in hdr: problems.append(f"en-tête de sécurité manquant : {h}")
+        if cfg.get("GADS_ID") and cfg["GADS_ID"] not in home: problems.append("balise Google Ads absente de l'accueil (conversions non comptées)")
+    except Exception as e: problems.append(f"accueil : {e}")
     host = SITE.split("//")[1].split("/")[0]
     try:
         ctx = ssl.create_default_context()

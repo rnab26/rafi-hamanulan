@@ -99,6 +99,8 @@ FAQ = [
 
 # ------------------------------------------------------------------ CSS
 CSS = r"""
+@font-face{font-family:'Rubik';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:'Rubik';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--bg:#fff;--soft:#F5F7FB;--ink:#0E1A2B;--muted:#5B6878;--line:#E6EBF2;--blue:#1A56DB;--blue-d:#1446B4;--blue-soft:#EAF0FD;--wa:#18A957;--amber:#F5A524;--green:#16A34A;--r:20px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Rubik",Arial,sans-serif;font-size:17px;line-height:1.6;padding-bottom:84px}
@@ -258,7 +260,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#1A56DB">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
@@ -339,6 +341,26 @@ GUIDES = [
   ("לביטוח", ["צלמו את הדלת, המנעול וכל נזק לפני שמתקנים.", "רשמו מה חסר, ובקשו מהמשטרה את מספר התיק או את אישור הגשת התלונה."]),
   ("לאבטח את הדלת מחדש", ["החליפו צילינדר כמה שיותר מהר – ייתכן שלפורץ יש דרך לפתוח את הקיים.", "בדקו שהמנעול והמשקוף לא נפגעו, ושהדלת ננעלת עד הסוף.", "שקלו שדרוג: צילינדר מוגן, מנעול עזר או חיזוק לדלת."]),
   ("אני יכול לעזור", ["אני מגיע, מחליף צילינדר ובודק את הדלת והמנעולים. המחיר נאמר לפני שמתחילים."])]),
+]
+
+GUIDES += [
+("guide-keys-inside", "הדלת נטרקה והמפתח בפנים – מה עושים?", "g4",
+ "הדלת נטרקה כשהמפתח נשאר בפנים? מה אפשר לבדוק לבד, מה לא לנסות, ואיך פותחים בלי נזק.",
+ [("קודם כול", ["אם בפנים נשאר ילד, אדם שזקוק לעזרה, חיה או משהו דולק על הכיריים – התקשרו מיד למשטרה (100) או לכבאות והצלה (102)."]),
+  ("מה לבדוק לבד", ["האם יש למישהו עותק של המפתח – בן משפחה, שכן, בעל הדירה.", "האם יש דלת נוספת או מרפסת נגישה בבטחה מהקרקע – בלי לטפס."]),
+  ("מה לא לעשות", ["לא לנסות לפתוח עם כרטיס אשראי או מברג – בדלתות פלדה זה לא עובד ועלול לפגוע במנעול.", "לא לטפס דרך חלונות או מרפסות."]),
+  ("כשמגיע מנעולן", ["בדלת שנטרקה בלי שננעלה בבריחים, לרוב אפשר לפתוח מהר וללא נזק.", "אם הדלת ננעלה עם המפתח בפנים, ייתכן שיהיה צורך להחליף צילינדר – תקבלו מחיר ברור לפני שמתחילים."])]),
+("guide-stuck-lock", "מנעול רב-בריח תקוע – למה זה קורה ומה עושים", "lock-repair",
+ "המפתח לא מסתובב, הדלת לא ננעלת עד הסוף או הבריחים נתקעים? הסיבות הנפוצות ומה כדאי לעשות.",
+ [("סיבות נפוצות", ["הדלת שקעה מעט על הצירים והבריחים לא נכנסים בדיוק למקום.", "לכלוך או חלודה בתוך המנעול או בצילינדר.", "מפתח שחוק או צילינדר ישן.", "חלק שבור בתוך המנגנון."]),
+  ("מה אפשר לבדוק לבד", ["לנסות לנעול כשהדלת לחוצה היטב אל המשקוף – אם זה עובד, כנראה צריך לכוון את הדלת.", "לנסות את המפתח השני – אם הוא עובד, המפתח הראשון שחוק."]),
+  ("מה לא לעשות", ["לא להפעיל כוח על המפתח – הוא עלול להישבר בתוך הצילינדר.", "לא לשים שמן מטבח או דבק בתוך המנעול."]),
+  ("הפתרון", ["לרוב מכוונים את הדלת, מנקים או מחליפים צילינדר. במקרים מסוימים מחליפים את המנגנון. המחיר נאמר לפני שמתחילים."])]),
+("guide-safe-code", "שכחתם את הקוד של הכספת – מה אפשר לעשות", "safe",
+ "שכחתם את הקוד או שהכספת לא נפתחת? מה לבדוק לפני שמזמינים מנעולן ואיך פותחים כספת.",
+ [("מה לבדוק קודם", ["סוללות – בכספות אלקטרוניות רבות סוללה חלשה גורמת לכספת לא להיפתח גם עם הקוד הנכון.", "מפתח חירום – להרבה כספות יש מפתח עקיפה. בדקו אם הוא אצלכם.", "החוברת של הכספת – לפעמים יש בה קוד מפעל או הוראות איפוס."]),
+  ("מה לא לעשות", ["לא לנסות קודים שוב ושוב – חלק מהכספות ננעלות לזמן ארוך אחרי כמה ניסיונות.", "לא לנסות לפתוח בכוח – זה עלול להרוס את הכספת ואת מה שבתוכה."]),
+  ("פתיחת כספת", ["מנעולן יכול לפתוח את הכספת, ואחרי הפתיחה להגדיר קוד חדש. תתבקשו להראות שהכספת שלכם."])]),
 ]
 
 def guide_body(slug, title, im, desc, sections):

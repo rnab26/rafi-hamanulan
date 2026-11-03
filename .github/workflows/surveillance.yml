@@ -1,9 +1,9 @@
-# Chaque jour : toutes les pages répondent, le numéro est présent, le HTTPS n'expire pas.
+# Toutes les heures : pages en ligne, numéro présent, HTTPS valide, DNS non détourné, en-têtes de sécurité, balise Google Ads.
 # En cas de problème : une « issue » GitHub est ouverte (notification e-mail au propriétaire du dépôt).
-name: Site – surveillance quotidienne
+name: Site – surveillance (toutes les heures)
 on:
   schedule:
-    - cron: "17 4 * * *"   # 06:17 / 07:17 heure d'Israël
+    - cron: "17 * * * *"   # toutes les heures, à la 17e minute
   workflow_dispatch:
 permissions:
   contents: read

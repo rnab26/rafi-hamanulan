@@ -13,7 +13,9 @@
 - Hébergé sur Render (static site « rafi-hamanulan »), auto-deploy à chaque push sur main.
 - TOUT le site est généré par _build/build.py dans `public/`. Ne jamais éditer les .html à la main : modifier build.py, lancer `python3 _build/build.py` puis `python3 _build/check.py` depuis la racine, commit, push.
 - `public/` = seul dossier publié par Render (Publish Directory = `public`, confirmé le 3 nov. 2026). Rien d'autre (CLAUDE.md, docs/, _build/, marketing/) ne doit être en ligne. `LEGACY_ROOT_COPY=False` (copie à la racine supprimée le 3 nov.).
-- Automatismes GitHub Actions : `.github/workflows/site.yml` (contrôle à chaque push + IndexNow après mise en ligne), `surveillance.yml` (chaque jour : `check.py --live`, ouvre une issue si problème).
+- Automatismes GitHub Actions : `.github/workflows/site.yml` (contrôle à chaque push + IndexNow après mise en ligne), `surveillance.yml` (TOUTES LES HEURES : `check.py --live` = pages, numéro, HTTPS, DNS non détourné, en-têtes de sécurité, balise Google Ads, fichiers internes en 404 ; ouvre une issue si problème).
+- Sécurité : en-têtes HSTS / X-Frame-Options / Referrer-Policy / Permissions-Policy + cache images posés via l'API Render (pas dans le dépôt). Police Rubik auto-hébergée (`public/fonts/`). Détail et checklist comptes : `docs/SECURITE-ET-ANTI-FRAUDE.md`.
+- Tests locaux avec Playwright : bloquer googletagmanager/doubleclick (sinon de vraies visites sont envoyées au compte Google Ads).
 - `CONTENT_DATE` dans build.py : date de mise à jour du contenu (sitemap/articles), fixe pour que le contrôle « régénérer = identique » passe.
 - Réglages (URL, téléphone, horaires, délai, message WhatsApp, code Search Console, lien avis) : section RÉGLAGES en haut de `_build/build.py`. Une seule source de vérité.
 - `SITE_URL` = https://rafihamanulan.co.il depuis le 1er nov. 2026 (canonical, sitemap, schema en dépendent). Garder le proxy Cloudflare en « DNS only » (sinon le certificat Render peut casser).
