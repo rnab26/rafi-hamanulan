@@ -42,5 +42,5 @@
 - [x] Photos réelles (1er nov. 2026). Manquent encore : Rafi lui-même, le scooter, un coffre-fort (la tuile « פתיחת כספות » utilise une photo libre CC0).
 - Ajouter un badge « agréé » si un certificat est confirmé.
 - [x] Domaine relié et SITE_URL basculé (1er nov. 2026).
-- Après la vérification Google Business : remplir `REVIEW_URL` dans build.py.
+- [x] Fiche Google Business VÉRIFIÉE (5 nov. 2026). Lien d'avis `REVIEW_URL` = https://g.page/r/CavM3AVwHYkIEBM/review (sur le site + QR `marketing/qr-avis-google.png`). Ne jamais cliquer « Finish ad set-up » sur la fiche (crée une campagne Smart).
 - [x] Search Console : propriété « Domaine » rafihamanulan.co.il validée le 3 nov. 2026 via Cloudflare (enregistrement TXT google-site-verification dans Cloudflare — NE PAS SUPPRIMER). `GSC_VERIFICATION` dans build.py inutile, laisser vide. Sitemap à soumettre : sitemap.xml.

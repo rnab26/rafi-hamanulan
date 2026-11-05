@@ -38,10 +38,10 @@ Quand quelqu'un tape « מנעולן » sur son téléphone à Netanya, Google a
 
 ```
 תודה שבחרתם ברפי המנעולן! אם הייתם מרוצים, אשמח מאוד לביקורת קצרה בגוגל – זה עוזר לי מאוד:
-[קישור]
+https://g.page/r/CavM3AVwHYkIEBM/review
 ```
 
-Envoie-moi ce lien : je l'ajoute sur le site (réglage `REVIEW_URL` dans `_build/build.py`).
+Lien d'avis : https://g.page/r/CavM3AVwHYkIEBM/review — ajouté sur le site le 5 nov. 2026 (`REVIEW_URL`). QR à montrer au client : `marketing/qr-avis-google.png`.
 
 ---
 

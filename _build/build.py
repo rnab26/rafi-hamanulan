@@ -28,7 +28,7 @@ HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:
 # Code de vérification Google Search Console (balise HTML) : coller seulement la valeur content="..."
 GSC_VERIFICATION = ""
 # Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
-REVIEW_URL = ""
+REVIEW_URL = "https://g.page/r/CavM3AVwHYkIEBM/review"
 # Clé IndexNow (Bing/Yandex) : fichier <clé>.txt publié à la racine. Ne pas changer sans republier.
 # Google Ads – suivi des conversions (appel / WhatsApp). Vide = aucun script Google Ads sur le site.
 # Valeurs à recopier depuis Google Ads → Objectifs → Conversions → la conversion → « Configurer la balise ».
