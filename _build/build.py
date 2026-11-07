@@ -405,7 +405,7 @@ PRICES = [
   ("סט ידיות קומפלט לפלדלת", 330, None, "t-steelhandles"), ("מחזיר דלת", 450, None, None)], ["lock-repair", "security"]),
 ("int", "דלתות פנים וכניסות נוספות", "p-entrance", "",
  [("החלפת צילינדר פשוט", 200, None, "t-metalok"), ("החלפת מנגנון", 250, None, "t-mortise"),
-  ("פריצה + החלפת מנגנון", 400, None, "t-intmech"), ("פריצה + החלפת מנגנון + צילינדר", 450, None, "t-intdoor"),
+  ("פריצה + החלפת מנגנון", 300, None, "t-intmech"), ("פריצה + החלפת מנגנון + צילינדר", 380, None, "t-intdoor"),
   ("סט ידיות לדלת פנים", 150, None, "t-inthandles")], ["lock-repair", "door-opening"]),
 ("mail", "תיבות דואר", None, "",
  [("פריצה והחלפת מנעול לתיבת דואר", 200, None, None), ("מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, None)], ["lock-repair"]),
