@@ -102,6 +102,8 @@ FAQ = [
 ("מה עושים אחרי פריצה לבית?","מומלץ להחליף צילינדר כמה שיותר מהר. אני מגיע, מחליף ויכול להמליץ על שדרוג מיגון לדלת."),
 ]
 
+HERO_SVG = open(os.path.join(ROOT, "_build/hero.svg"), encoding="utf-8").read()
+
 # ------------------------------------------------------------------ CSS
 CSS = r"""
 @font-face{font-family:'Rubik';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
@@ -126,8 +128,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .hero{padding:20px 0 8px}
 .hero .wrap{display:grid;gap:24px}
 .hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3;background:var(--soft)}
-.hero-img img{width:100%;height:100%;object-fit:cover}
-.eta-badge{position:absolute;bottom:14px;inset-inline-start:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
+.hero-img>img,.hero-img>svg{width:100%;height:100%;object-fit:cover;display:block}
+.eta-badge{position:absolute;bottom:14px;inset-inline-end:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
 .eta-badge .ic{color:var(--blue)}.eta-badge b{display:block;font-size:20px;line-height:1}.eta-badge small{color:var(--muted);font-size:13px}
 @media(min-width:880px){.hero{padding:56px 0 24px}.hero .wrap{grid-template-columns:1fr 1fr;align-items:center;gap:56px}.hero-img{aspect-ratio:4/5;grid-column:2;grid-row:1/3;max-height:560px}.hero-txt{grid-column:1;grid-row:1}.trust{grid-column:1;grid-row:2;align-self:start}}
 .status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
@@ -199,6 +201,11 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .pick:checked{background:var(--wa);border-color:var(--wa)}.pick:checked::after{content:"✓";color:#fff;font-weight:700;font-size:15px}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}
+.nightb .nt{font-size:18px;margin-bottom:10px}.nightb .nrow{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:760px){.nightb .nrow{grid-template-columns:repeat(4,1fr)}}
+.nightb .nrow span{background:rgba(255,255,255,.08);border-radius:12px;padding:8px 10px;font-size:14px;color:#C9D3E1;direction:ltr;text-align:center}
+.nightb .nrow b{display:block;direction:rtl;color:#fff;font-size:17px;margin-top:2px}.nightb small{display:block;color:#9FB0C6;margin-top:10px;font-size:13px}
 .pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
 /* panier WhatsApp */
 .selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}
@@ -227,7 +234,7 @@ footer{padding:32px 0 40px;color:var(--muted);font-size:14px;border-top:1px soli
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
 footer a{color:var(--muted)}
 .bar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
-.bar .btn{min-height:50px;font-size:16px}
+.bar .btn{min-height:50px;font-size:16px}.bar{transition:transform .25s}.bar.hid{transform:translateY(110%)}body.barhid .selbar{bottom:calc(12px + env(safe-area-inset-bottom))}
 @media(min-width:880px){.bar{display:none}body{padding-bottom:0}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 """
@@ -260,7 +267,9 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
   "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
-  "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd()})();</script>")
+  "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
+  "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
+  "new IntersectionObserver(function(en){var v=en[0].isIntersecting;fb.classList.toggle('hid',v);document.body.classList.toggle('barhid',v)}).observe(hc)}})();</script>")
 
 def img(name, alt, w, h, eager=False):
     attrs = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
@@ -325,9 +334,9 @@ def cta():
 
 def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול רב-בריח", crumb=""):
     return f'''<section class="hero"><div class="wrap">
-<div class="hero-img">{img(photo, alt, 900 if photo=="hero" else 800, 1125 if photo=="hero" else 600, eager=True)}<div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
+<div class="hero-img">{HERO_SVG if photo=="hero" else img(photo, alt, 800, 600, eager=True)}<div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
 <div class="hero-txt">{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span><h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
-<ul class="trust"><li>{ic("tag")}מחיר ברור לפני העבודה</li><li>{ic("door")}פתיחה ללא נזק ככל שניתן</li><li>{ic("user")}ישירות מול רפי, בלי מוקד</li></ul>
+<ul class="trust"><li>{ic("tag")}מחיר ברור לפני העבודה</li><li>{ic("door")}פתיחה בלי נזק, ברוב המקרים</li><li>{ic("user")}ישירות מול רפי, בלי מוקד</li></ul>
 </div></section>'''
 
 def services_sec(title="שירותים", sub="", exclude=None):
@@ -453,7 +462,7 @@ PRICES = [
  [("החלפת מנגנון רב-בריח", 700, None, "t-ravmech"), ("החלפת מנגנון שריונית חוסם", 800, None, "t-shiryonit"),
   ("סט פלטות קומפלט לפלדלת – ניקל, שחור או מעוגל", 330, None, "t-plates"), ("מחזיר דלת", 450, None, None), ("התקנת מנעול כספת / מנעול נוסף לפלדלת", 550, None, "t-extralock")], ["lock-repair", "security"]),
 ("int", "דלתות פנים וכניסות נוספות", "p-entrance", "",
- [("החלפת צילינדר פשוט", 200, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-mortise"),
+ [("החלפת צילינדר פשוט", 200, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
   ("פריצה + החלפת מנגנון", 300, None, "t-intmech"), ("פריצה + החלפת מנגנון + צילינדר", 380, None, "t-intdoor"),
   ("סט ידיות לדלת פשוטה / דלת פנים", 150, None, "t-inthandles")], ["lock-repair", "door-opening"]),
 ("mail", "תיבות דואר", "p-mail", "",
@@ -477,7 +486,7 @@ def price_txt(p, t): return t if t else f"{p} ₪"
 
 def thumb(key, alt):
     if key:
-        return f'<img class="pth" src="img/{key}.webp" alt="{alt}" width="240" height="240" loading="lazy" decoding="async">'
+        return f'<img class="pth" src="img/{key if key.endswith(".svg") else key + ".webp"}" alt="{alt}" width="240" height="240" loading="lazy" decoding="async">'
     return f'<i class="pth ph">{ic("key")}</i>'
 
 def price_block(g, h="h3"):
@@ -488,12 +497,17 @@ def price_block(g, h="h3"):
     pic = img(im, title, 800, 600) if im else ""
     return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
 
+NIGHT_BANNER = ('<div class="nightb"><div class="nt">🌙 <b>תוספת לפי שעת הקריאה</b></div><div class="nrow">'
+    + '<span>07:00–20:00<b>בלי תוספת</b></span>'
+    + "".join(f'<span>{_hh(a)}–{_hh(b)}<b>+{v} ₪</b></span>' for a, b, v in NIGHT_TIERS)
+    + f'</div><small>מקסימום {NIGHT_MAX} ₪ · זהה בכל ימות השבוע, כולל שישי ומוצאי שבת · מחושב אוטומטית כשבוחרים שירותים</small></div>')
+
 def prices_for_service(slug):
     gs = [g for g in PRICES if slug in g[5]]
     if not gs: return ""
     notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES)
     return (f'<section class="sec alt"><div class="wrap"><h2>מחירים<small><a href="prices.html">למחירון המלא</a></small></h2>'
-            f'<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
+            f'{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def prices_teaser():
     keys = [("פתיחת דלת טרוקה", 200), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
@@ -559,7 +573,7 @@ NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
           for g in PRICES for l, p, t, th in g[4] if p]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
-    + f'<section class="sec"><div class="wrap"><p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
+    + f'<section class="sec"><div class="wrap">{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + NIGHT_CARD + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:]) + '</ul></div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
     "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
