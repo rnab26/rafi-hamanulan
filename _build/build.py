@@ -470,7 +470,7 @@ def _pkey(r):
     m = _re.search(r"(\d+)", t or ""); return int(m.group(1)) if m else 0
 PRICES = [(g[0], g[1], g[2], g[3], sorted(g[4], key=_pkey), g[5]) for g in PRICES]   # prix toujours en ordre croissant
 
-PRICE_NOTES = [f"תוספת לפי שעת הקריאה, בכל יום בשבוע: {NIGHT_TXT} (לא יותר מ-{NIGHT_MAX} ₪).", "כל השירותים זמינים גם לעסקים.",
+PRICE_NOTES = [f"תוספת לפי שעת הקריאה: {NIGHT_TXT}. בין 07:00 ל-20:00 – בלי תוספת. אותו דבר בכל ימות השבוע, כולל שישי ומוצאי שבת.", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
 
 def price_txt(p, t): return t if t else f"{p} ₪"
@@ -551,12 +551,16 @@ with open(f"{OUT}/style.css", "w") as f: f.write(CSS)
 for slug, html in pages:
     with open(f"{OUT}/{slug}.html", "w") as f: f.write(html)
 
+NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody"><h2>תוספת לפי שעת הקריאה</h2><ul class="prows">'
+    + '<li><label><span>07:00–20:00</span><b>בלי תוספת</b></label></li>'
+    + "".join(f'<li><label><span>{_hh(a)}–{_hh(b)}</span><b>+{v} ₪</b></label></li>' for a, b, v in NIGHT_TIERS)
+    + f'</ul><p class="pnote">התוספת לא עולה על {NIGHT_MAX} ₪, והיא זהה בכל ימות השבוע – כולל שישי ומוצאי שבת. כשבוחרים שירותים, היא מחושבת אוטומטית לפי השעה.</p></div></div>')
 # Page Mehiron (prix fournis par Raphaël)
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
           for g in PRICES for l, p, t, th in g[4] if p]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
     + f'<section class="sec"><div class="wrap"><p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
-    + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES) + '</ul></div></section>' + area_sec() + band())
+    + NIGHT_CARD + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:]) + '</ul></div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
     "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
