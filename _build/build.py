@@ -21,6 +21,11 @@ WA_NUMBER = "972545301389"
 WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
 CONTENT_DATE = "2026-11-01"                         # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
+# Majoration selon l'heure de l'appel (fournie par Raphaël le 7 nov. 2026) : (heure début, heure fin, ₪). Jamais plus de 150 ₪.
+NIGHT_TIERS = [(20, 22, 50), (22, 24, 100), (0, 7, 150)]
+NIGHT_MAX = 150
+def _hh(h): return "00:00" if h == 24 else f"{h:02d}:00"
+NIGHT_TXT = " · ".join(f"{_hh(a)}–{_hh(b)}: +{v} ₪" for a, b, v in NIGHT_TIERS)
 REGION = "השרון"                                    # zone affichée. Volontairement AUCUNE ville de départ (demande de Rafi, 1er nov. 2026)
 # Horaires : jour (0=dimanche … 6=samedi) -> liste de créneaux (heure début, heure fin), fin 24 = minuit
 HOURS = {0: [(0, 24)], 1: [(0, 24)], 2: [(0, 24)], 3: [(0, 24)], 4: [(0, 24)], 5: [(9, 16)], 6: [(19, 24)]}
@@ -242,9 +247,12 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "<div class=\"lb\" id=\"lb\" role=\"dialog\" aria-modal=\"true\" aria-label=\"תמונה\"><button id=\"lbx\" aria-label=\"סגירה\">×</button><img id=\"lbi\" alt=\"\"><p id=\"lbp\"></p></div>"
   "<script>(function(){var W='" + f"https://wa.me/{WA_NUMBER}" + "',bar=document.getElementById('selbar');"
   "function upd(){var c=[].slice.call(document.querySelectorAll('.pick:checked'));if(!c.length){bar.classList.remove('show');return}"
+  "var NT=" + json.dumps(NIGHT_TIERS) + ",hr=+new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',hour12:false}).format(new Date())%24,ns=0;"
+  "NT.forEach(function(t){if(hr>=t[0]&&hr<t[1])ns=t[2]});ns=Math.min(ns," + str(NIGHT_MAX) + ");"
   "var sum=0,fix=true,lines=c.map(function(x){var p=+x.dataset.p;if(p)sum+=p;else fix=false;return '• '+x.dataset.l+' ('+x.dataset.t+')'});"
   "document.getElementById('selc').textContent=c.length+(c.length>1?' שירותים נבחרו':' שירות נבחר');"
-  "document.getElementById('selt').textContent=sum?('לפי המחירון: '+(fix?'':'החל מ-')+sum+' ₪'):'';"
+  "if(ns){lines.push('• תוספת לפי שעת הקריאה (+'+ns+' ₪)');sum+=ns}"
+  "document.getElementById('selt').textContent=sum?('לפי המחירון: '+(fix?'':'החל מ-')+sum+' ₪'+(ns?' (כולל תוספת שעה '+ns+' ₪)':'')):'';"
   "var msg='שלום רפי, אני צריך:\\n'+lines.join('\\n')+'\\n\\nהכתובת שלי: ';"
   "document.getElementById('selgo').href=W+'?text='+encodeURIComponent(msg);bar.classList.add('show')}"
   "document.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('pick'))upd()});"
@@ -422,13 +430,11 @@ def guides_sec():
 
 # ------------------------------------------------------------------ MÉTHODE DE PRIX (fournie par Raphaël le 7 nov. 2026)
 # (id, titre, image, note, [(libellé, prix ₪ ou None, texte du prix)], pages de service où afficher le bloc)
-NIGHT_SURCHARGE = 100   # ₪, tout jour de la semaine
 PRICES = [
 ("fp", "פריצת דלתות", "door-opening", "",
  [("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
-  ("פריצת צילינדר בפלדלת נעולה", 300, None, "t-steelcyl"),
   ("פריצה + החלפת צילינדר בפלדלת", None, "החל מ-620 ₪", "t-rav-dyn")], ["door-opening"]),
-("fpc", "פריצה + החלפת צילינדר בפלדלת", "p-steel", "פריצה (300 ₪) + צילינדר חדש לבחירתכם, כולל התקנה. המחיר תלוי בצילינדר:",
+("fpc", "פריצה + החלפת צילינדר בפלדלת", "p-steel", "פריצה + צילינדר חדש לבחירתכם, כולל התקנה. המחיר תלוי בצילינדר:",
  [("מגנום · 5 מפתחות", 620, None, "t-magnum320"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 660, None, "t-magnum360"),
   ("רב-בריח · 5 מפתחות + כרטיס שכפול", 690, None, "t-rav390"),
@@ -464,7 +470,7 @@ def _pkey(r):
     m = _re.search(r"(\d+)", t or ""); return int(m.group(1)) if m else 0
 PRICES = [(g[0], g[1], g[2], g[3], sorted(g[4], key=_pkey), g[5]) for g in PRICES]   # prix toujours en ordre croissant
 
-PRICE_NOTES = [f"תוספת לילה: {NIGHT_SURCHARGE} ₪, בכל יום בשבוע.", "כל השירותים זמינים גם לעסקים.",
+PRICE_NOTES = [f"תוספת לפי שעת הקריאה, בכל יום בשבוע: {NIGHT_TXT} (לא יותר מ-{NIGHT_MAX} ₪).", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
 
 def price_txt(p, t): return t if t else f"{p} ₪"
@@ -490,7 +496,7 @@ def prices_for_service(slug):
             f'<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def prices_teaser():
-    keys = [("פתיחת דלת טרוקה", 200), ("פריצת צילינדר בפלדלת", 300), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
+    keys = [("פתיחת דלת טרוקה", 200), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
     li = "".join(f'<li><span>{l}</span><b>{"החל מ-" if i >= 2 else ""}{p} ₪</b></li>' for i, (l, p) in enumerate(keys))
     return (f'<section class="sec"><div class="wrap"><h2>מחירים שקופים<small>בלי הפתעות – המחיר נאמר לפני העבודה.</small></h2>'
             f'<div class="pcard solo"><div class="pbody"><ul class="prows">{li}</ul><a class="btn btn-call" href="prices.html" style="margin-top:16px">למחירון המלא</a></div></div></div></section>')
@@ -552,7 +558,7 @@ PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כ�
     + f'<section class="sec"><div class="wrap"><p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES) + '</ul></div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
-    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצת צילינדר בפלדלת 300 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
+    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
                   crumbs_ld([("ראשי", SITE_URL+"/"), ("מחירון", url_of("prices"))])])))
 with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
