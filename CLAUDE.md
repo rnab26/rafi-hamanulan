@@ -20,6 +20,7 @@
 - Réglages (URL, téléphone, horaires, délai, message WhatsApp, code Search Console, lien avis) : section RÉGLAGES en haut de `_build/build.py`. Une seule source de vérité.
 - `SITE_URL` = https://rafihamanulan.co.il depuis le 1er nov. 2026 (canonical, sitemap, schema en dépendent). Garder le proxy Cloudflare en « DNS only » (sinon le certificat Render peut casser).
 - Images dans `public/img/` (webp, sans EXIF). Photos réelles fournies par Rafi le 1er nov. 2026 (confirmées comme les siennes, usage officiel). Ne jamais publier une photo où l'on voit l'autocollant ou le numéro d'un concurrent.
+- Prix : liste `PRICES` dans build.py = tarifs fournis par Raphaël le 7 nov. 2026 (page `prices.html`, blocs prix sur chaque page service, aperçu sur l'accueil, OfferCatalog). Ne jamais modifier un prix sans qu'il le donne. Interprétations à confirmer : « מגנום 5 מפתחות 320 ₪ » (sans carte de copie ?), « Keyloks » (orthographe), « הדכנה » lu comme « התקנה », « פלתות » lu comme « ידיות ». Pas de photo de boîte aux lettres.
 - Guides (articles) : liste `GUIDES` dans build.py, pages `guide-*.html`. Contenu factuel, pas de prix.
 - Plan d'acquisition et textes Google Business : `docs/PLAN-CLIENTS.md`. Kit de lancement (WhatsApp Business, groupes, partenaires, Google Ads prêt) : `docs/KIT-LANCEMENT.md`.
 - Imprimés (autocollant 60x40, carte 90x50, flyer A6, QR WhatsApp) : `python3 _build/print.py` → `marketing/` (nécessite `pip install qrcode` et Playwright). Mêmes réglages que build.py.
