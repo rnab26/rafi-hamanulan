@@ -186,7 +186,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .pcard{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
 .pcard img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--soft)}
 .pcard.solo{max-width:560px}.pbody{padding:18px 20px}.pbody h3,.pbody h2{font-size:19px;margin:0 0 8px}
-.prows{list-style:none;margin:0;padding:0}.prows li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.prows{list-style:none;margin:0;padding:0}.prows li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}.prows li span{flex:1}
+.pth{width:56px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}.pth.ph{display:grid;place-items:center;color:var(--blue)}.pcard .pth{width:56px;height:56px;aspect-ratio:1}
 .prows li:last-child{border:0}.prows b{white-space:nowrap;color:var(--blue)}.prows b.long{white-space:normal;text-align:left;max-width:55%}
 .pnote{color:var(--muted);font-size:14px;margin-top:8px}.pnotes{color:var(--muted);font-size:15px;margin:20px 0 0;padding-inline-start:20px}
 /* articles */
@@ -389,36 +390,43 @@ def guides_sec():
 NIGHT_SURCHARGE = 100   # ₪, tout jour de la semaine
 PRICES = [
 ("fp", "פריצת דלתות", "door-opening", "",
- [("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None),
-  ("פריצת צילינדר בפלדלת נעולה", 300, None),
-  ("פריצה + החלפת צילינדר", None, "300 ₪ + מחיר הצילינדר (לדוגמה 620–690 ₪)")], ["door-opening"]),
+ [("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
+  ("פריצת צילינדר בפלדלת נעולה", 300, None, "t-steelcyl"),
+  ("פריצה + החלפת צילינדר", None, "300 ₪ + מחיר הצילינדר (לדוגמה 620–690 ₪)", "t-rav-dyn")], ["door-opening"]),
 ("cyl", "החלפת צילינדר", "p-cyl", "המחיר כולל את הצילינדר וההתקנה. אפשר עם כפתור קבוע מבפנים במקום מפתח – באותו מחיר.",
- [("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None),
-  ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None),
-  ("מגנום · 5 מפתחות", 320, None)], ["cylinder", "security"]),
+ [("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None, "t-rav-dyn"),
+  ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None, "t-magnum"),
+  ("מגנום · 5 מפתחות", 320, None, "t-magnum")], ["cylinder", "security"]),
 ("high", "צילינדרים ברמת אבטחה גבוהה", "p-mtl", "המחיר כולל את הצילינדר וההתקנה.",
- [("מולטילוק MTL800", 770, None), ("מולטילוק MTL600", 600, None), ("לוקסיס של רב-בריח", 600, None), ("Keyloks", 500, None)], ["cylinder", "security"]),
-("mech", "פלדלת – מנגנונים ופרזול", "p-mech", "",
- [("החלפת מנגנון רב-בריח", 700, None), ("החלפת מנגנון שריונית חוסם", 800, None),
-  ("סט ידיות קומפלט לפלדלת", 330, None), ("מחזיר דלת", 450, None)], ["lock-repair", "security"]),
-("int", "דלתות פנים וכניסות נוספות", "p-interior", "",
- [("החלפת צילינדר פשוט", 200, None), ("החלפת מנגנון", 250, None), ("פריצה + החלפת מנגנון", 400, None),
-  ("פריצה + החלפת מנגנון + צילינדר", 450, None), ("סט ידיות לדלת פנים", 150, None)], ["lock-repair", "door-opening"]),
+ [("מולטילוק MTL800", 770, None, "t-mtl800"), ("מולטילוק MTL600", 600, None, "t-mtl600"),
+  ("לוקסיס של רב-בריח", 600, None, "t-loksis"), ("Keyloks", 500, None, None)], ["cylinder", "security"]),
+("mech", "פלדלת – מנגנונים ופרזול", "p-steel", "",
+ [("החלפת מנגנון רב-בריח", 700, None, "t-ravmech"), ("החלפת מנגנון שריונית חוסם", 800, None, "t-shiryonit"),
+  ("סט ידיות קומפלט לפלדלת", 330, None, "t-steelhandles"), ("מחזיר דלת", 450, None, None)], ["lock-repair", "security"]),
+("int", "דלתות פנים וכניסות נוספות", "p-entrance", "",
+ [("החלפת צילינדר פשוט", 200, None, "t-metalok"), ("החלפת מנגנון", 250, None, "t-mortise"),
+  ("פריצה + החלפת מנגנון", 400, None, "t-intmech"), ("פריצה + החלפת מנגנון + צילינדר", 450, None, "t-intdoor"),
+  ("סט ידיות לדלת פנים", 150, None, "t-inthandles")], ["lock-repair", "door-opening"]),
 ("mail", "תיבות דואר", None, "",
- [("פריצה והחלפת מנעול לתיבת דואר", 200, None), ("מנעול זיז ישן בתיבות דואר מרוכזות", 300, None)], ["lock-repair"]),
+ [("פריצה והחלפת מנעול לתיבת דואר", 200, None, None), ("מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, None)], ["lock-repair"]),
 ("safe", "כספות", "safe", "בכספות גדולות ומיוחדות מתווספים 100 ₪ לכל שכבת פלדה – זה נקבע רק במקום, בזמן הפריצה.",
- [("התקנת כספת סטנדרטית", 350, None), ("פריצת כספת סטנדרטית", 300, None)], ["safe"]),
-("rep", "תיקונים", "p-handles", "",
- [("תיקון מנעולים ודלתות", None, "החל מ-200 ₪, לפי העבודה")], ["lock-repair"]),
+ [("התקנת כספת סטנדרטית", 350, None, None), ("פריצת כספת סטנדרטית", 300, None, None)], ["safe"]),
+("rep", "תיקונים", "p-repair", "",
+ [("תיקון מנעולים ודלתות", None, "החל מ-200 ₪, לפי העבודה", None)], ["lock-repair"]),
 ]
 PRICE_NOTES = [f"תוספת עבודת לילה: {NIGHT_SURCHARGE} ₪, בכל יום בשבוע.", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
 
 def price_txt(p, t): return t if t else f"{p} ₪"
 
+def thumb(key, alt):
+    if key:
+        return f'<img class="pth" src="img/{key}.webp" alt="{alt}" width="240" height="240" loading="lazy" decoding="async">'
+    return f'<i class="pth ph">{ic("key")}</i>'
+
 def price_block(g, h="h3"):
     gid, title, im, note, rows, _ = g
-    li = "".join(f'<li><span>{l}</span><b{' class="long"' if t else ''}>{price_txt(p, t)}</b></li>' for l, p, t in rows)
+    li = "".join(f'<li>{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{price_txt(p, t)}</b></li>' for l, p, t, th in rows)
     n = f'<p class="pnote">{note}</p>' if note else ""
     pic = img(im, title, 800, 600) if im else ""
     return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
@@ -488,7 +496,7 @@ for slug, html in pages:
 
 # Page Mehiron (prix fournis par Raphaël)
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
-          for g in PRICES for l, p, t in g[4] if p]
+          for g in PRICES for l, p, t, th in g[4] if p]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
     + f'<section class="sec"><div class="wrap"><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES) + '</ul></div></section>' + area_sec() + band())

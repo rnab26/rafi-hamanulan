@@ -86,7 +86,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .pcard{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
 .pcard img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--soft)}
 .pcard.solo{max-width:560px}.pbody{padding:18px 20px}.pbody h3,.pbody h2{font-size:19px;margin:0 0 8px}
-.prows{list-style:none;margin:0;padding:0}.prows li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.prows{list-style:none;margin:0;padding:0}.prows li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}.prows li span{flex:1}
+.pth{width:56px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}.pth.ph{display:grid;place-items:center;color:var(--blue)}.pcard .pth{width:56px;height:56px;aspect-ratio:1}
 .prows li:last-child{border:0}.prows b{white-space:nowrap;color:var(--blue)}.prows b.long{white-space:normal;text-align:left;max-width:55%}
 .pnote{color:var(--muted);font-size:14px;margin-top:8px}.pnotes{color:var(--muted);font-size:15px;margin:20px 0 0;padding-inline-start:20px}
 /* articles */
