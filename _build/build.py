@@ -125,9 +125,12 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .eta-badge{position:absolute;bottom:14px;inset-inline-start:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
 .eta-badge .ic{color:var(--blue)}.eta-badge b{display:block;font-size:20px;line-height:1}.eta-badge small{color:var(--muted);font-size:13px}
 @media(min-width:880px){.hero{padding:56px 0 24px}.hero .wrap{grid-template-columns:1fr 1fr;align-items:center;gap:56px}.hero-img{aspect-ratio:4/5;grid-column:2;grid-row:1/3;max-height:560px}.hero-txt{grid-column:1;grid-row:1}.trust{grid-column:1;grid-row:2;align-self:start}}
-.status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
-.status.on{color:var(--green)}.status.on .dot{background:var(--green);box-shadow:0 0 0 4px rgba(22,163,74,.16)}
+.status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
+.dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
+.status.on{color:#11803A;background:#E7F6EC}.status.on .dot{background:var(--green)}
+.status.on .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green);animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.75}80%,100%{transform:scale(2.6);opacity:0}}
+.status.off{color:#9A5B00;background:#FFF4E0}.status.off .dot{background:var(--amber)}
 .hero h1{font-size:clamp(34px,7vw,56px);letter-spacing:-.015em;margin:10px 0 12px}
 .hero .sub{color:var(--muted);font-size:19px;margin:0 0 28px}
 .cta{display:grid;gap:10px;max-width:440px;grid-template-columns:1fr 1fr}
@@ -186,7 +189,21 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .pcard{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
 .pcard img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--soft)}
 .pcard.solo{max-width:560px}.pbody{padding:18px 20px}.pbody h3,.pbody h2{font-size:19px;margin:0 0 8px}
-.prows{list-style:none;margin:0;padding:0}.prows li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}.prows li span{flex:1}
+.prows{list-style:none;margin:0;padding:0}.prows li{border-bottom:1px dashed var(--line)}.prows label{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.prows li span{flex:1}
+.pick{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:2px solid #B8C4D4;border-radius:7px;flex:none;display:grid;place-items:center;margin:0;background:#fff}
+.pick:checked{background:var(--wa);border-color:var(--wa)}.pick:checked::after{content:"✓";color:#fff;font-weight:700;font-size:15px}
+.prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
+.pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
+/* panier WhatsApp */
+.selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}
+.selbar.show{display:flex}.selbar .si{flex:1;font-size:14px;line-height:1.3}.selbar .si b{font-size:16px;display:block}
+.selbar .btn{min-height:46px;padding:0 14px;font-size:15px;white-space:nowrap}.selbar .x{background:none;border:0;color:#9FB0C6;font-size:22px;padding:4px 6px;cursor:pointer}
+@media(min-width:880px){.selbar{left:auto;right:24px;bottom:24px;max-width:460px}}
+/* aperçu photos */
+main img{cursor:zoom-in}.lb{position:fixed;inset:0;z-index:50;background:rgba(8,14,24,.9);display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:12px}
+.lb.show{display:flex}.lb img{max-width:min(92vw,900px);max-height:78vh;min-width:min(80vw,420px);object-fit:contain;border-radius:14px;background:#fff}
+.lb p{color:#fff;margin:0;text-align:center;font-weight:500}.lb button{position:absolute;top:14px;left:14px;background:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer}
 .pth{width:56px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}.pth.ph{display:grid;place-items:center;color:var(--blue)}.pcard .pth{width:56px;height:56px;aspect-ratio:1}
 .prows li:last-child{border:0}.prows b{white-space:nowrap;color:var(--blue)}.prows b.long{white-space:normal;text-align:left;max-width:55%}
 .pnote{color:var(--muted);font-size:14px;margin-top:8px}.pnotes{color:var(--muted);font-size:15px;margin:20px 0 0;padding-inline-start:20px}
@@ -216,8 +233,26 @@ JS = ("<script>(function(){try{var H=" + json.dumps({str(k): v for k, v in HOURS
       "var p=f.formatToParts(new Date());var D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];"
       "var d=D.indexOf(p.find(function(x){return x.type==='weekday'}).value),h=+p.find(function(x){return x.type==='hour'}).value%24;"
       "var on=(H[d]||[]).some(function(s){return h>=s[0]&&h<s[1]});"
-      "document.querySelectorAll('.status').forEach(function(el){if(on){el.classList.add('on');el.querySelector('.t').textContent='זמין עכשיו'}"
-      "else{el.querySelector('.t').textContent='מחוץ לשעות – השאירו הודעה בוואטסאפ'}})}catch(e){}})();</script>")
+      "document.querySelectorAll('.status').forEach(function(el){if(on){el.classList.add('on');el.querySelector('.t').textContent='זמין עכשיו – עונה מיד'}"
+      "else{el.classList.add('off');el.querySelector('.t').textContent='מחוץ לשעות – השאירו הודעה בוואטסאפ'}})}catch(e){}})();</script>")
+
+
+UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הבחירה שלי\"><button class=\"x\" id=\"selclr\" aria-label=\"ניקוי\">×</button>"
+  "<div class=\"si\"><b id=\"selc\"></b><span id=\"selt\"></span></div><a class=\"btn btn-wa\" id=\"selgo\" href=\"#\">" + WA_SVG + "שלחו בוואטסאפ</a></div>"
+  "<div class=\"lb\" id=\"lb\" role=\"dialog\" aria-modal=\"true\" aria-label=\"תמונה\"><button id=\"lbx\" aria-label=\"סגירה\">×</button><img id=\"lbi\" alt=\"\"><p id=\"lbp\"></p></div>"
+  "<script>(function(){var W='" + f"https://wa.me/{WA_NUMBER}" + "',bar=document.getElementById('selbar');"
+  "function upd(){var c=[].slice.call(document.querySelectorAll('.pick:checked'));if(!c.length){bar.classList.remove('show');return}"
+  "var sum=0,fix=true,lines=c.map(function(x){var p=+x.dataset.p;if(p)sum+=p;else fix=false;return '• '+x.dataset.l+' ('+x.dataset.t+')'});"
+  "document.getElementById('selc').textContent=c.length+(c.length>1?' שירותים נבחרו':' שירות נבחר');"
+  "document.getElementById('selt').textContent=sum?('לפי המחירון: '+(fix?'':'החל מ-')+sum+' ₪'):'';"
+  "var msg='שלום רפי, אני צריך:\\n'+lines.join('\\n')+'\\n\\nהכתובת שלי: ';"
+  "document.getElementById('selgo').href=W+'?text='+encodeURIComponent(msg);bar.classList.add('show')}"
+  "document.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('pick'))upd()});"
+  "document.getElementById('selclr').onclick=function(){document.querySelectorAll('.pick:checked').forEach(function(x){x.checked=false});upd()};"
+  "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
+  "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
+  "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
+  "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd()})();</script>")
 
 def img(name, alt, w, h, eager=False):
     attrs = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
@@ -275,7 +310,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <main>{body}</main>
 <footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="prices.html">מחירון</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
-{JS}{gads_js()}</body></html>'''
+{JS}{UI_JS}{gads_js()}</body></html>'''
 
 def cta():
     return f'<div class="cta"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></div>'
@@ -441,7 +476,8 @@ def thumb(key, alt):
 
 def price_block(g, h="h3"):
     gid, title, im, note, rows, _ = g
-    li = "".join(f'<li>{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{price_txt(p, t)}</b></li>' for l, p, t, th in rows)
+    li = "".join(f'<li><label><input type="checkbox" class="pick" data-l="{title} – {l}" data-p="{p or ''}" data-t="{price_txt(p, t)}">'
+                 f'{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{price_txt(p, t)}</b></label></li>' for l, p, t, th in rows)
     n = f'<p class="pnote">{note}</p>' if note else ""
     pic = img(im, title, 800, 600) if im else ""
     return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
@@ -451,7 +487,7 @@ def prices_for_service(slug):
     if not gs: return ""
     notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES)
     return (f'<section class="sec alt"><div class="wrap"><h2>מחירים<small><a href="prices.html">למחירון המלא</a></small></h2>'
-            f'<div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
+            f'<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def prices_teaser():
     keys = [("פתיחת דלת טרוקה", 200), ("פריצת צילינדר בפלדלת", 300), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
@@ -513,7 +549,7 @@ for slug, html in pages:
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
           for g in PRICES for l, p, t, th in g[4] if p]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
-    + f'<section class="sec"><div class="wrap"><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
+    + f'<section class="sec"><div class="wrap"><p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES) + '</ul></div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
     "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצת צילינדר בפלדלת 300 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
