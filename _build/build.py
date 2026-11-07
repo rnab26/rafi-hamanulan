@@ -240,7 +240,7 @@ def business(area_names):
             "address":{"@type":"PostalAddress","addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
-            "priceRange":"₪150–₪800","contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
+            "priceRange":"₪150–₪1070","contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
 
 def ld(objs):
     return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@graph":objs}, ensure_ascii=False) + '</script>'
@@ -392,7 +392,15 @@ PRICES = [
 ("fp", "פריצת דלתות", "door-opening", "",
  [("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
   ("פריצת צילינדר בפלדלת נעולה", 300, None, "t-steelcyl"),
-  ("פריצה + החלפת צילינדר", None, "300 ₪ + מחיר הצילינדר (לדוגמה 620–690 ₪)", "t-rav-dyn")], ["door-opening"]),
+  ("פריצה + החלפת צילינדר בפלדלת", None, "החל מ-620 ₪", "t-rav-dyn")], ["door-opening"]),
+("fpc", "פריצה + החלפת צילינדר בפלדלת", "p-steel", "פריצה (300 ₪) + צילינדר חדש לבחירתכם, כולל התקנה. המחיר לפי הצילינדר:",
+ [("מגנום · 5 מפתחות", 620, None, "t-magnum"),
+  ("מגנום · 5 מפתחות + כרטיס שכפול", 660, None, "t-magnum"),
+  ("רב-בריח · 5 מפתחות + כרטיס שכפול", 690, None, "t-rav-dyn"),
+  ("Keyloks", 800, None, None),
+  ("לוקסיס של רב-בריח", 900, None, "t-loksis"),
+  ("מולטילוק MTL600", 900, None, "t-mtl600"),
+  ("מולטילוק MTL800", 1070, None, "t-mtl800")], ["door-opening", "cylinder"]),
 ("cyl", "החלפת צילינדר", "p-cyl", "המחיר כולל את הצילינדר וההתקנה. אפשר עם כפתור קבוע מבפנים במקום מפתח – באותו מחיר.",
  [("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None, "t-rav-dyn"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None, "t-magnum"),
@@ -410,10 +418,17 @@ PRICES = [
 ("mail", "תיבות דואר", None, "",
  [("פריצה והחלפת מנעול לתיבת דואר", 200, None, None), ("מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, None)], ["lock-repair"]),
 ("safe", "כספות", "safe", "בכספות גדולות ומיוחדות מתווספים 100 ₪ לכל שכבת פלדה – זה נקבע רק במקום, בזמן הפריצה.",
- [("התקנת כספת סטנדרטית", 350, None, None), ("פריצת כספת סטנדרטית", 300, None, None)], ["safe"]),
+ [("התקנת כספת סטנדרטית", 350, None, "t-safe"), ("פריצת כספת סטנדרטית", 300, None, "t-safe")], ["safe"]),
 ("rep", "תיקונים", "p-repair", "",
  [("תיקון מנעולים ודלתות", None, "החל מ-200 ₪, לפי העבודה", None)], ["lock-repair"]),
 ]
+import re as _re
+def _pkey(r):
+    l, p, t, th = r
+    if p: return p
+    m = _re.search(r"(\d+)", t or ""); return int(m.group(1)) if m else 0
+PRICES = [(g[0], g[1], g[2], g[3], sorted(g[4], key=_pkey), g[5]) for g in PRICES]   # prix toujours en ordre croissant
+
 PRICE_NOTES = [f"תוספת עבודת לילה: {NIGHT_SURCHARGE} ₪, בכל יום בשבוע.", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
 
@@ -439,8 +454,8 @@ def prices_for_service(slug):
             f'<div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def prices_teaser():
-    keys = [("פתיחת דלת טרוקה", 200), ("פריצת צילינדר בפלדלת", 300), ("החלפת צילינדר", 320)]
-    li = "".join(f'<li><span>{l}</span><b>{"החל מ-" if i == 2 else ""}{p} ₪</b></li>' for i, (l, p) in enumerate(keys))
+    keys = [("פתיחת דלת טרוקה", 200), ("פריצת צילינדר בפלדלת", 300), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
+    li = "".join(f'<li><span>{l}</span><b>{"החל מ-" if i >= 2 else ""}{p} ₪</b></li>' for i, (l, p) in enumerate(keys))
     return (f'<section class="sec"><div class="wrap"><h2>מחירים שקופים<small>בלי הפתעות – המחיר נאמר לפני העבודה.</small></h2>'
             f'<div class="pcard solo"><div class="pbody"><ul class="prows">{li}</ul><a class="btn btn-call" href="prices.html" style="margin-top:16px">למחירון המלא</a></div></div></div></section>')
 
@@ -501,7 +516,7 @@ PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כ�
     + f'<section class="sec"><div class="wrap"><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES) + '</ul></div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
-    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצת צילינדר בפלדלת 300 ₪, החלפת צילינדר מ-320 ₪, כספות, מנגנונים ותיבות דואר. כולל חלקים והתקנה.",
+    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצת צילינדר בפלדלת 300 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
                   crumbs_ld([("ראשי", SITE_URL+"/"), ("מחירון", url_of("prices"))])])))
 with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
