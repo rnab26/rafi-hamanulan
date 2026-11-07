@@ -44,7 +44,7 @@
 - Garder les infos (nom, téléphone, horaires, zone) identiques à la fiche Google Business.
 
 ## À faire plus tard
-- [x] Photos réelles (1er nov. 2026). Coffre-fort réel fourni le 7 nov. (img/safe.webp, t-safe). Boîte aux lettres (étiquette de nom recadrée hors champ), plaques ניקל/שחור/מעוגל et portail fournis le 7 nov. Manquent encore : Rafi lui-même, le scooter, Keyloks, ferme-porte.
+- [x] Photos réelles (1er nov. 2026). Coffre-fort réel fourni le 7 nov. (img/safe.webp, t-safe). Boîte aux lettres (étiquette de nom recadrée hors champ), plaques ניקל/שחור/מעוגל et portail fournis le 7 nov. Porte blindée (p-steel) fournie le 7 nov. ; photo du verrou additionnel (t-extralock) = image type catalogue fabricant envoyée par Rafi. Manquent encore : Rafi lui-même, le scooter, Keyloks, ferme-porte.
 - Ajouter un badge « agréé » si un certificat est confirmé.
 - [x] Domaine relié et SITE_URL basculé (1er nov. 2026).
 - [x] Fiche Google Business VÉRIFIÉE (5 nov. 2026). Lien d'avis `REVIEW_URL` = https://g.page/r/CavM3AVwHYkIEBM/review (sur le site + QR `marketing/qr-avis-google.png`). Ne jamais cliquer « Finish ad set-up » sur la fiche (crée une campagne Smart).
