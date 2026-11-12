@@ -35,7 +35,7 @@
 - Ces secrets valent pour l'environnement « Full access » : utilisables sur tout autre projet de Raphaël lancé dans cet environnement.
 
 ## Routines actives
-- `trig_019PUnWAXoMwXvsMBGrF4maU` : chaque jour (dim–ven 09:13 Jérusalem), cherche dans Gmail r.nabet26@gmail.com les e-mails Google Ads (vérification annonceur) + check.py --live. À SUPPRIMER quand la vérification annonceur est terminée. Les e-mails Ads arrivent sur refamanoulan@gmail.com : il faut un transfert vers r.nabet26 pour que la routine les voie.
+- Aucune routine active. `trig_019PUnWAXoMwXvsMBGrF4maU` (vérif quotidienne Google Ads) supprimée le 12 nov. 2026 : les 4 étapes de vérification annonceur sont validées (captures du 11 nov.) et la routine ne voyait pas les e-mails Ads (arrivent sur refamanoulan@gmail.com, pas transférés). Pour suivre la « nouvelle tâche » d'identité annoncée par Google : ads.google.com → Admin → Règlement → Compte.
 - Stickers scooter : posés sur le top case par Rafi (7 nov.).
 
 ## Règles de contenu
