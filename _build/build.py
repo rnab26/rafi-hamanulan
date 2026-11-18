@@ -379,7 +379,12 @@ def url_of(slug):
 
 # ------------------------------------------------------------------ données structurées
 BIZ_ID = SITE_URL + "/#business"
+def _price_range():   # calculée depuis PRICES (une seule source de vérité)
+    ps = [r[1] for g in PRICES for r in g[4] if r[0] != "#" and r[1]]
+    return f"₪{min(ps)}–₪{max(ps)}"
+
 def business(area_names):
+    PRICE_RANGE = _price_range()
     days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
     spec = []
     for d, slots in HOURS.items():
@@ -391,7 +396,7 @@ def business(area_names):
             "address":{"@type":"PostalAddress","addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
-            "priceRange":"₪150–₪1070","contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
+            "priceRange":PRICE_RANGE,"sameAs":([REVIEW_URL.rsplit("/review",1)[0]] if REVIEW_URL else []),"contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
 
 def ld(objs):
     return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@graph":objs}, ensure_ascii=False) + '</script>'
@@ -716,7 +721,7 @@ with open(f"{OUT}/privacy.html", "w") as f: f.write(pages[-1][1])
 # 404
 with open(f"{OUT}/404.html", "w") as f:
     f.write(page("404", f"הדף לא נמצא | {NAME}", "הדף לא נמצא.",
-                 f'<section class="band"><div class="wrap"><h2>הדף לא נמצא</h2><p>אבל אני כן כאן. <a href="index.html">לדף הראשי</a></p>{cta()}</div></section>',
+                 f'<section class="band"><div class="wrap"><h1>הדף לא נמצא</h1><p>אבל אני כן כאן. <a href="index.html">לדף הראשי</a></p>{cta()}</div></section>',
                  [business(ALL)]).replace('<link rel="canonical" href="' + url_of("404") + '">', '<meta name="robots" content="noindex">'))
 
 with open(f"{OUT}/favicon.svg", "w") as f:
@@ -731,6 +736,21 @@ urls = [url_of(s) for s, _ in pages]
 with open(f"{OUT}/sitemap.xml", "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "".join(f"<url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n")
+# llms.txt : fiche en texte simple pour les assistants IA (standard llmstxt.org) — mêmes réglages que le site
+_llms = [f"# {NAME}", "", f"> מנעולן עצמאי בכל אזור {REGION}, מקיסריה ועד רמת השרון. מגיע בקטנוע, בדרך כלל תוך כ-{ETA_MIN} דקות. מחיר ברור לפני העבודה.", "",
+         f"- טלפון: {PHONE} ({PHONE_INTL})", f"- וואטסאפ: {WA}", f"- אתר: {SITE_URL}/",
+         "- שעות: " + "; ".join(f"{d} {h}" for d, h in HOURS_DISPLAY) + ". בשבת סגור.",
+         f"- תוספת לילה: {NIGHT_TXT}. בין 08:00 ל-20:00 בלי תוספת.", "", "## שירותים ומחירים (כולל חלקים והתקנה)"]
+for g in PRICES:
+    _llms.append(f"### {g[1]}")
+    _sub = ""
+    for r in g[4]:
+        if r[0] == "#": _sub = r[1]; continue
+        _llms.append(f"- {(_sub + ' – ') if _sub else ''}{r[0]}: {price_txt(r[1], r[2])}")
+_llms += ["", "## אזורי שירות", ", ".join(c[1] for c in CITIES), "", "## דפים"]
+_llms += [f"- [מחירון]({url_of('prices')})"] + [f"- [{n}]({url_of(sl)})" for sl, n, *_ in SERVICES] + [f"- [{t}]({url_of(sl)})" for sl, t, *_ in GUIDES]
+with open(f"{OUT}/llms.txt", "w", encoding="utf-8") as f: f.write("\n".join(_llms) + "\n")
+
 with open(f"{OUT}/robots.txt", "w") as f:
     f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
 print(f"{len(pages)} pages générées dans {OUT} (SITE_URL={SITE_URL})")
