@@ -59,8 +59,15 @@ I = {  # icônes trait 24x24
 "shield":'<path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
 "chat":'<path d="M4 5h16v11H8l-4 4z"/>',
 "arrow":'<path d="M15 6l-6 6 6 6"/>',
+# icônes Tabler Icons (licence MIT, tabler.io) pour les badges du héros
+"shekel":'<path d="M6 18v-12h4a4 4 0 0 1 4 4v4"/><path d="M18 6v12h-4a4 4 0 0 1-4-4v-4"/>',
+"unlock":'<path d="M3 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2z"/><path d="M9 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0"/><path d="M13 11v-4a4 4 0 1 1 8 0v4"/>',
+"hand":'<path d="M19.5 12.572l-7.5 7.428l-7.5-7.428a5 5 0 1 1 7.5-6.566a5 5 0 1 1 7.5 6.572"/><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1-1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"/><path d="M12.5 15.5l2 2"/><path d="M15 13l2 2"/>',
 }
+# Scooter plein : Material Symbols « moped » (Google, licence Apache 2.0), retourné pour rouler vers la gauche (RTL)
+MOPED_SVG = '<svg class="ic moped" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path transform="matrix(-1 0 0 1 960 0)" d="M274.24-200Q226-200 192-234.5 158-269 158-317h-48q-12.75 0-21.370-8.63Q80-334.25 80-347v-90q0-65 45-110.5T235-593h95q24.75 0 42.380 17.620Q390-557.750 390-533v156h161l147-185v-138h-93q-12.750 0-21.370-8.680-8.630-8.670-8.630-21.500 0-12.820 8.630-21.320 8.620-8.500 21.370-8.500h93q24.750 0 42.380 17.620Q758-724.750 758-700v138q0 11-3.440 20.030-3.440 9.030-9.560 16.970L598-340q-8.070 10.730-20.530 16.870Q565-317 551-317H390q0 48-33.760 82.500-33.770 34.500-82 34.500Zm-.24-60q23 0 39.500-17t16.500-40H218q0 23 16.500 40t39.500 17Zm86-393H230q-12.750 0-21.370-8.680-8.630-8.670-8.630-21.500 0-12.820 8.630-21.320 8.620-8.500 21.370-8.500h130q12.750 0 21.380 8.680 8.620 8.670 8.620 21.500 0 12.820-8.620 21.320-8.630 8.500-21.380 8.500Zm404.240 453Q716-200 682-233.760q-34-33.770-34-82Q648-364 681.760-398q33.770-34 82-34Q812-432 846-398.240q34 33.770 34 82Q880-268 846.240-234q-33.770 34-82 34Zm-.24-60q23 0 39.500-16.500T820-316q0-23-16.500-39.500T764-372q-23 0-39.500 16.500T708-316q0 23 16.500 39.500T764-260Z"/></svg>'
 def ic(n, cls="ic"):
+    if n == "moped": return MOPED_SVG
     return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
 WA_SVG = '<svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>'
 
@@ -129,30 +136,38 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .hero .wrap{display:grid;gap:24px}
 .hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3;background:var(--soft)}
 .hero-img>img,.hero-img>svg{width:100%;height:100%;object-fit:cover;display:block}
-.eta-badge{position:absolute;bottom:14px;inset-inline-end:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
-.eta-badge .ic{color:var(--blue)}.eta-badge b{display:block;font-size:20px;line-height:1}.eta-badge small{color:var(--muted);font-size:13px}
-.pro{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 12px;box-shadow:0 6px 20px rgba(14,26,43,.08);max-width:440px}
-.pro>img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none;border:3px solid var(--blue-soft)}
-.pro>div:nth-child(2){flex:1}.pro b{display:block;font-size:17px}.pro small{color:var(--muted);font-size:13px}
-.pro .eta-badge{position:static;box-shadow:none;background:var(--blue-soft);padding:8px 12px}
-@media(min-width:880px){.hero{padding:48px 0 16px}.hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center;gap:20px 56px}.hero-txt{grid-column:1;grid-row:1/3}.pro{grid-column:2;grid-row:1;flex-direction:column;text-align:center;padding:24px;max-width:none}.pro>img{width:150px;height:150px}.trust{grid-column:2;grid-row:2;align-self:start}}
-.status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
+.pro{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px 16px;background:linear-gradient(160deg,#fff 40%,#EEF3FF);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 10px 30px rgba(14,26,43,.10)}
+.pro>img{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 3px var(--blue),0 8px 20px rgba(26,86,219,.25)}
+.who b{display:block;font-size:23px}.who small{display:block;color:var(--muted);font-size:15px;margin:2px 0 10px}
+.eta-badge{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,#0E1A2B,#1A56DB);color:#fff;border-radius:18px;padding:12px 16px}
+.eta-badge .ic{width:50px;height:50px;padding:8px;border-radius:14px;background:rgba(255,255,255,.16);color:#fff;flex:none;stroke-width:1.7}
+.eta-badge b{display:block;font-size:24px;line-height:1.1}.eta-badge small{color:rgba(255,255,255,.85);font-size:14px}
+@media(min-width:880px){.hero{padding:44px 0 16px}.hero .wrap{grid-template-columns:1.15fr .85fr;align-items:center;gap:28px 56px}.hero-txt{grid-column:1;grid-row:1}.pro{grid-column:2;grid-row:1;grid-template-columns:1fr;justify-items:center;text-align:center;padding:28px}.pro>img{width:180px;height:180px}.trust{grid-column:1/-1;grid-row:2}}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:6px 14px 6px 12px}
 .dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
 .status.on{color:#11803A;background:#E7F6EC}.status.on .dot{background:var(--green)}
 .status.on .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green);animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite}
 @keyframes ping{0%{transform:scale(1);opacity:.75}80%,100%{transform:scale(2.6);opacity:0}}
 .status.off{color:#9A5B00;background:#FFF4E0}.status.off .dot{background:var(--amber)}
-.hero h1{font-size:clamp(34px,7vw,56px);letter-spacing:-.015em;margin:10px 0 12px}
-.hero .sub{color:var(--muted);font-size:19px;margin:0 0 28px}
+.hero h1{font-size:clamp(30px,6.4vw,54px);letter-spacing:-.015em;margin:4px 0 10px}
+.hero .sub{color:var(--muted);font-size:18px;margin:0 0 20px}
 .cta{display:grid;gap:10px;max-width:440px;grid-template-columns:1fr 1fr}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:14px;font-weight:700;font-size:17px;text-decoration:none;padding:0 16px}
 .btn-call{background:var(--blue);color:#fff}.btn-call:hover{background:var(--blue-d)}
 .btn-wa{background:var(--wa);color:#fff}
 .crumb{font-size:14px;color:var(--muted);margin-bottom:14px}.crumb a{color:var(--muted);text-decoration:none}
 /* trust */
-.trust{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);list-style:none;margin:0;padding:28px 0 0}
-.trust li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;font-size:14px;color:var(--muted);line-height:1.35}
-.trust .ic{width:44px;height:44px;padding:11px;border-radius:14px;background:var(--blue-soft);color:var(--blue)}
+.trust{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);list-style:none;margin:0;padding:0}
+.trust li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 6px 14px;box-shadow:0 6px 18px rgba(14,26,43,.07);line-height:1.25}
+.trust .ic{width:56px;height:56px;padding:13px;border-radius:18px;color:#fff;margin-bottom:6px;stroke-width:2;background:linear-gradient(135deg,#4F8BFF,#1A56DB);box-shadow:0 8px 16px rgba(26,86,219,.30)}
+.trust li:nth-child(1) .ic{background:linear-gradient(135deg,#34D399,#15803D);box-shadow:0 8px 16px rgba(21,128,61,.30)}
+.trust li:nth-child(3) .ic{background:linear-gradient(135deg,#475569,#0E1A2B);box-shadow:0 8px 16px rgba(14,26,43,.30)}
+.trust b{font-size:15px;color:var(--ink)}.trust small{font-size:13px;color:var(--muted)}
+.cats{display:flex;gap:12px;overflow-x:auto;list-style:none;margin:0 -20px 20px;padding:4px 20px 8px;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
+.cats a{flex:none;width:86px;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:600;text-align:center;line-height:1.2}
+.cats img{width:70px;height:70px;border-radius:20px;object-fit:cover;box-shadow:0 4px 12px rgba(14,26,43,.12);border:2px solid #fff}
+.pcard{scroll-margin-top:76px}#prix{padding-top:40px}
+
 
 /* sections */
 .sec{padding:64px 0}.sec.alt{background:var(--soft)}
@@ -219,7 +234,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .selbar .btn{min-height:46px;padding:0 14px;font-size:15px;white-space:nowrap}.selbar .x{background:none;border:0;color:#9FB0C6;font-size:22px;padding:4px 6px;cursor:pointer}
 @media(min-width:880px){.selbar{left:auto;right:24px;bottom:24px;max-width:460px}}
 /* aperçu photos */
-main img{cursor:zoom-in}.lb{position:fixed;inset:0;z-index:50;background:rgba(8,14,24,.9);display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:12px}
+main img{cursor:zoom-in}main a img{cursor:pointer}.lb{position:fixed;inset:0;z-index:50;background:rgba(8,14,24,.9);display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:12px}
 .lb.show{display:flex}.lb img{max-width:min(92vw,900px);max-height:78vh;min-width:min(80vw,420px);object-fit:contain;border-radius:14px;background:#fff}
 .lb p{color:#fff;margin:0;text-align:center;font-weight:500}.lb button{position:absolute;top:14px;left:14px;background:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer}
 .pth{width:56px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}.pth.ph{display:grid;place-items:center;color:var(--blue)}.pcard .pth{width:56px;height:56px;aspect-ratio:1}
@@ -271,7 +286,7 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "document.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('pick'))upd()});"
   "document.getElementById('selclr').onclick=function(){document.querySelectorAll('.pick:checked').forEach(function(x){x.checked=false});upd()};"
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
-  "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
+  "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
   "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
   "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
@@ -340,9 +355,9 @@ def cta():
 
 def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול רב-בריח", crumb=""):
     return f'''<section class="hero"><div class="wrap">
-<div class="hero-txt">{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span><h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
-<div class="pro"><img src="img/rafi.webp" alt="רפי – המנעולן" width="480" height="480" fetchpriority="high"><div><b>רפי</b><small>מגיע אליכם בעצמו</small></div><div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
-<ul class="trust"><li>{ic("tag")}מחיר ברור לפני העבודה</li><li>{ic("door")}פתיחה בלי נזק, ברוב המקרים</li><li>{ic("user")}ישירות מול רפי, בלי מוקד</li></ul>
+<div class="pro"><img src="img/rafi.webp" alt="רפי – המנעולן" width="480" height="480" fetchpriority="high"><div class="who"><b>רפי המנעולן</b><small>מגיע אליכם בעצמו</small><span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span></div><div class="eta-badge">{ic("moped")}<div><b>~{ETA_MIN} דק׳</b><small>מגיע בקטנוע, גם בפקקים</small></div></div></div>
+<div class="hero-txt">{crumb}<h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
+<ul class="trust"><li>{ic("shekel")}<b>מחיר ברור</b><small>לפני העבודה</small></li><li>{ic("unlock")}<b>פתיחה בלי נזק</b><small>ברוב המקרים</small></li><li>{ic("hand")}<b>ישירות מול רפי</b><small>בלי מוקד</small></li></ul>
 </div></section>'''
 
 def services_sec(title="שירותים", sub="", exclude=None):
@@ -360,7 +375,7 @@ def gallery_sec():
 
 STEPS = f'''<section class="sec alt"><div class="wrap"><h2>איך זה עובד</h2><ol class="steps">
 <li>{ic("chat")}<div><h3>מתקשרים או שולחים וואטסאפ</h3><p>אני עונה בעצמי.</p></div></li>
-<li>{ic("scooter")}<div><h3>מגיע תוך כ-{ETA_MIN} דקות</h3><p>בקטנוע, גם בפקקים.</p></div></li>
+<li>{ic("moped")}<div><h3>מגיע תוך כ-{ETA_MIN} דקות</h3><p>בקטנוע, גם בפקקים.</p></div></li>
 <li>{ic("check")}<div><h3>קודם מחיר, אחר כך עבודה</h3><p>מתחילים רק אחרי שאישרתם.</p></div></li></ol></div></section>'''
 
 def area_sec(title="אזורי שירות", current=None):
@@ -438,10 +453,6 @@ def guide_body(slug, title, im, desc, sections):
             f'<div class="cta-box"><b>צריכים מנעולן עכשיו?</b>{cta()}</div>'
             f'<h2>מדריכים נוספים</h2><ul class="links">{others}</ul></div></article>' + area_sec() + band())
 
-def guides_sec():
-    li = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES)
-    return f'<section class="sec"><div class="wrap"><h2>מדריכים קצרים</h2><ul class="links">{li}</ul></div></section>'
-
 
 # ------------------------------------------------------------------ MÉTHODE DE PRIX (fournie par Raphaël le 7 nov. 2026)
 # (id, titre, image, note, [(libellé, prix ₪ ou None, texte du prix)], pages de service où afficher le bloc)
@@ -464,8 +475,8 @@ PRICES = [
   ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None, "t-magnum360"),
   ("מגנום · 5 מפתחות", 320, None, "t-magnum320"),
   ("#", "צילינדרים ברמת אבטחה גבוהה"),
-  ("מולטילוק MTL800", 770, None, "t-mtl800"), ("מולטילוק MTL600", 600, None, "t-mtl600"),
-  ("לוקסיס של רב-בריח", 600, None, "t-loksis"), ("KEYLOCX של רב-בריח", 500, None, "t-keylocx")], ["cylinder", "security"]),
+  ("KEYLOCX של רב-בריח", 500, None, "t-keylocx"), ("לוקסיס של רב-בריח", 600, None, "t-loksis"),
+  ("מולטילוק MTL600", 600, None, "t-mtl600"), ("מולטילוק MTL800", 770, None, "t-mtl800")], ["cylinder", "security"]),
 ("mech", "פלדלת – מנגנונים ופרזול", "p-steel", "",
  [("החלפת מנגנון רב-בריח", 700, None, "t-ravmech"), ("החלפת מנגנון שריונית חוסם", 800, None, "t-shiryonit"),
   ("סט פלטות קומפלט לפלדלת – ניקל, שחור או מעוגל", 330, None, "t-plates"), ("מחזיר דלת", 450, None, None), ("התקנת מנעול כספת / מנעול נוסף לפלדלת", 550, None, "t-extralock")], ["lock-repair", "security"]),
@@ -522,7 +533,7 @@ def price_block(g, h="h3"):
     li = "".join(row(r) for r in rows)
     n = f'<p class="pnote">{note}</p>' if note else ""
     pic = img(im, title, 800, 600) if im else ""
-    return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
+    return f'<div class="pcard" id="p-{gid}">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
 
 NIGHT_BANNER = ('<div class="nightb"><div class="nt">🌙 <b>תוספת לפי שעת הקריאה</b></div><div class="nrow">'
     + '<span>08:00–20:00<b>בלי תוספת</b></span>'
@@ -536,11 +547,19 @@ def prices_for_service(slug):
     return (f'<section class="sec alt"><div class="wrap"><h2>מחירים<small><a href="prices.html">למחירון המלא</a></small></h2>'
             f'{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
-def prices_teaser():
-    keys = [("פתיחת דלת טרוקה", 200), ("החלפת צילינדר", 320), ("פריצה + החלפת צילינדר בפלדלת", 620)]
-    li = "".join(f'<li><span>{l}</span><b>{"החל מ-" if i >= 2 else ""}{p} ₪</b></li>' for i, (l, p) in enumerate(keys))
-    return (f'<section class="sec"><div class="wrap"><h2>מחירים שקופים<small>בלי הפתעות – המחיר נאמר לפני העבודה.</small></h2>'
-            f'<div class="pcard solo"><div class="pbody"><ul class="prows">{li}</ul><a class="btn btn-call" href="prices.html" style="margin-top:16px">למחירון המלא</a></div></div></div></section>')
+def cats_nav():   # raccourcis vers chaque catégorie de prix (même page)
+    return '<ul class="cats">' + "".join(f'<li><a href="#p-{g[0]}"><img src="img/{g[2]}.webp" alt="" width="70" height="70" loading="lazy" decoding="async">{g[1]}</a></li>' for g in PRICES) + '</ul>'
+
+def prices_all(h="h3", title="", small=""):
+    t = f'<h2>{title}<small>{small}</small></h2>' if title else ""
+    notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:])
+    return (f'<section class="sec" id="prix"><div class="wrap">{t}{cats_nav()}{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p>'
+            f'<div class="pgrid">{"".join(price_block(g, h) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
+
+def more_sec():   # liens internes (SEO) vers les pages de service et les guides, en version compacte
+    sv = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n, *_ in SERVICES)
+    gd = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES)
+    return f'<section class="sec"><div class="wrap"><h2>עוד מידע</h2><ul class="chips">{sv}</ul><ul class="links" style="margin-top:20px">{gd}</ul></div></section>'
 
 # ------------------------------------------------------------------ génération
 ALL = [n for _, n, _, _ in CITIES]
@@ -549,7 +568,7 @@ pages = []  # (slug, html)
 # Accueil
 home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
 body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
-        + services_sec() + prices_teaser() + STEPS + gallery_sec() + area_sec() + faq_sec(home_faq) + guides_sec() + band())
+        + prices_all("h2", "השירותים והמחירים", "לוחצים על קטגוריה, מסמנים ושולחים לי בוואטסאפ.") + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
 pages.append(("index", page("index",
     f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
     f"מנעולן בכל אזור {REGION}, מקיסריה ועד הוד השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
@@ -600,8 +619,7 @@ NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
           for g in PRICES for r in g[4] if r[0] != "#" and r[1] for l, p in [r[:2]]]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
-    + f'<section class="sec"><div class="wrap">{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
-    + NIGHT_CARD + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:]) + '</ul></div></section>' + area_sec() + band())
+    + prices_all("h2") + f'<section class="sec" style="padding-top:0"><div class="wrap">{NIGHT_CARD}</div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
     "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
