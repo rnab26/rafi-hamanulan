@@ -51,7 +51,16 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .cats{display:flex;gap:12px;overflow-x:auto;list-style:none;margin:0 -20px 20px;padding:4px 20px 8px;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
 .cats a{flex:none;width:86px;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:600;text-align:center;line-height:1.2}
 .cats img{width:70px;height:70px;border-radius:20px;object-fit:cover;box-shadow:0 4px 12px rgba(14,26,43,.12);border:2px solid #fff}
-.pcard{scroll-margin-top:76px}#prix{padding-top:40px}
+#prix{padding-top:36px}.sec h2.sh,.sec h1.sh{font-size:clamp(26px,4.6vw,36px);letter-spacing:-.01em;margin-bottom:18px}.sec h1.sh small{display:block;font-size:17px;font-weight:400;color:var(--muted);margin-top:8px}
+.accs{display:grid;gap:10px}
+.acc{background:#fff;border:1px solid var(--line);border-radius:18px;scroll-margin-top:76px;box-shadow:0 2px 10px rgba(14,26,43,.04)}
+.acc summary{list-style:none;display:flex;align-items:center;gap:14px;padding:10px 12px;cursor:pointer}.acc summary::-webkit-details-marker{display:none}
+.acc summary img{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none;cursor:pointer}
+.acc summary span{flex:1}.acc summary b{display:block;font-size:18px}.acc summary small{color:var(--green);font-weight:700;font-size:14px}
+.acc summary i{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);flex:none;position:relative}
+.acc summary i::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-right:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.acc[open] summary i::after{transform:translateY(2px) rotate(-135deg)}
+.acc[open]{border-color:#C9D8F8}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
 
 
 /* sections */
@@ -107,11 +116,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows b s{display:block;color:#DC2626;font-weight:500;font-size:.8em;text-align:center;text-decoration-thickness:2px}.prows b:has(s){text-align:center;color:var(--green)}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}
-.nightb .nt{font-size:18px;margin-bottom:10px}.nightb .nrow{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:760px){.nightb .nrow{grid-template-columns:repeat(4,1fr)}}
-.nightb .nrow span{background:rgba(255,255,255,.08);border-radius:12px;padding:8px 10px;font-size:14px;color:#C9D3E1;direction:ltr;text-align:center}
-.nightb .nrow b{display:block;direction:rtl;color:#fff;font-size:17px;margin-top:2px}.nightb small{display:block;color:#9FB0C6;margin-top:10px;font-size:13px}
+.nightb{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px;white-space:nowrap;background:#0E1A2B;color:#fff;border-radius:14px;padding:7px 8px;margin-bottom:12px;font-size:13px}.nightb::-webkit-scrollbar{display:none}
+.nightb span{background:rgba(255,255,255,.10);border-radius:999px;padding:3px 7px;color:#C9D3E1;font-weight:500;font-size:12px}.nightb span b{color:#fff}@media(max-width:380px){.nightb{font-size:12px;padding:6px}.nightb span{font-size:11px;padding:2px 5px}}.nightb span b{color:#fff}
 .pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
 /* panier WhatsApp */
 .selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}

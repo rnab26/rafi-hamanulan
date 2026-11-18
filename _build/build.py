@@ -165,7 +165,16 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .cats{display:flex;gap:12px;overflow-x:auto;list-style:none;margin:0 -20px 20px;padding:4px 20px 8px;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
 .cats a{flex:none;width:86px;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-size:13px;font-weight:600;text-align:center;line-height:1.2}
 .cats img{width:70px;height:70px;border-radius:20px;object-fit:cover;box-shadow:0 4px 12px rgba(14,26,43,.12);border:2px solid #fff}
-.pcard{scroll-margin-top:76px}#prix{padding-top:40px}
+#prix{padding-top:36px}.sec h2.sh,.sec h1.sh{font-size:clamp(26px,4.6vw,36px);letter-spacing:-.01em;margin-bottom:18px}.sec h1.sh small{display:block;font-size:17px;font-weight:400;color:var(--muted);margin-top:8px}
+.accs{display:grid;gap:10px}
+.acc{background:#fff;border:1px solid var(--line);border-radius:18px;scroll-margin-top:76px;box-shadow:0 2px 10px rgba(14,26,43,.04)}
+.acc summary{list-style:none;display:flex;align-items:center;gap:14px;padding:10px 12px;cursor:pointer}.acc summary::-webkit-details-marker{display:none}
+.acc summary img{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none;cursor:pointer}
+.acc summary span{flex:1}.acc summary b{display:block;font-size:18px}.acc summary small{color:var(--green);font-weight:700;font-size:14px}
+.acc summary i{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);flex:none;position:relative}
+.acc summary i::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-right:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.acc[open] summary i::after{transform:translateY(2px) rotate(-135deg)}
+.acc[open]{border-color:#C9D8F8}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
 
 
 /* sections */
@@ -221,11 +230,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows b s{display:block;color:#DC2626;font-weight:500;font-size:.8em;text-align:center;text-decoration-thickness:2px}.prows b:has(s){text-align:center;color:var(--green)}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}
-.nightb .nt{font-size:18px;margin-bottom:10px}.nightb .nrow{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:760px){.nightb .nrow{grid-template-columns:repeat(4,1fr)}}
-.nightb .nrow span{background:rgba(255,255,255,.08);border-radius:12px;padding:8px 10px;font-size:14px;color:#C9D3E1;direction:ltr;text-align:center}
-.nightb .nrow b{display:block;direction:rtl;color:#fff;font-size:17px;margin-top:2px}.nightb small{display:block;color:#9FB0C6;margin-top:10px;font-size:13px}
+.nightb{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px;white-space:nowrap;background:#0E1A2B;color:#fff;border-radius:14px;padding:7px 8px;margin-bottom:12px;font-size:13px}.nightb::-webkit-scrollbar{display:none}
+.nightb span{background:rgba(255,255,255,.10);border-radius:999px;padding:3px 7px;color:#C9D3E1;font-weight:500;font-size:12px}.nightb span b{color:#fff}@media(max-width:380px){.nightb{font-size:12px;padding:6px}.nightb span{font-size:11px;padding:2px 5px}}.nightb span b{color:#fff}
 .pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
 /* panier WhatsApp */
 .selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}
@@ -285,7 +291,7 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "document.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('pick'))upd()});"
   "document.getElementById('selclr').onclick=function(){document.querySelectorAll('.pick:checked').forEach(function(x){x.checked=false});upd()};"
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
-  "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
+  "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')&&!t.closest('summary')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
   "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
   "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
@@ -360,12 +366,6 @@ def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול
 <ul class="trust"><li>{ic("shekel")}<b>מחיר ברור</b><small>לפני העבודה</small></li><li>{ic("unlock")}<b>פתיחה בלי נזק</b><small>ברוב המקרים</small></li><li>{ic("hand")}<b>ישירות מול רפי</b><small>בלי מוקד</small></li></ul>
 </div></section>'''
 
-def services_sec(title="שירותים", sub="", exclude=None):
-    t = "".join(f'<a class="tile" href="{s}.html">{img(im, n, 800, 600)}<h3>{n}{ic("arrow")}</h3></a>'
-                for s, n, im, *_ in SERVICES if s != exclude)
-    small = f"<small>{sub}</small>" if sub else ""
-    return f'<section class="sec"><div class="wrap"><h2>{title}{small}</h2><div class="tiles">{t}</div></div></section>'
-
 # Galerie : photos réelles de Rafi (img/g1..g6.webp). Pour en ajouter : déposer gN.webp (600x600) et ajouter une ligne.
 GALLERY = [("g1","מנעול רב-בריח בדלת פלדלת"),("g2","ידית וצילינדר בדלת כניסה"),("g3","מנעול ישן בדלת עץ"),
            ("g4","מנעול רב-בריח בדלת לבנה"),("g5","מנעול בדלת פנים"),("g6","מנעול בדלת זכוכית")]
@@ -373,10 +373,6 @@ def gallery_sec():
     g = "".join(f'<li>{img(n, a, 600, 600)}</li>' for n, a in GALLERY)
     return f'<section class="sec"><div class="wrap"><h2>מהעבודה בשטח</h2><ul class="gal">{g}</ul></div></section>'
 
-STEPS = f'''<section class="sec alt"><div class="wrap"><h2>איך זה עובד</h2><ol class="steps">
-<li>{ic("chat")}<div><h3>מתקשרים או שולחים וואטסאפ</h3><p>אני עונה בעצמי.</p></div></li>
-<li>{ic("moped")}<div><h3>מגיע תוך כ-{ETA_MIN} דקות</h3><p>בקטנוע, גם בפקקים.</p></div></li>
-<li>{ic("check")}<div><h3>קודם מחיר, אחר כך עבודה</h3><p>מתחילים רק אחרי שאישרתם.</p></div></li></ol></div></section>'''
 
 def area_sec(title="אזורי שירות", current=None):
     chips = "".join(f'<li><a href="{s}.html">מנעולן {b}</a></li>' for s, n, b, _ in CITIES if s != current)
@@ -522,7 +518,15 @@ def thumb(key, alt):
         return f'<img class="pth" src="img/{key if key.endswith(".svg") else key + ".webp"}" alt="{alt}" width="240" height="240" loading="lazy" decoding="async">'
     return f'<i class="pth ph">{ic("key")}</i>'
 
-def price_block(g, h="h3"):
+def _h2(h): return "00" if h == 24 else f"{h:02d}"
+NIGHT_BANNER = ('<div class="nightb" aria-label="תוספת לפי שעת הקריאה"><b>🌙 לילה</b>'
+    + "".join(f'<span><bdi dir="ltr">{_h2(a)}–{_h2(b)}</bdi> <b>{v} ₪</b></span>' for a, b, v in NIGHT_TIERS) + '</div>')
+
+def _from(rows):
+    ps = [_pkey(r) for r in rows if r[0] != "#"]
+    return min(ps) if ps else 0
+
+def acc_block(g, open_=False):   # une catégorie = un menu déroulant (photo + titre + « dès X ₪ »)
     gid, title, im, note, rows, _ = g
     def row(r):
         if r[0] == "#": return f'<li class="psub">{r[1]}</li>'
@@ -530,31 +534,15 @@ def price_block(g, h="h3"):
         old = f'<s>{was} ₪</s>' if was else ""
         return (f'<li><label><input type="checkbox" class="pick" data-l="{title} – {l}" data-p="{p or ''}" data-t="{price_txt(p, t)}">'
                 f'{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{old}{price_txt(p, t)}</b></label></li>')
-    li = "".join(row(r) for r in rows)
     n = f'<p class="pnote">{note}</p>' if note else ""
-    pic = img(im, title, 800, 600) if im else ""
-    return f'<div class="pcard" id="p-{gid}">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
+    return (f'<details class="acc" id="p-{gid}"{" open" if open_ else ""}><summary><img src="img/{im}.webp" alt="{title}" width="64" height="64" loading="lazy" decoding="async">'
+            f'<span><b>{title}</b><small>החל מ-{_from(rows)} ₪</small></span><i aria-hidden="true"></i></summary>'
+            f'<ul class="prows">{"".join(row(r) for r in rows)}</ul>{n}</details>')
 
-NIGHT_BANNER = ('<div class="nightb"><div class="nt">🌙 <b>תוספת לפי שעת הקריאה</b></div><div class="nrow">'
-    + '<span>08:00–20:00<b>בלי תוספת</b></span>'
-    + "".join(f'<span>{_hh(a)}–{_hh(b)}<b>+{v} ₪</b></span>' for a, b, v in NIGHT_TIERS)
-    + f'</div><small>מקסימום {NIGHT_MAX} ₪ · זהה בכל ימות השבוע, כולל שישי ומוצאי שבת · מחושב אוטומטית כשבוחרים שירותים</small></div>')
-
-def prices_for_service(slug):
-    gs = [g for g in PRICES if slug in g[5]]
-    if not gs: return ""
-    notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES)
-    return (f'<section class="sec alt"><div class="wrap"><h2>מחירים<small><a href="prices.html">למחירון המלא</a></small></h2>'
-            f'{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת.</p><div class="pgrid">{"".join(price_block(g) for g in gs)}</div><ul class="pnotes">{notes}</ul></div></section>')
-
-def cats_nav():   # raccourcis vers chaque catégorie de prix (même page)
-    return '<ul class="cats">' + "".join(f'<li><a href="#p-{g[0]}"><img src="img/{g[2]}.webp" alt="" width="70" height="70" loading="lazy" decoding="async">{g[1]}</a></li>' for g in PRICES) + '</ul>'
-
-def prices_all(h="h3", title="", small=""):
-    t = f'<h2>{title}<small>{small}</small></h2>' if title else ""
+def prices_all(title="השירותים והמחירים", small="לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", open_ids=(), h="h2", alt=False):
     notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:])
-    return (f'<section class="sec" id="prix"><div class="wrap">{t}{cats_nav()}{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p>'
-            f'<div class="pgrid">{"".join(price_block(g, h) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
+    return (f'<section class="sec{" alt" if alt else ""}" id="prix"><div class="wrap"><{h} class="sh">{title}<small>{small}</small></{h}>{NIGHT_BANNER}'
+            f'<div class="accs">{"".join(acc_block(g, g[0] in open_ids) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def more_sec():   # liens internes (SEO) vers les pages de service et les guides, en version compacte
     sv = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n, *_ in SERVICES)
@@ -568,7 +556,7 @@ pages = []  # (slug, html)
 # Accueil
 home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
 body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
-        + prices_all("h2", "השירותים והמחירים", "לוחצים על קטגוריה, מסמנים ושולחים לי בוואטסאפ.") + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
+        + prices_all() + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
 pages.append(("index", page("index",
     f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
     f"מנעולן בכל אזור {REGION}, מקיסריה ועד הוד השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
@@ -581,8 +569,8 @@ for s, n, b, hood in CITIES:
     intro = (f"צריכים מנעולן {b}? רפי המנעולן מגיע בקטנוע לכל מקום {b}" + ("." if hood.startswith("כל") else f": {hood}.") + " "
              f"פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות – לבית ולעסק, עם מחיר ברור לפני העבודה.")
     body = (hero(f"מנעולן {b}", f"פורץ דלתות ומנעולים {b}. אצלכם תוך כ-{ETA_MIN} דקות.", crumb=crumb_html(f"מנעולן {b}"))
-            + services_sec(f"שירותי מנעולן {b}", intro)
-            + STEPS + faq_sec(faq) + area_sec("עוד אזורים", current=s) + band())
+            + prices_all(f"שירותי מנעולן {b}", intro)
+            + faq_sec(faq) + area_sec("עוד אזורים", current=s) + band())
     pages.append((s, page(s,
         f"מנעולן {b} – הגעה תוך כ-{ETA_MIN} דק׳ | {NAME}",
         f"מנעולן {b}: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. {NAME} מגיע בקטנוע תוך כ-{ETA_MIN} דקות. מחיר ברור לפני העבודה. {PHONE}",
@@ -593,8 +581,9 @@ for s, n, im, t, items, kw in SERVICES:
     inc = "".join(f'<li>{ic("check")}<span>{x}</span></li>' for x in items)
     faq = FAQ[1:3] + FAQ[:1] + FAQ[3:]
     body = (hero(f"{n} – מגיע אליכם", f"{t} אצלכם תוך כ-{ETA_MIN} דקות.", photo=im, alt=n, crumb=crumb_html(n))
-            + f'<section class="sec"><div class="wrap"><h2>מה כולל השירות<small>{kw} – המחיר נקבע ומאושר מראש.</small></h2><ul class="incl">{inc}</ul></div></section>'
-            + prices_for_service(s) + services_sec("שירותים נוספים", exclude=s) + STEPS + faq_sec(faq) + area_sec() + band())
+            + prices_all("מחירים", "סמנו מה אתם צריכים ושלחו לי בוואטסאפ. שאר השירותים – באותו עמוד, למטה.", [g[0] for g in PRICES if s in g[5]][:1])
+            + f'<section class="sec alt"><div class="wrap"><h2>מה כולל השירות<small>{kw} – המחיר נקבע ומאושר מראש.</small></h2><ul class="incl">{inc}</ul></div></section>'
+            + faq_sec(faq) + area_sec() + more_sec() + band())
     svc = {"@type":"Service","name":n,"serviceType":n,"provider":{"@id":BIZ_ID},"areaServed":[{"@type":"City","name":c} for c in ALL],"description":t}
     pages.append((s, page(s,
         f"{n} בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME}",
@@ -619,7 +608,7 @@ NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
           for g in PRICES for r in g[4] if r[0] != "#" and r[1] for l, p in [r[:2]]]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
-    + prices_all("h2") + f'<section class="sec" style="padding-top:0"><div class="wrap">{NIGHT_CARD}</div></section>' + area_sec() + band())
+    + prices_all("כל המחירים", "לוחצים על שירות כדי לפתוח.") + f'<section class="sec" style="padding-top:0"><div class="wrap">{NIGHT_CARD}</div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
     "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
