@@ -64,14 +64,8 @@ I = {  # icônes trait 24x24
 "unlock":'<path d="M3 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2z"/><path d="M9 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0"/><path d="M13 11v-4a4 4 0 1 1 8 0v4"/>',
 "hand":'<path d="M19.5 12.572l-7.5 7.428l-7.5-7.428a5 5 0 1 1 7.5-6.566a5 5 0 1 1 7.5 6.572"/><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1-1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"/><path d="M12.5 15.5l2 2"/><path d="M15 13l2 2"/>',
 }
-# Scooter : dessin maison (maxi-scooter moderne avec top case, roule vers la gauche = sens RTL)
-MOPED_SVG = ('<svg class="ic sc" viewBox="0 0 72 40" fill="currentColor" aria-hidden="true">'
-  '<path d="M20.5 8.6L25.2.8l3.2.4-3.6 7.8z" opacity=".5"/><path d="M23 5.8l5.6-1.5.5 1.7-5.6 1.5z"/>'
-  '<path d="M8.6 27.6C9.4 18.6 13.6 11.4 20.6 8.2h4.6l-1.4 4.2c-2.6 2.6-3.6 6.4-3.2 12.4h19.6c.8-4.4 4-7.6 9.6-8.2l11.4-1.4c3.6-.4 5.6 1.6 4.6 4.6l-1.6 4.6c-.9 2.6-3.1 4-5.8 4H9.6c-.6 0-1-.4-1-.8z"/>'
-  '<path d="M42.8 17.2c1.8-3 4.6-4.4 8.6-4.6l9.6-.6c1.8-.1 2.6 1.4 1.6 2.8l-.6.8z" opacity=".5"/>'
-  '<rect x="57.5" y="2.6" width="12" height="8.2" rx="2.2"/><rect x="61" y="10" width="2.4" height="5"/>'
-  '<circle cx="14.2" cy="32.4" r="6"/><circle cx="14.2" cy="32.4" r="2.6" fill="#fff"/>'
-  '<circle cx="57" cy="32.4" r="6"/><circle cx="57" cy="32.4" r="2.6" fill="#fff"/></svg>')
+# Moto : Material Symbols « two_wheeler » (Google, licence Apache 2.0), choisie par Rafi le 18 nov. ; retournée pour rouler vers la gauche (RTL)
+MOPED_SVG = '<svg class="ic sc" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path transform="matrix(-1 0 0 1 960 0)" d="M157-200q-65 0-111-45.5T0-357q0-66 45.5-111.5T156-514l-47-36H25q-11 0-18-7t-7-18q0-11 7-18t18-7h156l99 60 149-56q5-2 10.5-3t10.5-1h129l-78-100h-59q-13 0-21.5-8.5T412-730q0-13 8.5-21.5T442-760h60q14 0 26.5 6t20.5 17l68 88 107-53q8-4 15 .5t7 12.5v65q0 6-4.5 10.5T731-609h-83l85 110q17-7 34-10.5t35-3.5q66 0 112 45.5T960-356q0 66-46 111t-112 45q-65 0-110.5-45.5T646-356q0-30 10-57t30-49l-35-45-137 209q-5 6-11 10t-14 4h-82q-5 0-10.5-2t-10.5-6l-72-65q0 66-45.5 111.5T157-200Zm0-60q41 0 69-28.5t28-68.5q0-40-28-68.5T157-454q-40 0-68.5 28T60-357q0 41 28.5 69t68.5 28Zm645 0q41 0 69.5-28t28.5-68q0-41-28.5-69.5T802-454q-40 0-68 28.5T706-356q0 40 28 68t68 28Z"/></svg>'
 def ic(n, cls="ic"):
     if n == "moped": return MOPED_SVG
     return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
@@ -146,7 +140,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .pro>img{width:92px;height:92px;border-radius:50%;object-fit:cover;flex:none;border:3px solid #fff;box-shadow:0 0 0 3px var(--blue)}
 .who{flex:1;min-width:0}.who b{display:block;font-size:20px}.who small{display:block;color:var(--muted);font-size:14px}
 .eta-badge{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--blue-soft);border-radius:16px;padding:8px 12px;text-align:center}
-.eta-badge .sc{width:52px;height:29px;color:var(--blue)}.eta-badge b{display:block;font-size:19px;line-height:1.1}.eta-badge small{color:var(--muted);font-size:12px}
+.eta-badge .sc{width:44px;height:44px;color:var(--blue)}.eta-badge b{display:block;font-size:19px;line-height:1.1}.eta-badge small{color:var(--muted);font-size:12px}
 @media(min-width:880px){.hero{padding:48px 0 16px}.hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center;gap:20px 56px}.hero-txt{grid-column:1;grid-row:1/3}.pro{grid-column:2;grid-row:1;flex-direction:column;text-align:center;padding:24px;max-width:none}.pro>img{width:170px;height:170px}.trust{grid-column:2;grid-row:2;align-self:start}}
 .status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
 .dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
