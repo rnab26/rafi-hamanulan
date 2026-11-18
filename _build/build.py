@@ -139,9 +139,9 @@ HERO_SVG = open(os.path.join(ROOT, "_build/hero.svg"), encoding="utf-8").read()
 CSS = r"""
 @font-face{font-family:'Rubik';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 @font-face{font-family:'Rubik';font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-:root{--bg:#fff;--soft:#F5F7FB;--ink:#0E1A2B;--muted:#5B6878;--line:#E6EBF2;--blue:#1A56DB;--blue-d:#1446B4;--blue-soft:#EAF0FD;--wa:#18A957;--amber:#F5A524;--green:#16A34A;--r:20px}
+:root{--bg:#fff;--soft:#F5F5F7;--ink:#1D1D1F;--muted:#6E6E73;--line:#E5E5EA;--blue:#0071E3;--blue-d:#0062C4;--blue-soft:#E8F1FC;--wa:#1FAF5A;--amber:#F5A524;--green:#16A34A;--r:20px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Rubik",Arial,sans-serif;font-size:17px;line-height:1.6;padding-bottom:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Rubik",system-ui,Arial,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;padding-bottom:84px}
 a{color:var(--blue)}h1,h2,h3{line-height:1.2;margin:0;font-weight:700}p{margin:0}
 img{display:block;max-width:100%;height:auto}
 a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:8px}
@@ -308,6 +308,34 @@ footer a{color:var(--muted)}
 .bar .btn{min-height:50px;font-size:16px}.bar{transition:transform .25s}.bar.hid{transform:translateY(110%)}body.barhid .selbar{bottom:calc(12px + env(safe-area-inset-bottom))}
 @media(min-width:880px){.bar{display:none}body{padding-bottom:0}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* ---- Style Apple (Rafi, 18 nov.) : police système, gris Apple, pilules, en-tête translucide, listes iOS ---- */
+h1,h2,h3{letter-spacing:-.025em;font-weight:700}
+.hd{background:rgba(255,255,255,.72);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid rgba(0,0,0,.12)}
+.btn{border-radius:980px;font-weight:600;min-height:52px;transition:filter .15s,transform .1s}.btn:active{transform:scale(.98)}.btn:hover{filter:brightness(1.06)}
+.hero{background:linear-gradient(180deg,#fff,#F5F5F7)}.hero h1{font-weight:700;letter-spacing:-.03em}
+.pro{border:0;border-radius:22px;box-shadow:0 4px 24px rgba(0,0,0,.06)}.pro>img{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--blue)}
+.eta-badge{background:#F5F5F7}
+.status{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.trust li{border:0;box-shadow:0 4px 24px rgba(0,0,0,.06);border-radius:22px}
+.trust .ic{border-radius:14px;box-shadow:none}
+#prix{background:#F5F5F7}
+.accs{gap:12px}.acc{border:0;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.acc summary i{background:#F5F5F7}.acc summary i::after{border-color:#86868B}
+.acc[open]{border:0;box-shadow:0 8px 30px rgba(0,0,0,.10);margin:6px 0 18px}
+.acc[open] summary{background:#fff;border-bottom:.5px solid var(--line)}.acc[open] summary i{background:var(--blue)}.acc[open] summary i::after{border-color:#fff}
+.prows li{border-bottom:.5px solid var(--line)}.prows li.psub{border-radius:10px;font-weight:600;letter-spacing:0}
+.prows b{font-weight:600}.pth{border-radius:10px}
+.accx{background:#fff;font-weight:600}
+.nightb{background:#1D1D1F;border-radius:18px}.nightb .nrow span{border-radius:12px}
+.pickhint,.pnotes{border-radius:14px}
+.chips a{border:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.faq details{border-bottom:.5px solid var(--line)}
+.navp{background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}.navp .nbig{background:#F5F5F7}.navp .nbig .ic{border-radius:9px}
+.nav summary{background:#1D1D1F;border-radius:980px}
+.bar{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid rgba(0,0,0,.12)}
+.selbar{border-radius:22px}
+.svc img,.gds img{border-radius:14px}
+footer{background:#F5F5F7;border-top:0;font-size:12px}
 """
 
 # ------------------------------------------------------------------ statut « disponible » (calculé depuis HOURS)
