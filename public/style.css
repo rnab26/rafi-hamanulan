@@ -60,7 +60,9 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .acc summary i{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);flex:none;position:relative}
 .acc summary i::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-right:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:translateY(-2px) rotate(45deg);transition:transform .2s}
 .acc[open] summary i::after{transform:translateY(2px) rotate(-135deg)}
-.acc[open]{border-color:#C9D8F8}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
+.acc[open]{border:2px solid var(--blue);box-shadow:0 10px 28px rgba(26,86,219,.16);margin:10px 0 22px;overflow:hidden}
+.acc[open] summary{background:var(--blue-soft);border-bottom:1px solid #C9D8F8;margin-bottom:6px}
+.accx{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--soft);color:var(--blue);font:inherit;font-weight:700;padding:12px;cursor:pointer}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
 
 
 /* sections */
@@ -116,8 +118,11 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows b s{display:block;color:#DC2626;font-weight:500;font-size:.8em;text-align:center;text-decoration-thickness:2px}.prows b:has(s){text-align:center;color:var(--green)}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.nightb{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px;white-space:nowrap;background:#0E1A2B;color:#fff;border-radius:14px;padding:7px 8px;margin-bottom:12px;font-size:13px}.nightb::-webkit-scrollbar{display:none}
-.nightb span{background:rgba(255,255,255,.10);border-radius:999px;padding:3px 7px;color:#C9D3E1;font-weight:500;font-size:12px}.nightb span b{color:#fff}@media(max-width:380px){.nightb{font-size:12px;padding:6px}.nightb span{font-size:11px;padding:2px 5px}}.nightb span b{color:#fff}
+.nightb{background:#0E1A2B;color:#fff;border-radius:16px;padding:10px 12px;margin-bottom:14px}
+.nightb .nt{font-size:14px;color:#C9D3E1;margin-bottom:8px}.nightb .nt b{color:#fff;font-size:15px}
+.nightb .nrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.nightb .nrow span{background:rgba(255,255,255,.09);border-radius:10px;padding:5px 4px;text-align:center;font-size:12.5px;color:#C9D3E1}
+.nightb .nrow b{display:block;color:#FFD166;font-size:16px}.nightb small{display:block;margin-top:7px;font-size:13px;color:#7EE2A8;font-weight:500}
 .pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
 /* panier WhatsApp */
 .selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}

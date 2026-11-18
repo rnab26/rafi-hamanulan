@@ -77,15 +77,22 @@ CITIES = [
 ("hadera","חדרה","בחדרה","מרכז העיר, גבעת אולגה, נווה חיים והשכונות החדשות"),
 ("caesarea","קיסריה","בקיסריה","השכונות, הבתים הפרטיים ופארק התעשייה"),
 ("or-akiva","אור עקיבא","באור עקיבא","כל שכונות העיר"),
+("jisr-az-zarqa","ג'סר א-זרקא","בג'סר א-זרקא","כל שכונות היישוב"),
+("binyamina","בנימינה-גבעת עדה","בבנימינה-גבעת עדה","בנימינה וגבעת עדה"),
+("pardes-hanna","פרדס חנה-כרכור","בפרדס חנה-כרכור","פרדס חנה, כרכור והשכונות החדשות"),
 ("kfar-yona","כפר יונה","בכפר יונה","השכונות הוותיקות והחדשות"),
 ("even-yehuda","אבן יהודה","באבן יהודה","המושבה והבתים הפרטיים"),
 ("kadima-zoran","קדימה-צורן","בקדימה-צורן","קדימה וצורן"),
 ("tel-mond","תל מונד","בתל מונד","כל היישוב"),
+("tayibe","טייבה","בטייבה","כל שכונות העיר"),
+("tira","טירה","בטירה","כל שכונות העיר"),
+("qalansawe","קלנסווה","בקלנסווה","כל שכונות העיר"),
 ("pardesiya","פרדסיה","בפרדסיה","כל היישוב"),
 ("kfar-saba","כפר סבא","בכפר סבא","כל שכונות העיר"),
 ("raanana","רעננה","ברעננה","כל שכונות העיר"),
 ("herzliya","הרצליה","בהרצליה","הרצליה פיתוח, מרכז העיר והשכונות"),
 ("hod-hasharon","הוד השרון","בהוד השרון","כל שכונות העיר"),
+("kochav-yair","כוכב יאיר-צור יגאל","בכוכב יאיר-צור יגאל","כוכב יאיר וצור יגאל"),
 ("moshavim","מושבי השרון","במושבי השרון","אודים, יקום, מכמורת, כפר ויתקין, בית יהושע, חבצלת השרון, אביחיל ועוד"),
 ]
 # (slug, nom, image, phrase courte, ce qui est inclus, mots-clés secondaires pour la description)
@@ -93,7 +100,7 @@ SERVICES = [
 ("door-opening","פריצת דלתות","door-opening","ננעלתם בחוץ? פותח את הדלת בלי לגרום נזק, ברוב המקרים.",
  ["דלת כניסה ופלדלת","דלתות פנים וחדרי אמבטיה","מפתח שנשבר בתוך המנעול","מפתח שנשאר בפנים"],"פורץ דלתות ופורץ מנעולים"),
 ("cylinder","החלפת צילינדר","cylinder","אחרי מעבר דירה, אובדן מפתחות או פריצה.",
- ["צילינדרים רגילים ומוגנים – מולטילוק, רב-בריח, מגנום ועוד","החלפה אחרי מעבר דירה","החלפה אחרי פריצה או אובדן מפתחות","מפתח אחד לכמה דלתות"],"החלפת צילינדר מולטילוק ורב-בריח"),
+ ["צילינדרים איכותיים וברמת אבטחה גבוהה – מולטילוק, רב-בריח, מגנום ועוד","החלפה אחרי מעבר דירה","החלפה אחרי פריצה או אובדן מפתחות","מפתח אחד לכמה דלתות"],"החלפת צילינדר מולטילוק ורב-בריח"),
 ("lock-repair","תיקון והחלפת מנעולים","lock-repair","מנעול תקוע, ידית שבורה, דלת שלא נסגרת.",
  ["מנעולי רב-בריח","ידיות ומנגנונים","מנעולים לשערים ולתיבות דואר","כיוון דלת שנתקעת"],"תיקון מנעולים ומנעולי רב-בריח"),
 ("safe","פתיחת כספות","safe","קוד שנשכח או מנגנון שנתקע.",
@@ -174,7 +181,9 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .acc summary i{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);flex:none;position:relative}
 .acc summary i::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-right:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:translateY(-2px) rotate(45deg);transition:transform .2s}
 .acc[open] summary i::after{transform:translateY(2px) rotate(-135deg)}
-.acc[open]{border-color:#C9D8F8}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
+.acc[open]{border:2px solid var(--blue);box-shadow:0 10px 28px rgba(26,86,219,.16);margin:10px 0 22px;overflow:hidden}
+.acc[open] summary{background:var(--blue-soft);border-bottom:1px solid #C9D8F8;margin-bottom:6px}
+.accx{display:block;width:100%;border:0;border-top:1px solid var(--line);background:var(--soft);color:var(--blue);font:inherit;font-weight:700;padding:12px;cursor:pointer}.acc .prows{padding:0 16px 8px}.acc .pnote{padding:0 16px 14px}
 
 
 /* sections */
@@ -230,8 +239,11 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows b s{display:block;color:#DC2626;font-weight:500;font-size:.8em;text-align:center;text-decoration-thickness:2px}.prows b:has(s){text-align:center;color:var(--green)}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
-.nightb{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px;white-space:nowrap;background:#0E1A2B;color:#fff;border-radius:14px;padding:7px 8px;margin-bottom:12px;font-size:13px}.nightb::-webkit-scrollbar{display:none}
-.nightb span{background:rgba(255,255,255,.10);border-radius:999px;padding:3px 7px;color:#C9D3E1;font-weight:500;font-size:12px}.nightb span b{color:#fff}@media(max-width:380px){.nightb{font-size:12px;padding:6px}.nightb span{font-size:11px;padding:2px 5px}}.nightb span b{color:#fff}
+.nightb{background:#0E1A2B;color:#fff;border-radius:16px;padding:10px 12px;margin-bottom:14px}
+.nightb .nt{font-size:14px;color:#C9D3E1;margin-bottom:8px}.nightb .nt b{color:#fff;font-size:15px}
+.nightb .nrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.nightb .nrow span{background:rgba(255,255,255,.09);border-radius:10px;padding:5px 4px;text-align:center;font-size:12.5px;color:#C9D3E1}
+.nightb .nrow b{display:block;color:#FFD166;font-size:16px}.nightb small{display:block;margin-top:7px;font-size:13px;color:#7EE2A8;font-weight:500}
 .pickhint{background:#E7F6EC;color:#11803A;border-radius:14px;padding:12px 16px;font-weight:500;margin-bottom:18px}
 /* panier WhatsApp */
 .selbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:31;background:var(--ink);color:#fff;border-radius:18px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(14,26,43,.3)}
@@ -293,7 +305,7 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
   "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')&&!t.closest('summary')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
-  "document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
+  "document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.accx');if(b){var d=b.closest('details');d.open=false;d.scrollIntoView({block:'nearest'})}});document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
   "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
   "new IntersectionObserver(function(en){var v=en[0].isIntersecting;fb.classList.toggle('hid',v);document.body.classList.toggle('barhid',v)}).observe(hc)}})();</script>")
 
@@ -458,18 +470,18 @@ PRICES = [
  [("#", "דלת טרוקה"),
   ("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
   ("#", "פריצה + החלפת צילינדר בפלדלת"),
-  ("מגנום · 5 מפתחות", 620, None, "t-magnum320"),
+  ("מגנום · 5 מפתחות", 630, None, "t-magnum320"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 660, None, "t-magnum360"),
   ("רב-בריח · 5 מפתחות + כרטיס שכפול", 690, None, "t-rav390"),
   ("KEYLOCX של רב-בריח", 800, None, "t-keylocx"),
   ("לוקסיס של רב-בריח", 900, None, "t-loksis"),
   ("מולטילוק MTL600", 900, None, "t-mtl600"),
   ("מולטילוק MTL800", 1070, None, "t-mtl800")], ["door-opening", "cylinder"]),
-("cyl", "החלפת צילינדר", "p-cyl", "המחיר כולל את הצילינדר וההתקנה. אפשר גם עם כפתור פנימי במקום מפתח – באותו מחיר.",
- [("#", "צילינדרים רגילים"),
+("cyl", "החלפת צילינדר בפלדלת", "p-cyl", "המחיר כולל את הצילינדר וההתקנה. אפשר גם עם כפתור פנימי במקום מפתח – באותו מחיר.",
+ [("#", "צילינדרים איכותיים"),
   ("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None, "t-rav390"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None, "t-magnum360"),
-  ("מגנום · 5 מפתחות", 320, None, "t-magnum320"),
+  ("מגנום · 5 מפתחות", 330, None, "t-magnum320"),
   ("#", "צילינדרים ברמת אבטחה גבוהה"),
   ("KEYLOCX של רב-בריח", 500, None, "t-keylocx"), ("לוקסיס של רב-בריח", 600, None, "t-loksis"),
   ("מולטילוק MTL600", 600, None, "t-mtl600"), ("מולטילוק MTL800", 770, None, "t-mtl800")], ["cylinder", "security"]),
@@ -479,7 +491,7 @@ PRICES = [
 ("int", "דלתות פנים ושערי כניסה", "p-intmech", "",
  [("#", "דלתות פנים – החלפה"),
   ("סט ידיות לדלת פשוטה / דלת פנים", 150, None, "t-inthandles"),
-  ("החלפת צילינדר פשוט", 240, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
+  ("החלפת צילינדר פשוט + 3 מפתחות", 240, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
   ("החלפת מנגנון + צילינדר", 430, None, "t-intdoor", 500),
   ("#", "דלתות פנים – פריצה + החלפה"),
   ("פריצה + החלפת מנגנון (ללא צילינדר)", 300, None, "t-intmech", 350), ("פריצה + החלפת מנגנון + צילינדר", 470, None, "t-intdoor", 550),
@@ -488,10 +500,11 @@ PRICES = [
   ("החלפת מנגנון + צילינדר בשער כניסה", 430, None, "p-entrance", 500),
   ("#", "שער כניסה חיצוני – פריצה + החלפה"),
   ("פריצה + החלפת מנגנון + צילינדר בשער כניסה", 470, None, "p-entrance", 550)], ["lock-repair", "door-opening"]),
-("mail", "תיבות דואר", "p-mail", "",
- [("פריצה והחלפת מנעול לתיבת דואר", 200, None, "t-mail"), ("החלפת מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, "t-mailbank")], ["lock-repair"]),
-("safe", "כספות", "safe", "בכספות גדולות ומיוחדות מתווספים 100 ₪ לכל שכבת פלדה – זה נקבע רק במקום, בזמן הפריצה.",
- [("התקנת כספת סטנדרטית", 350, None, "t-safe"), ("פריצת כספת סטנדרטית", 300, None, "t-safe")], ["safe"]),
+("safe", "כספות ותיבות דואר", "safe", "בכספות גדולות ומיוחדות מתווספים 100 ₪ לכל שכבת פלדה – זה נקבע רק במקום, בזמן הפריצה.",
+ [("#", "כספות"),
+  ("התקנת כספת סטנדרטית", 350, None, "t-safe"), ("פריצת כספת סטנדרטית", 300, None, "t-safe"),
+  ("#", "תיבות דואר"),
+  ("פריצה והחלפת מנעול לתיבת דואר", 200, None, "t-mail"), ("החלפת מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, "t-mailbank")], ["safe", "lock-repair"]),
 ("rep", "תיקונים", "p-repair", "",
  [("תיקון מנעולים ודלתות", None, "החל מ-200 ₪, לפי העבודה", None)], ["lock-repair"]),
 ]
@@ -519,8 +532,9 @@ def thumb(key, alt):
     return f'<i class="pth ph">{ic("key")}</i>'
 
 def _h2(h): return "00" if h == 24 else f"{h:02d}"
-NIGHT_BANNER = ('<div class="nightb" aria-label="תוספת לפי שעת הקריאה"><b>🌙 לילה</b>'
-    + "".join(f'<span><bdi dir="ltr">{_h2(a)}–{_h2(b)}</bdi> <b>{v} ₪</b></span>' for a, b, v in NIGHT_TIERS) + '</div>')
+NIGHT_BANNER = ('<div class="nightb"><div class="nt">🌙 <b>תוספת לילה</b> – מתווספת למחיר לפי שעת הקריאה</div><div class="nrow">'
+    + "".join(f'<span><bdi dir="ltr">{_hh(a)}–{_hh(b)}</bdi><b><bdi dir="ltr">+{v} ₪</bdi></b></span>' for a, b, v in NIGHT_TIERS)
+    + '</div><small>מ-08:00 עד 20:00 – בלי תוספת</small></div>')
 
 def _from(rows):
     ps = [_pkey(r) for r in rows if r[0] != "#"]
@@ -537,7 +551,7 @@ def acc_block(g, open_=False):   # une catégorie = un menu déroulant (photo + 
     n = f'<p class="pnote">{note}</p>' if note else ""
     return (f'<details class="acc" id="p-{gid}"{" open" if open_ else ""}><summary><img src="img/{im}.webp" alt="{title}" width="64" height="64" loading="lazy" decoding="async">'
             f'<span><b>{title}</b><small>החל מ-{_from(rows)} ₪</small></span><i aria-hidden="true"></i></summary>'
-            f'<ul class="prows">{"".join(row(r) for r in rows)}</ul>{n}</details>')
+            f'<ul class="prows">{"".join(row(r) for r in rows)}</ul>{n}<button type="button" class="accx">סגירה ▲</button></details>')
 
 def prices_all(title="השירותים והמחירים", small="לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", open_ids=(), h="h2", alt=False):
     notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:])
@@ -554,7 +568,7 @@ ALL = [n for _, n, _, _ in CITIES]
 pages = []  # (slug, html)
 
 # Accueil
-home_faq = FAQ + [("לאילו אזורים אתה מגיע?", "קיסריה, חדרה, אור עקיבא, נתניה, כפר יונה, אבן יהודה, קדימה-צורן, תל מונד, פרדסיה, כפר סבא, רעננה, הרצליה, הוד השרון והמושבים שבדרך.")]
+home_faq = FAQ + [("לאילו אזורים אתה מגיע?", ", ".join(c[1] for c in CITIES if c[0] != "moshavim") + " והמושבים שבדרך.")]
 body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
         + prices_all() + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
 pages.append(("index", page("index",
@@ -610,7 +624,7 @@ offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
     + prices_all("כל המחירים", "לוחצים על שירות כדי לפתוח.") + f'<section class="sec" style="padding-top:0"><div class="wrap">{NIGHT_CARD}</div></section>' + area_sec() + band())
 pages.append(("prices", page("prices", f"מחירון מנעולן – פריצת דלת, החלפת צילינדר, כספות | {NAME}",
-    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-620 ₪, החלפת צילינדר מ-320 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
+    "מחירון רפי המנעולן: פתיחת דלת טרוקה 200 ₪, פריצה + החלפת צילינדר מ-630 ₪, החלפת צילינדר מ-330 ₪, כספות ומנגנונים. כולל חלקים והתקנה.",
     PRICES_BODY, [business(ALL), {"@type":"OfferCatalog","name":"מחירון","provider":{"@id":BIZ_ID},"itemListElement":offers},
                   crumbs_ld([("ראשי", SITE_URL+"/"), ("מחירון", url_of("prices"))])])))
 with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
