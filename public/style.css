@@ -92,6 +92,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows{list-style:none;margin:0;padding:0}.prows li{border-bottom:1px dashed var(--line)}.prows label{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.prows li span{flex:1}
 .pick{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:2px solid #B8C4D4;border-radius:7px;flex:none;display:grid;place-items:center;margin:0;background:#fff}
 .pick:checked{background:var(--wa);border-color:var(--wa)}.pick:checked::after{content:"✓";color:#fff;font-weight:700;font-size:15px}
+.prows li.psub{border:0;padding:18px 0 6px;font-weight:700;font-size:15px;color:var(--blue)}.prows li.psub:first-child{padding-top:4px}
+.prows b s{display:block;color:var(--muted);font-weight:400;font-size:.8em;text-align:center}.prows b:has(s){text-align:center;color:#C2410C}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}

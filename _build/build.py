@@ -199,6 +199,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows{list-style:none;margin:0;padding:0}.prows li{border-bottom:1px dashed var(--line)}.prows label{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.prows li span{flex:1}
 .pick{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:2px solid #B8C4D4;border-radius:7px;flex:none;display:grid;place-items:center;margin:0;background:#fff}
 .pick:checked{background:var(--wa);border-color:var(--wa)}.pick:checked::after{content:"✓";color:#fff;font-weight:700;font-size:15px}
+.prows li.psub{border:0;padding:18px 0 6px;font-weight:700;font-size:15px;color:var(--blue)}.prows li.psub:first-child{padding-top:4px}
+.prows b s{display:block;color:var(--muted);font-weight:400;font-size:.8em;text-align:center}.prows b:has(s){text-align:center;color:#C2410C}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}
@@ -440,11 +442,12 @@ def guides_sec():
 # ------------------------------------------------------------------ MÉTHODE DE PRIX (fournie par Raphaël le 7 nov. 2026)
 # (id, titre, image, note, [(libellé, prix ₪ ou None, texte du prix)], pages de service où afficher le bloc)
 PRICES = [
-("fp", "פריצת דלתות", "door-opening", "",
- [("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
-  ("פריצה + החלפת צילינדר בפלדלת", None, "החל מ-620 ₪", "t-rav-dyn")], ["door-opening"]),
-("fpc", "פריצה + החלפת צילינדר בפלדלת", "p-steel", "פריצה + צילינדר חדש לבחירתכם, כולל התקנה. המחיר תלוי בצילינדר:",
- [("מגנום · 5 מפתחות", 620, None, "t-magnum320"),
+# Rangée : (libellé, prix ₪, texte de prix ou None, vignette[, ancien prix barré]) ; ("#", "titre") = sous-titre
+("fp", "פריצת דלתות", "p-open", "פריצה + צילינדר חדש לבחירתכם, כולל התקנה. המחיר תלוי בצילינדר.",
+ [("#", "דלת טרוקה"),
+  ("פתיחת דלת טרוקה (נטרקה ולא ננעלה)", 200, None, "t-latch"),
+  ("#", "פריצה + החלפת צילינדר בפלדלת"),
+  ("מגנום · 5 מפתחות", 620, None, "t-magnum320"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 660, None, "t-magnum360"),
   ("רב-בריח · 5 מפתחות + כרטיס שכפול", 690, None, "t-rav390"),
   ("KEYLOCX של רב-בריח", 800, None, "t-keylocx"),
@@ -452,19 +455,24 @@ PRICES = [
   ("מולטילוק MTL600", 900, None, "t-mtl600"),
   ("מולטילוק MTL800", 1070, None, "t-mtl800")], ["door-opening", "cylinder"]),
 ("cyl", "החלפת צילינדר", "p-cyl", "המחיר כולל את הצילינדר וההתקנה. אפשר גם עם כפתור פנימי במקום מפתח – באותו מחיר.",
- [("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None, "t-rav390"),
+ [("#", "צילינדרים רגילים"),
+  ("רב-בריח · 5 מפתחות + כרטיס שכפול", 390, None, "t-rav390"),
   ("מגנום · 5 מפתחות + כרטיס שכפול", 360, None, "t-magnum360"),
-  ("מגנום · 5 מפתחות", 320, None, "t-magnum320")], ["cylinder", "security"]),
-("high", "צילינדרים ברמת אבטחה גבוהה", "p-mtl", "המחיר כולל את הצילינדר וההתקנה.",
- [("מולטילוק MTL800", 770, None, "t-mtl800"), ("מולטילוק MTL600", 600, None, "t-mtl600"),
+  ("מגנום · 5 מפתחות", 320, None, "t-magnum320"),
+  ("#", "צילינדרים ברמת אבטחה גבוהה"),
+  ("מולטילוק MTL800", 770, None, "t-mtl800"), ("מולטילוק MTL600", 600, None, "t-mtl600"),
   ("לוקסיס של רב-בריח", 600, None, "t-loksis"), ("KEYLOCX של רב-בריח", 500, None, "t-keylocx")], ["cylinder", "security"]),
 ("mech", "פלדלת – מנגנונים ופרזול", "p-steel", "",
  [("החלפת מנגנון רב-בריח", 700, None, "t-ravmech"), ("החלפת מנגנון שריונית חוסם", 800, None, "t-shiryonit"),
   ("סט פלטות קומפלט לפלדלת – ניקל, שחור או מעוגל", 330, None, "t-plates"), ("מחזיר דלת", 450, None, None), ("התקנת מנעול כספת / מנעול נוסף לפלדלת", 550, None, "t-extralock")], ["lock-repair", "security"]),
-("int", "דלתות פנים וכניסות נוספות", "p-entrance", "",
- [("החלפת צילינדר פשוט", 200, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
-  ("פריצה + החלפת מנגנון", 300, None, "t-intmech"), ("פריצה + החלפת מנגנון + צילינדר", 380, None, "t-intdoor"),
-  ("סט ידיות לדלת פשוטה / דלת פנים", 150, None, "t-inthandles")], ["lock-repair", "door-opening"]),
+("int", "דלתות פנים ושערי כניסה", "p-intmech", "",
+ [("#", "דלתות פנים"),
+  ("החלפת צילינדר פשוט", 240, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
+  ("פריצה + החלפת מנגנון (ללא צילינדר)", 300, None, "t-intmech", 350), ("פריצה + החלפת מנגנון + צילינדר", 470, None, "t-intdoor", 550),
+  ("סט ידיות לדלת פשוטה / דלת פנים", 150, None, "t-inthandles"),
+  ("#", "שער כניסה חיצוני"),
+  ("החלפת מנגנון שער כניסה", 250, None, "p-entrance"),
+  ("פריצה + החלפת מנגנון + צילינדר בשער כניסה", 470, None, "p-entrance", 550)], ["lock-repair", "door-opening"]),
 ("mail", "תיבות דואר", "p-mail", "",
  [("פריצה והחלפת מנעול לתיבת דואר", 200, None, "t-mail"), ("החלפת מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, "t-mailbank")], ["lock-repair"]),
 ("safe", "כספות", "safe", "בכספות גדולות ומיוחדות מתווספים 100 ₪ לכל שכבת פלדה – זה נקבע רק במקום, בזמן הפריצה.",
@@ -474,10 +482,16 @@ PRICES = [
 ]
 import re as _re
 def _pkey(r):
-    l, p, t, th = r
+    l, p, t = r[0], r[1], r[2]
     if p: return p
     m = _re.search(r"(\d+)", t or ""); return int(m.group(1)) if m else 0
-PRICES = [(g[0], g[1], g[2], g[3], sorted(g[4], key=_pkey), g[5]) for g in PRICES]   # prix toujours en ordre croissant
+def _sort_rows(rows):   # prix en ordre croissant à l'intérieur de chaque sous-titre
+    out, seg = [], []
+    for r in rows:
+        if r[0] == "#": out += sorted(seg, key=_pkey) + [r]; seg = []
+        else: seg.append(r)
+    return out + sorted(seg, key=_pkey)
+PRICES = [(g[0], g[1], g[2], g[3], _sort_rows(g[4]), g[5]) for g in PRICES]
 
 PRICE_NOTES = [f"תוספת לפי שעת הקריאה: {NIGHT_TXT}. בין 07:00 ל-20:00 – בלי תוספת. אותו דבר בכל ימות השבוע, כולל שישי ומוצאי שבת.", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
@@ -491,8 +505,13 @@ def thumb(key, alt):
 
 def price_block(g, h="h3"):
     gid, title, im, note, rows, _ = g
-    li = "".join(f'<li><label><input type="checkbox" class="pick" data-l="{title} – {l}" data-p="{p or ''}" data-t="{price_txt(p, t)}">'
-                 f'{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{price_txt(p, t)}</b></label></li>' for l, p, t, th in rows)
+    def row(r):
+        if r[0] == "#": return f'<li class="psub">{r[1]}</li>'
+        l, p, t, th = r[:4]; was = r[4] if len(r) > 4 else None
+        old = f'<s>{was} ₪</s>' if was else ""
+        return (f'<li><label><input type="checkbox" class="pick" data-l="{title} – {l}" data-p="{p or ''}" data-t="{price_txt(p, t)}">'
+                f'{thumb(th, l)}<span>{l}</span><b{' class="long"' if t else ''}>{old}{price_txt(p, t)}</b></label></li>')
+    li = "".join(row(r) for r in rows)
     n = f'<p class="pnote">{note}</p>' if note else ""
     pic = img(im, title, 800, 600) if im else ""
     return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
@@ -571,7 +590,7 @@ NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody
     + f'</ul><p class="pnote">התוספת לא עולה על {NIGHT_MAX} ₪, והיא זהה בכל ימות השבוע – כולל שישי ומוצאי שבת. כשבוחרים שירותים, היא מחושבת אוטומטית לפי השעה.</p></div></div>')
 # Page Mehiron (prix fournis par Raphaël)
 offers = [{"@type":"Offer","priceCurrency":"ILS","price":p,"itemOffered":{"@type":"Service","name":f"{g[1]} – {l}"}}
-          for g in PRICES for l, p, t, th in g[4] if p]
+          for g in PRICES for r in g[4] if r[0] != "#" and r[1] for l, p in [r[:2]]]
 PRICES_BODY = (hero("מחירון מנעולן", "מחירים ברורים, כולל חלקים והתקנה. המחיר הסופי נאמר לפני העבודה.", photo="p-cyl", alt="צילינדרים", crumb=crumb_html("מחירון"))
     + f'<section class="sec"><div class="wrap">{NIGHT_BANNER}<p class="pickhint">סמנו מה אתם צריכים ושלחו לי בוואטסאפ בלחיצה אחת – אני אדע בדיוק במה מדובר.</p><div class="pgrid">{"".join(price_block(g, "h2") for g in PRICES)}</div>'
     + NIGHT_CARD + '<ul class="pnotes">' + "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:]) + '</ul></div></section>' + area_sec() + band())
