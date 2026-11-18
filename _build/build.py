@@ -66,7 +66,7 @@ I = {  # icônes trait 24x24
 }
 # Moto : Material Symbols « two_wheeler » (Google, licence Apache 2.0), choisie par Rafi le 18 nov. ; retournée pour rouler vers la gauche (RTL)
 MOPED_SVG = '<svg class="ic sc" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path transform="matrix(-1 0 0 1 960 0)" d="M157-200q-65 0-111-45.5T0-357q0-66 45.5-111.5T156-514l-47-36H25q-11 0-18-7t-7-18q0-11 7-18t18-7h156l99 60 149-56q5-2 10.5-3t10.5-1h129l-78-100h-59q-13 0-21.5-8.5T412-730q0-13 8.5-21.5T442-760h60q14 0 26.5 6t20.5 17l68 88 107-53q8-4 15 .5t7 12.5v65q0 6-4.5 10.5T731-609h-83l85 110q17-7 34-10.5t35-3.5q66 0 112 45.5T960-356q0 66-46 111t-112 45q-65 0-110.5-45.5T646-356q0-30 10-57t30-49l-35-45-137 209q-5 6-11 10t-14 4h-82q-5 0-10.5-2t-10.5-6l-72-65q0 66-45.5 111.5T157-200Zm0-60q41 0 69-28.5t28-68.5q0-40-28-68.5T157-454q-40 0-68.5 28T60-357q0 41 28.5 69t68.5 28Zm645 0q41 0 69.5-28t28.5-68q0-41-28.5-69.5T802-454q-40 0-68 28.5T706-356q0 40 28 68t68 28Z"/></svg>'
-# Logo (option B choisie par Claude le 18 nov., à valider par Rafi) : cadenas bleu + « ר » de Rafi. Une seule source : en-tête, favicon, logo.png
+# Logo (option B, confirmée par Rafi le 18 nov.) : cadenas bleu + « ר » de Rafi. Une seule source : en-tête, favicon, logo.png
 LOGO_SVG = ('<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="lgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1446B4"/></linearGradient></defs>'
             '<path d="M19 28v-8a13 13 0 0 1 26 0v8" fill="none" stroke="#0E1A2B" stroke-width="6" stroke-linecap="round"/><rect x="8" y="25" width="48" height="36" rx="11" fill="url(#lgg)"/>'
             '<path d="M22 36h12a7 7 0 0 1 7 7v10" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>')
@@ -482,6 +482,9 @@ GUIDES += [
   ("מה לא לעשות", ["לא לנסות קודים שוב ושוב – חלק מהכספות ננעלות לזמן ארוך אחרי כמה ניסיונות.", "לא לנסות לפתוח בכוח – זה עלול להרוס את הכספת ואת מה שבתוכה."]),
   ("פתיחת כספת", ["מנעולן יכול לפתוח את הכספת ולהגדיר אחר כך קוד חדש. תתבקשו להראות שהכספת שלכם."])]),
 ]
+
+# Illustrations dessinées pour chaque guide (sources _build/ill/*.svg, rendu : node _build/ill/render.js) au lieu des photos réutilisées
+GUIDES = [(sl, t, "ill-" + sl[len("guide-"):], d, sec) for sl, t, _im, d, sec in GUIDES]
 
 def guide_body(slug, title, im, desc, sections):
     secs = "".join(f'<h2>{h}</h2>' + ("<ul>" + "".join(f"<li>{p}</li>" for p in ps) + "</ul>" if len(ps) > 1 else f"<p>{ps[0]}</p>") for h, ps in sections)
