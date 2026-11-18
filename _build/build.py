@@ -64,8 +64,14 @@ I = {  # icônes trait 24x24
 "unlock":'<path d="M3 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2z"/><path d="M9 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0"/><path d="M13 11v-4a4 4 0 1 1 8 0v4"/>',
 "hand":'<path d="M19.5 12.572l-7.5 7.428l-7.5-7.428a5 5 0 1 1 7.5-6.566a5 5 0 1 1 7.5 6.572"/><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1-1a3.182 3.182 0 0 1 4.5 0l2.25 2.25"/><path d="M12.5 15.5l2 2"/><path d="M15 13l2 2"/>',
 }
-# Scooter plein : Material Symbols « moped » (Google, licence Apache 2.0), retourné pour rouler vers la gauche (RTL)
-MOPED_SVG = '<svg class="ic moped" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path transform="matrix(-1 0 0 1 960 0)" d="M274.24-200Q226-200 192-234.5 158-269 158-317h-48q-12.75 0-21.370-8.63Q80-334.25 80-347v-90q0-65 45-110.5T235-593h95q24.75 0 42.380 17.620Q390-557.750 390-533v156h161l147-185v-138h-93q-12.750 0-21.370-8.680-8.630-8.670-8.630-21.500 0-12.820 8.630-21.320 8.620-8.500 21.370-8.500h93q24.750 0 42.380 17.620Q758-724.750 758-700v138q0 11-3.440 20.030-3.440 9.030-9.560 16.970L598-340q-8.070 10.730-20.530 16.870Q565-317 551-317H390q0 48-33.760 82.500-33.770 34.500-82 34.500Zm-.24-60q23 0 39.500-17t16.500-40H218q0 23 16.500 40t39.500 17Zm86-393H230q-12.750 0-21.370-8.680-8.630-8.670-8.630-21.500 0-12.820 8.630-21.320 8.620-8.500 21.370-8.500h130q12.750 0 21.380 8.680 8.620 8.670 8.620 21.500 0 12.820-8.620 21.320-8.630 8.500-21.380 8.500Zm404.240 453Q716-200 682-233.760q-34-33.770-34-82Q648-364 681.760-398q33.770-34 82-34Q812-432 846-398.240q34 33.770 34 82Q880-268 846.240-234q-33.770 34-82 34Zm-.24-60q23 0 39.500-16.500T820-316q0-23-16.500-39.500T764-372q-23 0-39.500 16.500T708-316q0 23 16.500 39.500T764-260Z"/></svg>'
+# Scooter : dessin maison (maxi-scooter moderne avec top case, roule vers la gauche = sens RTL)
+MOPED_SVG = ('<svg class="ic sc" viewBox="0 0 72 40" fill="currentColor" aria-hidden="true">'
+  '<path d="M20.5 8.6L25.2.8l3.2.4-3.6 7.8z" opacity=".5"/><path d="M23 5.8l5.6-1.5.5 1.7-5.6 1.5z"/>'
+  '<path d="M8.6 27.6C9.4 18.6 13.6 11.4 20.6 8.2h4.6l-1.4 4.2c-2.6 2.6-3.6 6.4-3.2 12.4h19.6c.8-4.4 4-7.6 9.6-8.2l11.4-1.4c3.6-.4 5.6 1.6 4.6 4.6l-1.6 4.6c-.9 2.6-3.1 4-5.8 4H9.6c-.6 0-1-.4-1-.8z"/>'
+  '<path d="M42.8 17.2c1.8-3 4.6-4.4 8.6-4.6l9.6-.6c1.8-.1 2.6 1.4 1.6 2.8l-.6.8z" opacity=".5"/>'
+  '<rect x="57.5" y="2.6" width="12" height="8.2" rx="2.2"/><rect x="61" y="10" width="2.4" height="5"/>'
+  '<circle cx="14.2" cy="32.4" r="6"/><circle cx="14.2" cy="32.4" r="2.6" fill="#fff"/>'
+  '<circle cx="57" cy="32.4" r="6"/><circle cx="57" cy="32.4" r="2.6" fill="#fff"/></svg>')
 def ic(n, cls="ic"):
     if n == "moped": return MOPED_SVG
     return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
@@ -136,21 +142,20 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .hero .wrap{display:grid;gap:24px}
 .hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3;background:var(--soft)}
 .hero-img>img,.hero-img>svg{width:100%;height:100%;object-fit:cover;display:block}
-.pro{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:14px 16px;background:linear-gradient(160deg,#fff 40%,#EEF3FF);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 10px 30px rgba(14,26,43,.10)}
-.pro>img{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 3px var(--blue),0 8px 20px rgba(26,86,219,.25)}
-.who b{display:block;font-size:23px}.who small{display:block;color:var(--muted);font-size:15px;margin:2px 0 10px}
-.eta-badge{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,#0E1A2B,#1A56DB);color:#fff;border-radius:18px;padding:12px 16px}
-.eta-badge .ic{width:50px;height:50px;padding:8px;border-radius:14px;background:rgba(255,255,255,.16);color:#fff;flex:none;stroke-width:1.7}
-.eta-badge b{display:block;font-size:24px;line-height:1.1}.eta-badge small{color:rgba(255,255,255,.85);font-size:14px}
-@media(min-width:880px){.hero{padding:44px 0 16px}.hero .wrap{grid-template-columns:1.15fr .85fr;align-items:center;gap:28px 56px}.hero-txt{grid-column:1;grid-row:1}.pro{grid-column:2;grid-row:1;grid-template-columns:1fr;justify-items:center;text-align:center;padding:28px}.pro>img{width:180px;height:180px}.trust{grid-column:1/-1;grid-row:2}}
-.status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:6px 14px 6px 12px}
+.pro{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:12px 14px;box-shadow:0 6px 20px rgba(14,26,43,.08);max-width:460px}
+.pro>img{width:92px;height:92px;border-radius:50%;object-fit:cover;flex:none;border:3px solid #fff;box-shadow:0 0 0 3px var(--blue)}
+.who{flex:1;min-width:0}.who b{display:block;font-size:20px}.who small{display:block;color:var(--muted);font-size:14px}
+.eta-badge{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--blue-soft);border-radius:16px;padding:8px 12px;text-align:center}
+.eta-badge .sc{width:52px;height:29px;color:var(--blue)}.eta-badge b{display:block;font-size:19px;line-height:1.1}.eta-badge small{color:var(--muted);font-size:12px}
+@media(min-width:880px){.hero{padding:48px 0 16px}.hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center;gap:20px 56px}.hero-txt{grid-column:1;grid-row:1/3}.pro{grid-column:2;grid-row:1;flex-direction:column;text-align:center;padding:24px;max-width:none}.pro>img{width:170px;height:170px}.trust{grid-column:2;grid-row:2;align-self:start}}
+.status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
 .dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
 .status.on{color:#11803A;background:#E7F6EC}.status.on .dot{background:var(--green)}
 .status.on .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green);animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite}
 @keyframes ping{0%{transform:scale(1);opacity:.75}80%,100%{transform:scale(2.6);opacity:0}}
 .status.off{color:#9A5B00;background:#FFF4E0}.status.off .dot{background:var(--amber)}
-.hero h1{font-size:clamp(30px,6.4vw,54px);letter-spacing:-.015em;margin:4px 0 10px}
-.hero .sub{color:var(--muted);font-size:18px;margin:0 0 20px}
+.hero h1{font-size:clamp(32px,7vw,56px);letter-spacing:-.015em;margin:10px 0 12px}
+.hero .sub{color:var(--muted);font-size:18px;margin:0 0 22px}
 .cta{display:grid;gap:10px;max-width:440px;grid-template-columns:1fr 1fr}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:14px;font-weight:700;font-size:17px;text-decoration:none;padding:0 16px}
 .btn-call{background:var(--blue);color:#fff}.btn-call:hover{background:var(--blue-d)}
@@ -189,7 +194,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .steps{display:grid;gap:28px;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
 @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
 .steps li{display:flex;gap:16px;align-items:flex-start}
-.steps .ic{width:52px;height:52px;padding:13px;border-radius:16px;background:#fff;color:var(--blue);box-shadow:0 2px 10px rgba(14,26,43,.06)}
+.steps .sc{height:auto;padding:12px 8px}.steps .ic{width:52px;height:52px;padding:13px;border-radius:16px;background:#fff;color:var(--blue);box-shadow:0 2px 10px rgba(14,26,43,.06)}
 .steps h3{font-size:18px;margin:4px 0 2px}.steps p{color:var(--muted);font-size:15px}
 /* zones */
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
@@ -335,6 +340,7 @@ def gads_js():
     return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GADS_ID}"></script>'
             f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GADS_ID}');{ev}</script>")
 
+CSS_V = __import__("hashlib").sha1(CSS.encode()).hexdigest()[:8]
 def page(slug, title, desc, body, graph, og_img="og"):
     url = url_of(slug)
     gsc = f'<meta name="google-site-verification" content="{GSC_VERIFICATION}">' if GSC_VERIFICATION and slug == "index" else ""
@@ -343,7 +349,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css">{gsc}{ld(graph)}</head><body>
+<link rel="stylesheet" href="style.css?v={CSS_V}">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
 <main>{body}</main>
 <footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="prices.html">מחירון</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
@@ -355,8 +361,8 @@ def cta():
 
 def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול רב-בריח", crumb=""):
     return f'''<section class="hero"><div class="wrap">
-<div class="pro"><img src="img/rafi.webp" alt="רפי – המנעולן" width="480" height="480" fetchpriority="high"><div class="who"><b>רפי המנעולן</b><small>מגיע אליכם בעצמו</small><span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span></div><div class="eta-badge">{ic("moped")}<div><b>~{ETA_MIN} דק׳</b><small>מגיע בקטנוע, גם בפקקים</small></div></div></div>
-<div class="hero-txt">{crumb}<h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
+<div class="hero-txt">{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span><h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
+<div class="pro"><img src="img/rafi.webp" alt="רפי – המנעולן" width="480" height="480" fetchpriority="high"><div class="who"><b>רפי</b><small>מגיע אליכם בעצמו</small></div><div class="eta-badge">{ic("moped")}<div><b>~{ETA_MIN} דק׳</b><small>בקטנוע</small></div></div></div>
 <ul class="trust"><li>{ic("shekel")}<b>מחיר ברור</b><small>לפני העבודה</small></li><li>{ic("unlock")}<b>פתיחה בלי נזק</b><small>ברוב המקרים</small></li><li>{ic("hand")}<b>ישירות מול רפי</b><small>בלי מוקד</small></li></ul>
 </div></section>'''
 
