@@ -22,7 +22,7 @@ WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "
 CONTENT_DATE = "2026-11-01"                         # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
 # Majoration selon l'heure de l'appel (fournie par Raphaël le 7 nov. 2026) : (heure début, heure fin, ₪). Jamais plus de 150 ₪.
-NIGHT_TIERS = [(20, 22, 50), (22, 24, 100), (0, 7, 150)]
+NIGHT_TIERS = [(20, 22, 50), (22, 24, 100), (0, 8, 150)]   # pas de supplément de 08:00 à 20:00 (Rafi, 18 nov.)
 NIGHT_MAX = 150
 def _hh(h): return "00:00" if h == 24 else f"{h:02d}:00"
 NIGHT_TXT = " · ".join(f"{_hh(a)}–{_hh(b)}: +{v} ₪" for a, b, v in NIGHT_TIERS)
@@ -131,7 +131,11 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .hero-img>img,.hero-img>svg{width:100%;height:100%;object-fit:cover;display:block}
 .eta-badge{position:absolute;bottom:14px;inset-inline-end:14px;background:#fff;border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(14,26,43,.18)}
 .eta-badge .ic{color:var(--blue)}.eta-badge b{display:block;font-size:20px;line-height:1}.eta-badge small{color:var(--muted);font-size:13px}
-@media(min-width:880px){.hero{padding:56px 0 24px}.hero .wrap{grid-template-columns:1fr 1fr;align-items:center;gap:56px}.hero-img{aspect-ratio:4/5;grid-column:2;grid-row:1/3;max-height:560px}.hero-txt{grid-column:1;grid-row:1}.trust{grid-column:1;grid-row:2;align-self:start}}
+.pro{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px 12px;box-shadow:0 6px 20px rgba(14,26,43,.08);max-width:440px}
+.pro>img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none;border:3px solid var(--blue-soft)}
+.pro>div:nth-child(2){flex:1}.pro b{display:block;font-size:17px}.pro small{color:var(--muted);font-size:13px}
+.pro .eta-badge{position:static;box-shadow:none;background:var(--blue-soft);padding:8px 12px}
+@media(min-width:880px){.hero{padding:48px 0 16px}.hero .wrap{grid-template-columns:1.2fr .8fr;align-items:center;gap:20px 56px}.hero-txt{grid-column:1;grid-row:1/3}.pro{grid-column:2;grid-row:1;flex-direction:column;text-align:center;padding:24px;max-width:none}.pro>img{width:150px;height:150px}.trust{grid-column:2;grid-row:2;align-self:start}}
 .status{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:var(--muted);background:var(--soft);border-radius:999px;padding:8px 16px 8px 14px}
 .dot{position:relative;width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
 .status.on{color:#11803A;background:#E7F6EC}.status.on .dot{background:var(--green)}
@@ -199,8 +203,8 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .prows{list-style:none;margin:0;padding:0}.prows li{border-bottom:1px dashed var(--line)}.prows label{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}.prows li span{flex:1}
 .pick{appearance:none;-webkit-appearance:none;width:24px;height:24px;border:2px solid #B8C4D4;border-radius:7px;flex:none;display:grid;place-items:center;margin:0;background:#fff}
 .pick:checked{background:var(--wa);border-color:var(--wa)}.pick:checked::after{content:"✓";color:#fff;font-weight:700;font-size:15px}
-.prows li.psub{border:0;padding:18px 0 6px;font-weight:700;font-size:15px;color:var(--blue)}.prows li.psub:first-child{padding-top:4px}
-.prows b s{display:block;color:var(--muted);font-weight:400;font-size:.8em;text-align:center}.prows b:has(s){text-align:center;color:#C2410C}
+.prows li.psub{border:0;margin:18px 0 6px;padding:10px 14px;font-weight:700;font-size:16px;color:#fff;background:var(--blue);border-radius:12px}.prows li.psub:first-child{margin-top:4px}
+.prows b s{display:block;color:#DC2626;font-weight:500;font-size:.8em;text-align:center;text-decoration-thickness:2px}.prows b:has(s){text-align:center;color:var(--green)}
 .prows li:has(.pick:checked){background:#F0FAF3;border-radius:10px}
 .pick:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .nightb{background:#0E1A2B;color:#fff;border-radius:18px;padding:16px 18px;margin-bottom:16px}
@@ -290,7 +294,7 @@ def business(area_names):
             spec.append({"@type":"OpeningHoursSpecification","dayOfWeek":days[d],
                          "opens":f"{a:02d}:00","closes":"23:59" if b == 24 else f"{b:02d}:00"})
     return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
-            "image":SITE_URL+"/img/og.jpg","logo":SITE_URL+"/img/logo.png",
+            "image":SITE_URL+"/img/og.jpg","founder":{"@type":"Person","name":"רפי","image":SITE_URL+"/img/rafi.webp"},"logo":SITE_URL+"/img/logo.png",
             "address":{"@type":"PostalAddress","addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
@@ -336,8 +340,8 @@ def cta():
 
 def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול רב-בריח", crumb=""):
     return f'''<section class="hero"><div class="wrap">
-<div class="hero-img">{HERO_SVG if photo=="hero" else img(photo, alt, 800, 600, eager=True)}<div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
 <div class="hero-txt">{crumb}<span class="status"><span class="dot"></span><span class="t">זמין 24 שעות בימים א׳–ה׳</span></span><h1>{h1}</h1><p class="sub">{sub}</p>{cta()}</div>
+<div class="pro"><img src="img/rafi.webp" alt="רפי – המנעולן" width="480" height="480" fetchpriority="high"><div><b>רפי</b><small>מגיע אליכם בעצמו</small></div><div class="eta-badge">{ic("scooter")}<div><b>~{ETA_MIN} דק׳</b><small>הגעה בקטנוע</small></div></div></div>
 <ul class="trust"><li>{ic("tag")}מחיר ברור לפני העבודה</li><li>{ic("door")}פתיחה בלי נזק, ברוב המקרים</li><li>{ic("user")}ישירות מול רפי, בלי מוקד</li></ul>
 </div></section>'''
 
@@ -466,12 +470,16 @@ PRICES = [
  [("החלפת מנגנון רב-בריח", 700, None, "t-ravmech"), ("החלפת מנגנון שריונית חוסם", 800, None, "t-shiryonit"),
   ("סט פלטות קומפלט לפלדלת – ניקל, שחור או מעוגל", 330, None, "t-plates"), ("מחזיר דלת", 450, None, None), ("התקנת מנעול כספת / מנעול נוסף לפלדלת", 550, None, "t-extralock")], ["lock-repair", "security"]),
 ("int", "דלתות פנים ושערי כניסה", "p-intmech", "",
- [("#", "דלתות פנים"),
-  ("החלפת צילינדר פשוט", 240, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
-  ("פריצה + החלפת מנגנון (ללא צילינדר)", 300, None, "t-intmech", 350), ("פריצה + החלפת מנגנון + צילינדר", 470, None, "t-intdoor", 550),
+ [("#", "דלתות פנים – החלפה"),
   ("סט ידיות לדלת פשוטה / דלת פנים", 150, None, "t-inthandles"),
-  ("#", "שער כניסה חיצוני"),
+  ("החלפת צילינדר פשוט", 240, None, "t-simplecyl"), ("החלפת מנגנון", 250, None, "t-intlock.svg"),
+  ("החלפת מנגנון + צילינדר", 430, None, "t-intdoor", 500),
+  ("#", "דלתות פנים – פריצה + החלפה"),
+  ("פריצה + החלפת מנגנון (ללא צילינדר)", 300, None, "t-intmech", 350), ("פריצה + החלפת מנגנון + צילינדר", 470, None, "t-intdoor", 550),
+  ("#", "שער כניסה חיצוני – החלפה"),
   ("החלפת מנגנון שער כניסה", 250, None, "p-entrance"),
+  ("החלפת מנגנון + צילינדר בשער כניסה", 430, None, "p-entrance", 500),
+  ("#", "שער כניסה חיצוני – פריצה + החלפה"),
   ("פריצה + החלפת מנגנון + צילינדר בשער כניסה", 470, None, "p-entrance", 550)], ["lock-repair", "door-opening"]),
 ("mail", "תיבות דואר", "p-mail", "",
  [("פריצה והחלפת מנעול לתיבת דואר", 200, None, "t-mail"), ("החלפת מנעול זיז ישן בתיבות דואר מרוכזות", 300, None, "t-mailbank")], ["lock-repair"]),
@@ -493,7 +501,7 @@ def _sort_rows(rows):   # prix en ordre croissant à l'intérieur de chaque sous
     return out + sorted(seg, key=_pkey)
 PRICES = [(g[0], g[1], g[2], g[3], _sort_rows(g[4]), g[5]) for g in PRICES]
 
-PRICE_NOTES = [f"תוספת לפי שעת הקריאה: {NIGHT_TXT}. בין 07:00 ל-20:00 – בלי תוספת. אותו דבר בכל ימות השבוע, כולל שישי ומוצאי שבת.", "כל השירותים זמינים גם לעסקים.",
+PRICE_NOTES = [f"תוספת לפי שעת הקריאה: {NIGHT_TXT}. בין 08:00 ל-20:00 – בלי תוספת. אותו דבר בכל ימות השבוע, כולל שישי ומוצאי שבת.", "כל השירותים זמינים גם לעסקים.",
                "המחיר הסופי נאמר ומאושר לפני שמתחילים לעבוד."]
 
 def price_txt(p, t): return t if t else f"{p} ₪"
@@ -517,7 +525,7 @@ def price_block(g, h="h3"):
     return f'<div class="pcard">{pic}<div class="pbody"><{h}>{title}</{h}><ul class="prows">{li}</ul>{n}</div></div>'
 
 NIGHT_BANNER = ('<div class="nightb"><div class="nt">🌙 <b>תוספת לפי שעת הקריאה</b></div><div class="nrow">'
-    + '<span>07:00–20:00<b>בלי תוספת</b></span>'
+    + '<span>08:00–20:00<b>בלי תוספת</b></span>'
     + "".join(f'<span>{_hh(a)}–{_hh(b)}<b>+{v} ₪</b></span>' for a, b, v in NIGHT_TIERS)
     + f'</div><small>מקסימום {NIGHT_MAX} ₪ · זהה בכל ימות השבוע, כולל שישי ומוצאי שבת · מחושב אוטומטית כשבוחרים שירותים</small></div>')
 
@@ -585,7 +593,7 @@ for slug, html in pages:
     with open(f"{OUT}/{slug}.html", "w") as f: f.write(html)
 
 NIGHT_CARD = ('<div class="pcard solo" style="margin-top:24px"><div class="pbody"><h2>תוספת לפי שעת הקריאה</h2><ul class="prows">'
-    + '<li><label><span>07:00–20:00</span><b>בלי תוספת</b></label></li>'
+    + '<li><label><span>08:00–20:00</span><b>בלי תוספת</b></label></li>'
     + "".join(f'<li><label><span>{_hh(a)}–{_hh(b)}</span><b>+{v} ₪</b></label></li>' for a, b, v in NIGHT_TIERS)
     + f'</ul><p class="pnote">התוספת לא עולה על {NIGHT_MAX} ₪, והיא זהה בכל ימות השבוע – כולל שישי ומוצאי שבת. כשבוחרים שירותים, היא מחושבת אוטומטית לפי השעה.</p></div></div>')
 # Page Mehiron (prix fournis par Raphaël)
