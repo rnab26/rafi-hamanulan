@@ -66,6 +66,10 @@ I = {  # icônes trait 24x24
 }
 # Moto : Material Symbols « two_wheeler » (Google, licence Apache 2.0), choisie par Rafi le 18 nov. ; retournée pour rouler vers la gauche (RTL)
 MOPED_SVG = '<svg class="ic sc" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path transform="matrix(-1 0 0 1 960 0)" d="M157-200q-65 0-111-45.5T0-357q0-66 45.5-111.5T156-514l-47-36H25q-11 0-18-7t-7-18q0-11 7-18t18-7h156l99 60 149-56q5-2 10.5-3t10.5-1h129l-78-100h-59q-13 0-21.5-8.5T412-730q0-13 8.5-21.5T442-760h60q14 0 26.5 6t20.5 17l68 88 107-53q8-4 15 .5t7 12.5v65q0 6-4.5 10.5T731-609h-83l85 110q17-7 34-10.5t35-3.5q66 0 112 45.5T960-356q0 66-46 111t-112 45q-65 0-110.5-45.5T646-356q0-30 10-57t30-49l-35-45-137 209q-5 6-11 10t-14 4h-82q-5 0-10.5-2t-10.5-6l-72-65q0 66-45.5 111.5T157-200Zm0-60q41 0 69-28.5t28-68.5q0-40-28-68.5T157-454q-40 0-68.5 28T60-357q0 41 28.5 69t68.5 28Zm645 0q41 0 69.5-28t28.5-68q0-41-28.5-69.5T802-454q-40 0-68 28.5T706-356q0 40 28 68t68 28Z"/></svg>'
+# Logo (option B choisie par Claude le 18 nov., à valider par Rafi) : cadenas bleu + « ר » de Rafi. Une seule source : en-tête, favicon, logo.png
+LOGO_SVG = ('<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="lgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1446B4"/></linearGradient></defs>'
+            '<path d="M19 28v-8a13 13 0 0 1 26 0v8" fill="none" stroke="#0E1A2B" stroke-width="6" stroke-linecap="round"/><rect x="8" y="25" width="48" height="36" rx="11" fill="url(#lgg)"/>'
+            '<path d="M22 36h12a7 7 0 0 1 7 7v10" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 def ic(n, cls="ic"):
     if n == "moped": return MOPED_SVG
     return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{I[n]}</svg>'
@@ -134,10 +138,26 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 .hd{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .hd .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;font-size:19px}
-.logo .mk{width:34px;height:34px;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center}
+.logo .mk{width:38px;height:38px;display:block}.logo .mk svg{width:38px;height:38px;display:block}.logo em{font-style:normal;color:var(--blue)}
 .logo .mk .ic{width:20px;height:20px}
 .pill{display:inline-flex;align-items:center;gap:6px;color:var(--blue);text-decoration:none;font-weight:700;font-size:16px}
 .pill span{direction:ltr}.pill .ic{width:18px;height:18px}
+.hd .wrap{gap:10px}.hd .logo{margin-inline-end:auto}
+@media(max-width:430px){.pill span{display:none}.pill{width:40px;height:40px;justify-content:center;border-radius:12px;background:var(--blue-soft)}.logo{font-size:18px}}
+.nav summary{list-style:none;width:42px;height:40px;border-radius:12px;background:var(--ink);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;cursor:pointer}.nav summary::-webkit-details-marker{display:none}
+.nav summary i{display:block;width:18px;height:2px;border-radius:2px;background:#fff;transition:transform .2s,opacity .2s}
+.nav[open] summary i:nth-child(1){transform:translateY(6px) rotate(45deg)}.nav[open] summary i:nth-child(2){opacity:0}.nav[open] summary i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.navp{position:fixed;top:60px;inset-inline:0;height:calc(100vh - 60px);height:calc(100dvh - 60px);background:#fff;overflow-y:auto;padding:16px 20px 120px;border-top:1px solid var(--line);z-index:30}
+@media(min-width:760px){.navp{inset-inline:auto 24px;left:24px;right:auto;height:auto;width:380px;max-height:calc(100vh - 80px);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(14,26,43,.18)}}
+.navp .nbig{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:8px;border-radius:14px;background:var(--blue-soft);color:var(--ink);font-weight:700;font-size:17px;text-decoration:none}
+.navp .nbig .ic{width:36px;height:36px;padding:7px;border-radius:10px;background:var(--blue);color:#fff}
+.navp p{margin:18px 0 6px;color:var(--muted);font-size:13px;font-weight:700}
+.navp ul{list-style:none;margin:0;padding:0}.navp li a{display:flex;align-items:center;gap:12px;padding:8px 0;color:var(--ink);text-decoration:none;font-size:16px;border-bottom:1px solid var(--line)}
+.navp li img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:none}.navp .cta{margin-top:20px}
+.svc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(min-width:760px){.svc{grid-template-columns:repeat(5,1fr)}}
+.svc a{display:block;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px}.svc img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;margin-bottom:6px}
+.gds{list-style:none;margin:0;padding:0}.gds a{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);font-weight:500}
+.gds img{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none}.gds span{flex:1}.gds .ic{width:18px;height:18px;color:var(--blue)}
 /* hero */
 .hero{padding:20px 0 8px}
 .hero .wrap{display:grid;gap:24px}
@@ -305,7 +325,7 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
   "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')&&!t.closest('summary')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
-  "document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.accx');if(b){var d=b.closest('details');d.open=false;d.scrollIntoView({block:'nearest'})}});document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
+  "document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.accx');if(b){var d=b.closest('details');d.open=false;d.scrollIntoView({block:'nearest'})}});document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.navp a');if(a){var n=document.querySelector('.nav');if(n)n.open=false}});document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
   "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
   "new IntersectionObserver(function(en){var v=en[0].isIntersecting;fb.classList.toggle('hid',v);document.body.classList.toggle('barhid',v)}).observe(hc)}})();</script>")
 
@@ -352,6 +372,16 @@ def gads_js():
     return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GADS_ID}"></script>'
             f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GADS_ID}');{ev}</script>")
 
+def nav_menu(body):   # menu classique (☰) : renvoie aux sections de la page si elles existent, sinon à l'accueil
+    h = lambda a: ("" if f'id="{a}"' in body else "index.html") + "#" + a
+    sv = "".join(f'<li><a href="{s}.html"><img src="img/{im}.webp" alt="" width="44" height="44" loading="lazy">{n}</a></li>' for s, n, im, *_ in SERVICES)
+    gd = "".join(f'<li><a href="{s}.html"><img src="img/{im}.webp" alt="" width="44" height="44" loading="lazy">{t}</a></li>' for s, t, im, *_ in GUIDES)
+    return (f'<details class="nav"><summary aria-label="תפריט"><i></i><i></i><i></i></summary><div class="navp">'
+            f'<a class="nbig" href="{h("prix")}">{ic("tag")}מחירים – כל השירותים</a>'
+            f'<a class="nbig" href="{h("faq")}">{ic("chat")}שאלות נפוצות ושעות</a>'
+            f'<a class="nbig" href="{h("areas")}">{ic("pin")}אזורי שירות</a>'
+            f'<p>שירותים</p><ul>{sv}</ul><p>מדריכים</p><ul>{gd}</ul>{cta()}</div></details>')
+
 CSS_V = __import__("hashlib").sha1(CSS.encode()).hexdigest()[:8]
 def page(slug, title, desc, body, graph, og_img="og"):
     url = url_of(slug)
@@ -362,7 +392,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css?v={CSS_V}">{gsc}{ld(graph)}</head><body>
-<header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{ic("key")}</span>{NAME}</a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a></div></header>
+<header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{LOGO_SVG}</span><span>רפי <em>המנעולן</em></span></a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a>{nav_menu(body)}</div></header>
 <main>{body}</main>
 <footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="prices.html">מחירון</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
@@ -388,12 +418,12 @@ def gallery_sec():
 
 def area_sec(title="אזורי שירות", current=None):
     chips = "".join(f'<li><a href="{s}.html">מנעולן {b}</a></li>' for s, n, b, _ in CITIES if s != current)
-    return f'<section class="sec"><div class="wrap"><h2>{title}<small>מגיע אליכם – מקיסריה ועד הוד השרון.</small></h2><ul class="chips">{chips}</ul></div></section>'
+    return f'<section class="sec" id="areas"><div class="wrap"><h2>{title}<small>מגיע אליכם – מקיסריה ועד הוד השרון.</small></h2><ul class="chips">{chips}</ul></div></section>'
 
 def faq_sec(faq):
     q = "".join(f'<details><summary>{a}</summary><p>{b}</p></details>' for a, b in faq)
     hrs = "".join(f'<div><b>{d}</b><span>{h}</span></div>' for d, h in HOURS_DISPLAY)
-    return (f'<section class="sec alt"><div class="wrap two"><div><h2>שאלות נפוצות</h2><div class="faq">{q}</div></div>'
+    return (f'<section class="sec alt" id="faq"><div class="wrap two"><div><h2>שאלות נפוצות</h2><div class="faq">{q}</div></div>'
             f'<div><h2>שעות זמינות</h2><div class="hours">{hrs}</div><p class="note">בשבת סגור. מחוץ לשעות אפשר להשאיר הודעה בוואטסאפ.</p></div></div></section>')
 
 def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
@@ -558,10 +588,11 @@ def prices_all(title="השירותים והמחירים", small="לוחצים ע
     return (f'<section class="sec{" alt" if alt else ""}" id="prix"><div class="wrap"><{h} class="sh">{title}<small>{small}</small></{h}>{NIGHT_BANNER}'
             f'<div class="accs">{"".join(acc_block(g, g[0] in open_ids) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
-def more_sec():   # liens internes (SEO) vers les pages de service et les guides, en version compacte
-    sv = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n, *_ in SERVICES)
-    gd = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES)
-    return f'<section class="sec"><div class="wrap"><h2>עוד מידע</h2><ul class="chips">{sv}</ul><ul class="links" style="margin-top:20px">{gd}</ul></div></section>'
+def more_sec():   # liens internes (SEO) vers les pages de service et les guides, avec vignettes
+    sv = "".join(f'<li><a href="{s}.html"><img src="img/{im}.webp" alt="" width="120" height="90" loading="lazy" decoding="async"><span>{n}</span></a></li>' for s, n, im, *_ in SERVICES)
+    gd = "".join(f'<li><a href="{s}.html"><img src="img/{im}.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><span>{t}</span>{ic("arrow")}</a></li>' for s, t, im, *_ in GUIDES)
+    return (f'<section class="sec" id="info"><div class="wrap"><h2>שירותים<small>כל מה שצריך לדעת על כל שירות.</small></h2><ul class="svc">{sv}</ul>'
+            f'<h2 style="margin-top:40px">מדריכים קצרים<small>מה עושים כשזה קורה.</small></h2><ul class="gds">{gd}</ul></div></section>')
 
 # ------------------------------------------------------------------ génération
 ALL = [n for _, n, _, _ in CITIES]
@@ -645,7 +676,7 @@ with open(f"{OUT}/404.html", "w") as f:
                  [business(ALL)]).replace('<link rel="canonical" href="' + url_of("404") + '">', '<meta name="robots" content="noindex">'))
 
 with open(f"{OUT}/favicon.svg", "w") as f:
-    f.write("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='#1A56DB'/><circle cx='12' cy='16' r='5' fill='none' stroke='white' stroke-width='2.5'/><path d='M17 16h9M23 16v4' stroke='white' stroke-width='2.5' stroke-linecap='round'/></svg>")
+    f.write(LOGO_SVG.replace(' aria-hidden="true"', ""))
 
 with open(f"{OUT}/rafi-hamanulan.vcf", "w", encoding="utf-8") as f:
     f.write("BEGIN:VCARD\r\nVERSION:3.0\r\nN:;" + NAME + ";;;\r\nFN:" + NAME + "\r\nORG:" + NAME + "\r\nTITLE:מנעולן\r\n"
