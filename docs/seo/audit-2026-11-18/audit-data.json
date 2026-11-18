@@ -1,0 +1,153 @@
+{
+ "summary": {
+  "health_score": 76,
+  "business_type": "Local service-area business (locksmith)",
+  "top_findings": [
+   "34 city pages ~96% identical",
+   "No reviews/trust proof on site",
+   "Thin guides",
+   "Schema missing address/Service/Article",
+   "No llms.txt / AI policy"
+  ],
+  "quick_wins": [
+   "301 /x to /x.html",
+   "favicon.ico",
+   "add city/region to PostalAddress"
+  ]
+ },
+ "categories": [
+  {
+   "name": "Technical SEO",
+   "score": 88,
+   "what_works": [
+    "HTTPS+HSTS",
+    "canonical 49/49",
+    "sitemap 49 URLs"
+   ],
+   "findings": [
+    {
+     "title": "Extensionless URLs return 200",
+     "severity": "Low",
+     "description": "/netanya serves 200 besides /netanya.html",
+     "recommendation": "301 redirect"
+    }
+   ]
+  },
+  {
+   "name": "Content Quality",
+   "score": 62,
+   "what_works": [
+    "Hebrew, clear structure"
+   ],
+   "findings": [
+    {
+     "title": "Near-duplicate city pages",
+     "severity": "High",
+     "description": "~96% shared text between city pages",
+     "recommendation": "Unique 150-250 words per city"
+    },
+    {
+     "title": "Thin guides",
+     "severity": "Medium",
+     "description": "400-470 words, no author/date",
+     "recommendation": "Expand and add Article schema"
+    }
+   ]
+  },
+  {
+   "name": "On-Page SEO",
+   "score": 80,
+   "what_works": [
+    "unique titles/descriptions",
+    "1 H1 per page"
+   ],
+   "findings": []
+  },
+  {
+   "name": "Schema",
+   "score": 78,
+   "what_works": [
+    "Locksmith, FAQPage, BreadcrumbList"
+   ],
+   "findings": [
+    {
+     "title": "Schema gaps",
+     "severity": "Medium",
+     "description": "No city in PostalAddress, no aggregateRating, no Service",
+     "recommendation": "Add when real data exists"
+    }
+   ]
+  },
+  {
+   "name": "Performance",
+   "score": 95,
+   "what_works": [
+    "LCP 0.8s lab, CLS 0"
+   ],
+   "findings": []
+  },
+  {
+   "name": "AI Search Readiness",
+   "score": 55,
+   "what_works": [
+    "robots allows all"
+   ],
+   "findings": [
+    {
+     "title": "No llms.txt / Content-Signal",
+     "severity": "Low",
+     "description": "llms.txt 404",
+     "recommendation": "Optional"
+    }
+   ]
+  },
+  {
+   "name": "Images",
+   "score": 85,
+   "what_works": [
+    "alt on all images",
+    "webp"
+   ],
+   "findings": []
+  }
+ ],
+ "action_plan": {
+  "phases": [
+   {
+    "name": "Phase 1",
+    "timeframe": "Weeks 1-3",
+    "items": [
+     "Rewrite city pages",
+     "Collect real reviews"
+    ]
+   },
+   {
+    "name": "Phase 2",
+    "timeframe": "Month 1-2",
+    "items": [
+     "Schema",
+     "Expand guides",
+     "GBP/citations"
+    ]
+   },
+   {
+    "name": "Phase 3",
+    "timeframe": "Backlog",
+    "items": [
+     "301s, favicon, CSP"
+    ]
+   },
+   {
+    "name": "Phase 4",
+    "timeframe": "Ongoing",
+    "items": [
+     "Search Console monitoring"
+    ]
+   }
+  ]
+ },
+ "artifacts": {
+  "findings_dir": "findings/",
+  "screenshots_dir": "screenshots/"
+ }
+}
