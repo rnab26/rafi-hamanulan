@@ -112,6 +112,46 @@ CITIES = [
 ("yakum","יקום","ביקום","כל הקיבוץ"),
 ("moshavim","מושבי השרון","במושבי השרון","אודים, יקום, מכמורת, כפר ויתקין, בית יהושע, חבצלת השרון, אביחיל ועוד"),
 ]
+# slug: (à propos de la ville, conseil serrurerie propre au type d'habitat). Pas de chiffres ni de cas inventés.
+SALT = "ליד הים האוויר המלוח והחול מאיצים חלודה בצילינדרים ובמנעולי השער – אם המפתח מתחיל להיתקע או להסתובב קשה, כדאי להחליף לפני שהוא נשבר בפנים."
+PRIV = "בבית פרטי יש בדרך כלל כמה מנעולים – דלת ראשית, דלת שירות, שער, מחסן ותיבת דואר – וכדאי לבדוק את כולם בבת אחת ולהתאים צילינדר איכותי לכל דלת חיצונית."
+BLD = "בבניינים עם דלתות פלדלת ישנות ומנעולים שחוקים, החלפת צילינדר לאיכותי היא השדרוג הזול ביותר לאבטחה, ואפשר לעשות אותה בלי להחליף את הדלת."
+CITY_TEXT = {
+"netanya": ("נתניה היא עיר חוף גדולה: מגדלי מגורים לאורך הים ובעיר ימים, בניינים ותיקים במרכז, ושכונות של בתים פרטיים כמו קריית השרון ורמת פולג.", SALT + " " + BLD),
+"hadera": ("חדרה משלבת מרכז עיר ותיק עם בניינים בני עשרות שנים, ושכונות חדשות יותר עם בנייה חדשה ובתים פרטיים.", BLD),
+"givat-olga": ("גבעת אולגה היא שכונה על חוף הים של חדרה, עם בניינים ובתים צמודי קרקע לא רחוק מהמים.", SALT),
+"caesarea": ("בקיסריה רוב הבתים פרטיים, לא מעט וילות עם שער, גדר ודלתות כניסה כבדות, ובנוסף פארק תעשייה עם עסקים.", SALT + " " + PRIV),
+"or-akiva": ("אור עקיבא היא עיר קטנה שבה בניינים ותיקים עומדים לצד שכונות של בתים פרטיים.", BLD),
+"jisr-az-zarqa": ("ג'סר א-זרקא הוא יישוב על חוף הים עם בתים צמודי קרקע ובניינים קטנים קרוב לשפת הים.", SALT),
+"binyamina": ("בנימינה היא מושבה ותיקה בנוף של כרמים ויקבים, וגבעת עדה שכנה לה – בעיקר בתים פרטיים עם חצר ושער.", PRIV),
+"pardes-hanna": ("פרדס חנה-כרכור היא מועצה גדולה שהתפתחה מפרדסים: שכונות רבות של בתים פרטיים, ולצדן בנייה חדשה בבניינים.", PRIV),
+"kfar-yona": ("כפר יונה היא עיר שרונית שבה בניינים ותיקים בשכונות מרכזיות לצד שכונות חדשות ובתים פרטיים.", BLD),
+"even-yehuda": ("אבן יהודה היא מושבה ותיקה עם הרבה בתים פרטיים בשכונות שקטות, חצרות ושערים.", PRIV),
+"kadima-zoran": ("קדימה-צורן מורכבת משני יישובים סמוכים עם בתים פרטיים רבים וגם בנייה חדשה בבניינים.", PRIV),
+"tel-mond": ("תל מונד היא יישוב ותיק בשרון עם בתים פרטיים רבים וחצרות, וכמה שכונות חדשות.", PRIV),
+"tayibe": ("בטייבה יש בתים פרטיים לצד בניינים, ובבית עם כמה כניסות ויחידות יש גם יותר מנעולים לשמור עליהם.", PRIV + " " + BLD),
+"tira": ("טירה היא עיר גדולה במשולש עם בתים פרטיים ובניינים בכמה שכונות.", PRIV),
+"qalansawe": ("קלנסווה היא עיר במשולש עם בתים פרטיים, בניינים ומסחר לאורך הרחובות הראשיים.", PRIV + " " + BLD),
+"pardesiya": ("פרדסיה היא יישוב קטן עם בתים פרטיים וחצרות, כמעט בלי בניינים גבוהים.", PRIV),
+"kfar-saba": ("כפר סבא היא עיר גדולה עם בניינים מכל התקופות – ממרכז העיר הוותיק ועד שכונות חדשות – ושכונות של בתים פרטיים.", BLD + " " + PRIV),
+"raanana": ("ברעננה בתים פרטיים רבים עם חצר, לצד מגדלים ובניינים חדשים במרכז העיר ובאזור התעשייה.", PRIV),
+"herzliya": ("הרצליה כוללת את הרצליה פיתוח עם וילות ושערים, מרכז עיר עם בניינים ותיקים, ושכונות קרובות לים והמרינה.", SALT + " " + PRIV),
+"hod-hasharon": ("הוד השרון היא עיר שרונית עם שכונות רבות של בתים פרטיים ובניינים חדשים יחסית.", PRIV + " " + BLD),
+"kochav-yair": ("כוכב יאיר-צור יגאל הוא יישוב קהילתי של בתים פרטיים רחבים עם חצר ושער, בקצה השרון הדרומי.", PRIV),
+"ramat-hasharon": ("רמת השרון היא עיר ירוקה סמוכה לתל אביב, עם הרבה בתים פרטיים ושכונות שקטות ובניינים חדשים בכמה מרכזים.", PRIV),
+"emek-hefer": ("עמק חפר היא מועצה אזורית של מושבים וקיבוצים ויישובים קהילתיים: בתים פרטיים, חצרות, מחסנים ומבני משק.", PRIV),
+"michmoret": ("מכמורת היא מושב על חוף הים עם בתים פרטיים וחצרות והרבה מחסנים ומבני משק.", SALT + " " + PRIV),
+"kfar-vitkin": ("כפר ויתקין הוא מושב ותיק בשרון הצפוני, לא רחוק מהים, עם בתים פרטיים וחצרות.", PRIV),
+"kfar-haim": ("כפר חיים הוא מושב בעמק חפר, עם בתים פרטיים בחצרות גדולות ומבני משק.", PRIV),
+"kfar-yedidya": ("כפר ידידיה הוא מושב קטן בעמק חפר, בתים פרטיים וחצרות עם מחסנים ושערים.", PRIV),
+"beit-yitzhak": ("בית יצחק-שער חפר הוא יישוב בעמק חפר, עם בתים פרטיים וחצרות.", PRIV),
+"udim": ("אודים הוא מושב קטן בעמק חפר, ובו בעיקר בתים פרטיים וחצרות, ומבני משק לצדם.", PRIV),
+"kfar-netter": ("כפר נטר הוא מושב קטן בעמק חפר, עם בתים פרטיים, חצרות ושערים.", PRIV),
+"tel-yitzhak": ("תל יצחק הוא מושב בעמק חפר, קרוב לחוף, עם בתים פרטיים וחצרות.", SALT + " " + PRIV),
+"bnei-zion": ("בני ציון הוא מושב בעמק חפר עם בתים פרטיים וחצרות רחבות.", PRIV),
+"yakum": ("יקום הוא קיבוץ בשרון הדרומי שהתרחב גם לשכונות של בתים פרטיים, ויש בו מבני משק ועסקים.", PRIV),
+"moshavim": ("מושבי השרון – מושבים וקיבוצים קטנים עם בתים פרטיים, חצרות, שערים ומחסנים, לעיתים רחוקים מהכביש הראשי.", PRIV),
+}
 # (slug, nom, image, phrase courte, ce qui est inclus, mots-clés secondaires pour la description)
 SERVICES = [
 ("door-opening","פריצת דלתות","door-opening","ננעלתם בחוץ? פותח את הדלת בלי לגרום נזק, ברוב המקרים.",
@@ -208,6 +248,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-off
 #prix{padding-top:36px}.sec h2.sh,.sec h1.sh{font-size:clamp(26px,4.6vw,36px);letter-spacing:-.01em;margin-bottom:18px}.sec h1.sh small{display:block;font-size:17px;font-weight:400;color:var(--muted);margin-top:8px}
 .accs{display:grid;gap:10px}
 .acc{background:#fff;border:1px solid var(--line);border-radius:18px;scroll-margin-top:76px;box-shadow:0 2px 10px rgba(14,26,43,.04)}
+a.acc{display:block;color:inherit;text-decoration:none;background:#fff}a.acc .accl{display:flex;align-items:center;gap:14px;padding:10px 12px}a.acc .accl>span{flex:1}a.acc b{display:block;font-size:18px}a.acc small{color:var(--green);font-weight:700;font-size:14px}a.acc i{width:34px;height:34px;border-radius:50%;background:var(--blue-soft);flex:none;position:relative}a.acc i::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-right:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:translateX(2px) rotate(-45deg)}a.acc img{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none}
 .acc summary{list-style:none;display:flex;align-items:center;gap:14px;padding:10px 12px;cursor:pointer}.acc summary::-webkit-details-marker{display:none}
 .acc summary img{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none;cursor:pointer}
 .acc summary span{flex:1}.acc summary b{display:block;font-size:18px}.acc summary small{color:var(--green);font-weight:700;font-size:14px}
@@ -366,7 +407,7 @@ UI_JS = ("<div class=\"selbar\" id=\"selbar\" role=\"region\" aria-label=\"הב�
   "var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbp=document.getElementById('lbp');"
   "document.addEventListener('click',function(e){var t=e.target;if(t.tagName==='IMG'&&t.closest('main')&&!t.closest('a')&&!t.closest('summary')){e.preventDefault();lbi.src=t.currentSrc||t.src;lbi.alt=t.alt;lbp.textContent=t.alt;lb.classList.add('show')}"
   "else if(t===lb||t.id==='lbx'||t===lbi){lb.classList.remove('show')}});"
-  "document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.accx');if(b){var d=b.closest('details');d.open=false;d.scrollIntoView({block:'nearest'})}});document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.navp a');if(a){var n=document.querySelector('.nav');if(n)n.open=false}});document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();"
+  "document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.accx');if(b){var d=b.closest('details');d.open=false;d.scrollIntoView({block:'nearest'})}});document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.navp a');if(a){var n=document.querySelector('.nav');if(n)n.open=false}});document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('show')});upd();try{var hh=location.hash&&document.querySelector(location.hash);if(hh&&hh.tagName=='DETAILS'){hh.open=true;hh.scrollIntoView()}}catch(x){}"
   "var hc=document.querySelector('.hero .cta'),fb=document.querySelector('.bar');if(hc&&fb&&'IntersectionObserver' in window){"
   "new IntersectionObserver(function(en){var v=en[0].isIntersecting;fb.classList.toggle('hid',v);document.body.classList.toggle('barhid',v)}).observe(hc)}})();</script>")
 
@@ -632,10 +673,15 @@ def acc_block(g, open_=False):   # une catégorie = un menu déroulant (photo + 
             f'<span><b>{title}</b><small>החל מ-{_from(rows)} ₪</small></span><i aria-hidden="true"></i></summary>'
             f'<ul class="prows">{"".join(row(r) for r in rows)}</ul>{n}<button type="button" class="accx">סגירה ▲</button></details>')
 
-def prices_all(title="השירותים והמחירים", small="לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", open_ids=(), h="h2", alt=False):
+def acc_link(g):   # pages villes : même carte que le menu fermé, mais renvoie au מחירון (évite 34 copies du même texte)
+    gid, title, im, _, rows, _ = g
+    return (f'<a class="acc" href="prices.html#p-{gid}"><span class="accl"><img src="img/{im}.webp" alt="{title}" width="64" height="64" loading="lazy" decoding="async">'
+            f'<span><b>{title}</b><small>החל מ-{_from(rows)} ₪</small></span><i aria-hidden="true"></i></span></a>')
+
+def prices_all(title="השירותים והמחירים", small="לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", open_ids=(), h="h2", alt=False, link=False):
     notes = "".join(f"<li>{x}</li>" for x in PRICE_NOTES[1:])
     return (f'<section class="sec{" alt" if alt else ""}" id="prix"><div class="wrap"><{h} class="sh">{title}<small>{small}</small></{h}>{NIGHT_BANNER}'
-            f'<div class="accs">{"".join(acc_block(g, g[0] in open_ids) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
+            f'<div class="accs">{"".join(acc_link(g) if link else acc_block(g, g[0] in open_ids) for g in PRICES)}</div><ul class="pnotes">{notes}</ul></div></section>')
 
 def more_sec():   # liens internes (SEO) vers les pages de service et les guides, avec vignettes
     sv = "".join(f'<li><a href="{s}.html"><img src="img/{im}.webp" alt="" width="120" height="90" loading="lazy" decoding="async"><span>{n}</span></a></li>' for s, n, im, *_ in SERVICES)
@@ -659,11 +705,13 @@ pages.append(("index", page("index",
 # Pages villes
 for s, n, b, hood in CITIES:
     faq = [(f"תוך כמה זמן מגיע מנעולן {b}?", f"בדרך כלל תוך כ-{ETA_MIN} דקות. אני מגיע בקטנוע, כך שגם בשעות העומס אני מגיע ל{n} מהר."),
-           (f"לאילו אזורים {b} אתה מגיע?", f"{hood}.")] + FAQ[1:]
+           (f"לאילו אזורים {b} אתה מגיע?", f"{hood}."),
+           (f"מה כדאי לדעת על מנעולים {b}?", CITY_TEXT[s][1])] + FAQ[1:]
     intro = (f"צריכים מנעולן {b}? רפי המנעולן מגיע בקטנוע לכל מקום {b}" + ("." if hood.startswith("כל") else f": {hood}.") + " "
              f"פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות – לבית ולעסק, עם מחיר ברור לפני העבודה.")
     body = (hero(f"מנעולן {b}", f"פורץ דלתות ומנעולים {b}. אצלכם תוך כ-{ETA_MIN} דקות.", crumb=crumb_html(f"מנעולן {b}"))
-            + prices_all(f"שירותי מנעולן {b}", intro)
+            + f'<section class="sec"><div class="wrap"><h2>מנעולן {b}</h2><p>{CITY_TEXT[s][0]} {intro}</p></div></section>'
+            + prices_all(f"שירותי מנעולן {b}", "לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", link=True)
             + faq_sec(faq) + area_sec("עוד אזורים", current=s) + band())
     pages.append((s, page(s,
         f"מנעולן {b} – הגעה תוך כ-{ETA_MIN} דק׳ | {NAME}",
