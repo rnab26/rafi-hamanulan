@@ -34,6 +34,7 @@ HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:
 GSC_VERIFICATION = ""
 # Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
 REVIEW_URL = "https://g.page/r/CavM3AVwHYkIEBM/review"
+MIDRAG_URL = "https://www.midrag.co.il/SpCard/Sp/99543?areaId=10&serviceId=340&sortByCategory=333&isGeneric=true"   # fiche Midrag de Rafi (inscrit depuis 2–3 ans), lien fourni le 18 nov.
 # Clé IndexNow (Bing/Yandex) : fichier <clé>.txt publié à la racine. Ne pas changer sans republier.
 # Google Ads – suivi des conversions (appel / WhatsApp). Vide = aucun script Google Ads sur le site.
 # Valeurs à recopier depuis Google Ads → Objectifs → Conversions → la conversion → « Configurer la balise ».
@@ -437,7 +438,7 @@ def business(area_names):
             "address":{"@type":"PostalAddress","addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
-            "priceRange":PRICE_RANGE,"sameAs":([REVIEW_URL.rsplit("/review",1)[0]] if REVIEW_URL else []),"contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
+            "priceRange":PRICE_RANGE,"sameAs":([REVIEW_URL.rsplit("/review",1)[0]] if REVIEW_URL else []) + ([MIDRAG_URL] if MIDRAG_URL else []),"contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
 
 def ld(objs):
     return '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@graph":objs}, ensure_ascii=False) + '</script>'
@@ -515,8 +516,9 @@ def faq_sec(faq):
 
 def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
     rev = f'<p class="note"><a href="{REVIEW_URL}">עבדתי אצלכם? אשמח שתשאירו ביקורת בגוגל</a></p>' if REVIEW_URL else ""
+    mid = f'<p class="note"><a href="{MIDRAG_URL.replace("&", "&amp;")}" rel="noopener" target="_blank">ההמלצות עליי במדרג</a></p>' if MIDRAG_URL else ""
     save = '<p class="note"><a href="rafi-hamanulan.vcf" download>שמרו את המספר באנשי הקשר – למקרה חירום</a></p>'
-    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{save}{rev}</div></section>'
+    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{save}{mid}{rev}</div></section>'
 
 def crumb_html(label):
     return f'<p class="crumb"><a href="index.html">ראשי</a> / {label}</p>'
