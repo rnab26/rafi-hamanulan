@@ -154,7 +154,7 @@ main img{cursor:zoom-in}main a img{cursor:pointer}.lb{position:fixed;inset:0;z-i
 .prows li:last-child{border:0}.prows b{white-space:nowrap;color:var(--blue)}.prows b.long{white-space:normal;text-align:left;max-width:55%}
 .pnote{color:var(--muted);font-size:14px;margin-top:8px}.pnotes{color:var(--muted);font-size:15px;margin:20px 0 0;padding-inline-start:20px}
 /* articles */
-.art{max-width:720px}.art h1{font-size:clamp(28px,6vw,40px);margin:8px 0 14px}.art .intro{margin:0 0 24px}
+.art{max-width:720px}.art h1{font-size:clamp(28px,6vw,40px);margin:8px 0 14px}.art .intro{margin:0 0 24px}.art .meta{color:#6E6E73;font-size:14px;margin:-6px 0 14px}.art .rel{margin:28px 0 0;font-weight:500}
 .art img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;margin-bottom:12px}
 .art h2{font-size:22px;margin:32px 0 10px}.art p,.art li{color:#2B3A4D}.art ul{padding-inline-start:20px;margin:0}.art li{margin-bottom:8px}
 .cta-box{background:var(--soft);border-radius:20px;padding:22px;margin:36px 0 8px}.cta-box b{display:block;font-size:19px;margin-bottom:14px}

@@ -3,8 +3,12 @@
 Lancer depuis la racine du dépôt :  python3 _build/build.py
 Tout ce qui est réglable est dans la section RÉGLAGES ci-dessous (une seule source de vérité).
 """
-import os, json, datetime
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
+import os, json, datetime, builtins
+def open(file, mode="r", *a, **k):  # UTF-8 + fins de ligne "\n" partout (sinon un build sous Windows diffère du dépôt)
+    if "b" not in mode:
+        k.setdefault("encoding", "utf-8"); k.setdefault("newline", "\n")
+    return builtins.open(file, mode, *a, **k)
+ROOT =os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # racine du repo
 OUT = os.path.join(ROOT, "public")  # SEUL dossier publié par Render (Publish Directory = public)
 # Transition : tant que Render publie encore la racine (« ./ »), on recopie le site à la racine.
 # Passer à False dès que Render publie « public », puis supprimer les copies à la racine.
@@ -19,7 +23,7 @@ PHONE_INTL = "+972545301389"
 PHONE = "054-530-1389"
 WA_NUMBER = "972545301389"
 WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
-CONTENT_DATE = "2026-11-01"                         # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
+CONTENT_DATE = "2026-11-19"                       # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
 # Majoration selon l'heure de l'appel (fournie par Raphaël le 7 nov. 2026) : (heure début, heure fin, ₪). Jamais plus de 150 ₪.
 NIGHT_TIERS = [(20, 22, 50), (22, 24, 100), (0, 8, 150)]   # pas de supplément de 08:00 à 20:00 (Rafi, 18 nov.)
@@ -153,6 +157,49 @@ CITY_TEXT = {
 "yakum": ("יקום הוא קיבוץ בשרון הדרומי שהתרחב גם לשכונות של בתים פרטיים, ויש בו מבני משק ועסקים.", PRIV),
 "moshavim": ("מושבי השרון – מושבים וקיבוצים קטנים עם בתים פרטיים, חצרות, שערים ומחסנים, לעיתים רחוקים מהכביש הראשי.", PRIV),
 }
+# Localités proches (texte unique par page ville + maillage interne ; 19 nov. 2026, audit SEO). Toutes dans la zone de Rafi.
+NEARBY = {
+"netanya": ["even-yehuda", "kfar-yona", "udim", "beit-yitzhak", "kfar-netter"],
+"hadera": ["givat-olga", "pardes-hanna", "or-akiva", "caesarea", "emek-hefer"],
+"givat-olga": ["hadera", "michmoret", "caesarea"],
+"caesarea": ["or-akiva", "jisr-az-zarqa", "binyamina", "hadera"],
+"or-akiva": ["caesarea", "hadera", "binyamina"],
+"jisr-az-zarqa": ["caesarea", "binyamina", "or-akiva"],
+"binyamina": ["pardes-hanna", "caesarea", "or-akiva"],
+"pardes-hanna": ["binyamina", "hadera", "caesarea"],
+"kfar-yona": ["netanya", "beit-yitzhak", "pardesiya", "emek-hefer"],
+"even-yehuda": ["netanya", "kadima-zoran", "tel-mond", "kfar-netter"],
+"kadima-zoran": ["even-yehuda", "tel-mond", "netanya"],
+"tel-mond": ["kadima-zoran", "even-yehuda", "pardesiya", "tayibe"],
+"tayibe": ["qalansawe", "tira", "tel-mond"],
+"tira": ["tayibe", "kfar-saba", "kochav-yair"],
+"qalansawe": ["tayibe", "kfar-yona", "tel-mond"],
+"pardesiya": ["tel-mond", "kfar-yona", "netanya"],
+"kfar-saba": ["raanana", "hod-hasharon", "kochav-yair", "tira"],
+"raanana": ["kfar-saba", "herzliya", "hod-hasharon"],
+"herzliya": ["raanana", "ramat-hasharon", "yakum", "bnei-zion"],
+"hod-hasharon": ["kfar-saba", "raanana", "ramat-hasharon"],
+"kochav-yair": ["kfar-saba", "tira", "hod-hasharon"],
+"ramat-hasharon": ["herzliya", "hod-hasharon", "raanana"],
+"emek-hefer": ["kfar-vitkin", "kfar-haim", "kfar-yedidya", "beit-yitzhak", "michmoret"],
+"michmoret": ["kfar-vitkin", "givat-olga", "emek-hefer"],
+"kfar-vitkin": ["michmoret", "kfar-haim", "emek-hefer"],
+"kfar-haim": ["kfar-vitkin", "kfar-yedidya", "emek-hefer"],
+"kfar-yedidya": ["kfar-haim", "beit-yitzhak", "emek-hefer"],
+"beit-yitzhak": ["netanya", "kfar-yona", "kfar-yedidya", "emek-hefer"],
+"udim": ["netanya", "kfar-netter", "tel-yitzhak", "yakum"],
+"kfar-netter": ["netanya", "even-yehuda", "udim"],
+"tel-yitzhak": ["udim", "bnei-zion", "yakum"],
+"bnei-zion": ["tel-yitzhak", "herzliya", "raanana"],
+"yakum": ["herzliya", "udim", "tel-yitzhak"],
+"moshavim": ["emek-hefer", "udim", "yakum", "michmoret", "kfar-vitkin"],
+}
+def nearby_html(slug):
+    names = {c[0]: c[1] for c in CITIES}
+    links = [f'ל<a href="{s}.html">{names[s]}</a>' for s in NEARBY.get(slug, []) if s in names and s != slug]
+    if not links: return ""
+    txt = links[0] if len(links) == 1 else ", ".join(links[:-1]) + " ו" + links[-1]
+    return f"<p>באותו אזור אני מגיע גם {txt} – באותה מהירות ובאותם מחירים.</p>"
 # (slug, nom, image, phrase courte, ce qui est inclus, mots-clés secondaires pour la description)
 SERVICES = [
 ("door-opening","פריצת דלתות","door-opening","ננעלתם בחוץ? פותח את הדלת בלי לגרום נזק, ברוב המקרים.",
@@ -333,7 +380,7 @@ main img{cursor:zoom-in}main a img{cursor:pointer}.lb{position:fixed;inset:0;z-i
 .prows li:last-child{border:0}.prows b{white-space:nowrap;color:var(--blue)}.prows b.long{white-space:normal;text-align:left;max-width:55%}
 .pnote{color:var(--muted);font-size:14px;margin-top:8px}.pnotes{color:var(--muted);font-size:15px;margin:20px 0 0;padding-inline-start:20px}
 /* articles */
-.art{max-width:720px}.art h1{font-size:clamp(28px,6vw,40px);margin:8px 0 14px}.art .intro{margin:0 0 24px}
+.art{max-width:720px}.art h1{font-size:clamp(28px,6vw,40px);margin:8px 0 14px}.art .intro{margin:0 0 24px}.art .meta{color:#6E6E73;font-size:14px;margin:-6px 0 14px}.art .rel{margin:28px 0 0;font-weight:500}
 .art img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;margin-bottom:12px}
 .art h2{font-size:22px;margin:32px 0 10px}.art p,.art li{color:#2B3A4D}.art ul{padding-inline-start:20px;margin:0}.art li{margin-bottom:8px}
 .cta-box{background:var(--soft);border-radius:20px;padding:22px;margin:36px 0 8px}.cta-box b{display:block;font-size:19px;margin-bottom:14px}
@@ -435,7 +482,7 @@ def business(area_names):
                          "opens":f"{a:02d}:00","closes":"23:59" if b == 24 else f"{b:02d}:00"})
     return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
             "image":SITE_URL+"/img/og.jpg","founder":{"@type":"Person","name":"רפי","image":SITE_URL+"/img/rafi.webp"},"logo":SITE_URL+"/img/logo.png",
-            "address":{"@type":"PostalAddress","addressCountry":"IL"},
+            "address":{"@type":"PostalAddress","addressRegion":REGION,"addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
             "priceRange":PRICE_RANGE,"sameAs":([REVIEW_URL.rsplit("/review",1)[0]] if REVIEW_URL else []) + ([MIDRAG_URL] if MIDRAG_URL else []),"contactPoint":{"@type":"ContactPoint","telephone":PHONE_INTL,"contactType":"customer service","availableLanguage":["he"]}}
@@ -477,7 +524,7 @@ def page(slug, title, desc, body, graph, og_img="og"):
     return f'''<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#1A56DB">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
+<link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css?v={CSS_V}">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{LOGO_SVG}</span><span>רפי <em>המנעולן</em></span></a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a>{nav_menu(body)}</div></header>
@@ -572,14 +619,61 @@ GUIDES += [
   ("פתיחת כספת", ["מנעולן יכול לפתוח את הכספת ולהגדיר אחר כך קוד חדש. תתבקשו להראות שהכספת שלכם."])]),
 ]
 
+# Sections ajoutées le 19 nov. 2026 (audit SEO : guides trop courts). (position dans la liste d'origine, section) ; 99 = à la fin.
+GUIDE_EXTRA = {
+"guide-locked-out": [
+ (99, ("כמה זמן זה לוקח?", ["דלת שרק נטרקה ולא ננעלה בבריחים נפתחת בדרך כלל מהר, ולרוב בלי שום נזק.", "דלת שננעלה עם המפתח דורשת יותר עבודה, ולפעמים צריך להחליף צילינדר. כשאתם מתקשרים, ספרו אם נעלתם במפתח או שהדלת רק נטרקה – כך אפשר להגיד לכם מראש למה לצפות."])),
+ (99, ("איך בוחרים מנעולן אמין", ["בקשו מחיר כבר בטלפון, ושאלו מה הוא כולל: הגעה, עבודה וחלקים.", "מנעולן אמין יבקש לוודא שאתם גרים בבית לפני שהוא פותח – זה לטובתכם.", "היזהרו ממחיר נמוך במיוחד בטלפון שמתנפח כשהמנעולן כבר ליד הדלת.", "עדיף לדבר ישירות עם המנעולן שיגיע, ולא עם מוקד שמעביר את הקריאה הלאה."])),
+ (99, ("איך לא להינעל שוב", ["השאירו מפתח רזרבי אצל מישהו קרוב שאתם סומכים עליו.", "אל תחביאו מפתח מתחת לשטיח או בעציץ ליד הדלת – זה המקום הראשון שפורץ בודק.", "שמרו את המספר של מנעולן באנשי הקשר, כדי לא לחפש ברגע של לחץ."]))],
+"guide-cylinder": [
+ (3, ("איך יודעים איזה צילינדר יש לכם", ["שם היצרן מופיע בדרך כלל על חזית הצילינדר או על המפתח.", "בפלדלתות נפוץ צילינדר בפרופיל אירופאי – אפשר להחליף אותו בלי להחליף את המנעול או את הדלת.", "האורך חשוב: הצילינדר צריך להתאים לעובי הדלת. צילינדר שבולט החוצה מהדלת קל יותר לשבירה."])),
+ (3, ("כרטיס שכפול", ["לצילינדרים מוגנים רבים יש כרטיס שכפול. בלי הכרטיס אי אפשר לשכפל מפתח, כך שמי שהחזיק את המפתח לרגע לא יכול להעתיק אותו.", "שמרו את הכרטיס במקום בטוח – לא יחד עם המפתחות."])),
+ (3, ("תחזוקה פשוטה", ["פעם בשנה בערך כדאי לשמן את הצילינדר בתרסיס ייעודי למנעולים – לא בשמן מטבח.", "אם המפתח מתחיל להיתקע, אל תחכו שהוא יישבר בפנים."]))],
+"guide-broken-key": [
+ (0, ("למה מפתח נשבר?", ["מפתח ישן ושחוק, שנחלש עם השנים.", "צילינדר תקוע או מלוכלך, שמכריח לסובב בכוח.", "מפתח משוכפל שלא שוכפל במדויק.", "סיבוב המפתח כשהדלת לא סגורה עד הסוף, והבריחים לוחצים על המשקוף."])),
+ (99, ("איך מונעים את הפעם הבאה", ["אם המפתח נכנס או מסתובב בקושי – לטפל בזה מיד, לפני שהוא נשבר.", "כשהמפתח מתחיל להישחק, לשכפל מפתח חדש מהמפתח המקורי – לא מעותק של עותק.", "לא לתלות צרור כבד על המפתח כשהוא בתוך המנעול – המשקל מעקם אותו עם הזמן."]))],
+"guide-after-burglary": [
+ (3, ("איך פורצים נכנסים בדרך כלל", ["דרך דלת עם צילינדר ישן ופשוט, שאפשר לשבור או לפתוח בקלות.", "דרך דלת שרק נטרקה ולא ננעלה בבריחים.", "דרך חלון או מרפסת, בעיקר בקומות נמוכות ובבתים פרטיים."])),
+ (3, ("רשימת בדיקה לדלת", ["הצילינדר הוחלף, ויש לכם את כל המפתחות החדשים.", "המשקוף והצירים שלמים, והדלת לא שקעה.", "כל הבריחים נכנסים עד הסוף כשנועלים.", "אם יש מצלמה או אזעקה – בדקו שהן עובדות."]))],
+"guide-keys-inside": [
+ (1, ("למה זה קורה?", ["רוב הדלתות ננעלות בלשונית ברגע שהן נטרקות – רוח או טריקה חזקה מספיקות.", "יציאה של רגע – לזרוק זבל, לאסוף חבילה – בלי לקחת את המפתחות."])),
+ (99, ("מפתח תקוע בצד הפנימי", ["אם המפתח נשאר בתוך הצילינדר מבפנים, בהרבה צילינדרים אי אפשר להכניס מפתח מבחוץ – גם אם יש לכם עותק.", "יש צילינדרים עם פונקציית חירום, שמאפשרים לפתוח מבחוץ גם כשמפתח נמצא בצד הפנימי. כדאי לשקול כזה כשמחליפים צילינדר."])),
+ (99, ("איך מונעים את הפעם הבאה", ["השאירו עותק של המפתח אצל שכן או בן משפחה.", "התרגלו לנעול מבחוץ עם המפתח – כך המפתח תמיד ביד.", "אל תשאירו את המפתח תקוע בצילינדר מבפנים."]))],
+"guide-stuck-lock": [
+ (0, ("איך עובד מנעול רב-בריח", ["בפלדלת יש מנגנון רב-בריח: סיבוב אחד של המפתח מזיז כמה בריחים בבת אחת – לצד, ולפעמים גם למעלה ולמטה.", "כדי שהבריחים ייכנסו חלק, הדלת צריכה להיות מיושרת מול המשקוף. כשהיא שוקעת אפילו קצת, הבריחים מתחילים להיתקע."])),
+ (3, ("מתי לקרוא למנעולן ולא לחכות", ["כשהמפתח מסתובב רק עם הרבה כוח.", "כשהבריחים לא יוצאים עד הסוף – הדלת לא באמת נעולה.", "כשמשהו בתוך המנגנון מקרקש או נשמע שבור."])),
+ (99, ("תחזוקה שמונעת תקיעות", ["לשמן את הבריחים ואת הצילינדר בערך פעם בשנה בחומר סיכה ייעודי.", "לשים לב אם הדלת מתחילה לגרד ברצפה או במשקוף – זה סימן שהצירים צריכים כיוון.", "ליד הים כדאי לבדוק לעיתים קרובות יותר, כי המלח מאיץ חלודה."]))],
+"guide-safe-code": [
+ (0, ("איזו כספת יש לכם?", ["כספת אלקטרונית עם לוח מקשים וסוללות – הנפוצה בבתים.", "כספת מכנית עם חוגה מסתובבת או עם מפתח בלבד.", "כספת קטנה לבית או למלון, בדרך כלל עם מפתח חירום."])),
+ (99, ("אחרי שהכספת נפתחה", ["החליפו סוללות והגדירו קוד חדש שתזכרו – אבל לא תאריך לידה או 1234.", "רשמו את הקוד במקום בטוח מחוץ לכספת.", "שמרו את מפתח החירום במקום אחר – לא בתוך הכספת עצמה."]))],
+}
+def _merge_sections(sections, extra):
+    out, n = list(sections), len(sections)
+    for pos, sec in reversed(sorted(((min(p, n), s) for p, s in extra), key=lambda x: x[0])):
+        out.insert(pos, sec)
+    return out
+GUIDES = [(sl, t, im, d, _merge_sections(sec, GUIDE_EXTRA.get(sl, []))) for sl, t, im, d, sec in GUIDES]
+GUIDES_PUBLISHED = "2026-11-18"
+# Page service liée à chaque guide (lien dans le texte)
+GUIDE_SERVICE = {"guide-locked-out":"door-opening","guide-keys-inside":"door-opening","guide-cylinder":"cylinder","guide-broken-key":"lock-repair",
+                 "guide-stuck-lock":"lock-repair","guide-after-burglary":"security","guide-safe-code":"safe"}
+HE_MONTHS = ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"]
+def he_date(iso):
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{d} ב{HE_MONTHS[m-1]} {y}"
+
 # Illustrations dessinées pour chaque guide (sources _build/ill/*.svg, rendu : node _build/ill/render.js) au lieu des photos réutilisées
 GUIDES = [(sl, t, "ill-" + sl[len("guide-"):], d, sec) for sl, t, _im, d, sec in GUIDES]
 
 def guide_body(slug, title, im, desc, sections):
     secs = "".join(f'<h2>{h}</h2>' + ("<ul>" + "".join(f"<li>{p}</li>" for p in ps) + "</ul>" if len(ps) > 1 else f"<p>{ps[0]}</p>") for h, ps in sections)
     others = "".join(f'<li><a href="{s}.html">{t}</a></li>' for s, t, *_ in GUIDES if s != slug)
-    return (f'<article class="sec"><div class="wrap art">{crumb_html("מדריכים")}<h1>{title}</h1><p class="intro">{desc}</p>'
-            f'{img(im, title, 800, 600, eager=True)}{secs}'
+    svc = GUIDE_SERVICE.get(slug)
+    rel = (f'<p class="rel">השירות הקשור: <a href="{svc}.html">{next(n for s, n, *_ in SERVICES if s == svc)}</a> – מחירים, מה כולל השירות ושאלות נפוצות.</p>'
+           if svc else "")
+    return (f'<article class="sec"><div class="wrap art">{crumb_html("מדריכים")}<h1>{title}</h1>'
+            f'<p class="meta">מאת רפי המנעולן · עודכן ב-<time datetime="{TODAY}">{he_date(TODAY)}</time></p><p class="intro">{desc}</p>'
+            f'{img(im, title, 800, 600, eager=True)}{secs}{rel}'
             f'<div class="cta-box"><b>צריכים מנעולן עכשיו?</b>{cta()}</div>'
             f'<h2>מדריכים נוספים</h2><ul class="links">{others}</ul></div></article>' + area_sec() + band())
 
@@ -712,7 +806,7 @@ for s, n, b, hood in CITIES:
     intro = (f"צריכים מנעולן {b}? רפי המנעולן מגיע בקטנוע לכל מקום {b}" + ("." if hood.startswith("כל") else f": {hood}.") + " "
              f"פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות – לבית ולעסק, עם מחיר ברור לפני העבודה.")
     body = (hero(f"מנעולן {b}", f"פורץ דלתות ומנעולים {b}. אצלכם תוך כ-{ETA_MIN} דקות.", crumb=crumb_html(f"מנעולן {b}"))
-            + f'<section class="sec"><div class="wrap"><h2>מנעולן {b}</h2><p>{CITY_TEXT[s][0]} {intro}</p></div></section>'
+            + f'<section class="sec"><div class="wrap"><h2>מנעולן {b}</h2><p>{CITY_TEXT[s][0]} {intro}</p>{nearby_html(s)}</div></section>'
             + prices_all(f"שירותי מנעולן {b}", "לוחצים על שירות כדי לראות את כל המחירים, מסמנים ושולחים לי בוואטסאפ.", link=True)
             + faq_sec(faq) + area_sec("עוד אזורים", current=s) + band())
     pages.append((s, page(s,
@@ -736,7 +830,8 @@ for s, n, im, t, items, kw in SERVICES:
 
 for slug, title, im, desc, sections in GUIDES:
     art = {"@type":"Article","headline":title,"description":desc,"inLanguage":"he","image":f"{SITE_URL}/img/{im}.webp",
-           "author":{"@id":BIZ_ID},"publisher":{"@id":BIZ_ID},"mainEntityOfPage":url_of(slug),"dateModified":TODAY}
+           "author":{"@type":"Person","name":"רפי","url":SITE_URL+"/","worksFor":{"@id":BIZ_ID}},"publisher":{"@id":BIZ_ID},
+           "mainEntityOfPage":url_of(slug),"datePublished":GUIDES_PUBLISHED,"dateModified":TODAY}
     pages.append((slug, page(slug, f"{title} | {NAME}", desc, guide_body(slug, title, im, desc, sections),
         [business(ALL), art, crumbs_ld([("ראשי", SITE_URL+"/"), (title, url_of(slug))])])))
 
@@ -802,7 +897,8 @@ _llms += [f"- [מחירון]({url_of('prices')})"] + [f"- [{n}]({url_of(sl)})" f
 with open(f"{OUT}/llms.txt", "w", encoding="utf-8") as f: f.write("\n".join(_llms) + "\n")
 
 with open(f"{OUT}/robots.txt", "w") as f:
-    f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+    # Content-Signal (contentsignals.org) : autorise moteurs de recherche, réponses IA et entraînement (le but est d'être trouvé partout)
+    f.write(f"User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
 print(f"{len(pages)} pages générées dans {OUT} (SITE_URL={SITE_URL})")
 
 if LEGACY_ROOT_COPY:
