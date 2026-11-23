@@ -539,6 +539,7 @@ CSS += """
 .art img.aboutpic,.aboutpic{width:100%;max-width:300px;aspect-ratio:1;object-fit:cover;border-radius:24px;margin:0 0 18px}
 .aboutmini{display:flex;gap:18px;align-items:center}.aboutmini .aboutpic{width:112px;height:112px;margin:0;flex:none}.aboutmini h2{margin:0 0 6px}.aboutmini p{margin:0 0 8px}
 .fr{color:#6E6E73;margin-top:18px}
+.gal{grid-template-columns:repeat(4,1fr)}@media(min-width:760px){.gal{grid-template-columns:repeat(8,1fr)}}
 .cb{margin:26px auto 4px;max-width:540px;background:#fff;color:#1D1D1F;border-radius:20px;padding:16px 18px;box-shadow:0 4px 18px rgba(0,0,0,.08);text-align:start}
 .cb p{margin:0 0 10px}.cbr{display:flex;flex-wrap:wrap;gap:8px}.cbr[hidden],.cbok[hidden]{display:none}
 .cbr input{flex:1 1 150px;min-width:0;font:inherit;font-size:16px;padding:12px 14px;border:1px solid #D2D2D7;border-radius:12px;background:#fff;color:#1D1D1F}
@@ -572,7 +573,9 @@ def hero(h1, sub, photo="hero", alt="רפי המנעולן מחזיק מנעול
 
 # Galerie : photos réelles de Rafi (img/g1..g6.webp). Pour en ajouter : déposer gN.webp (600x600) et ajouter une ligne.
 GALLERY = [("g1","מנעול רב-בריח בדלת פלדלת"),("g2","ידית וצילינדר בדלת כניסה"),("g3","מנעול ישן בדלת עץ"),
-           ("g4","מנעול רב-בריח בדלת לבנה"),("g5","מנעול בדלת פנים"),("g6","מנעול בדלת זכוכית")]
+           ("g4","מנעול רב-בריח בדלת לבנה"),("g5","מנעול בדלת פנים"),("g6","מנעול בדלת זכוכית"),
+           # Scooter de Rafi (photos du 23 nov., fond nettoyé, plaque masquée)
+           ("scooter-rear","הקטנוע של רפי – מגיע מהר לכל מקום בשרון"),("scooter-side","הקטנוע של רפי, עם כל הציוד בארגז")]
 def gallery_sec():
     g = "".join(f'<li>{img(n, a, 600, 600)}</li>' for n, a in GALLERY)
     return f'<section class="sec"><div class="wrap"><h2>מהעבודה בשטח</h2><ul class="gal">{g}</ul></div></section>'
