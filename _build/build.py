@@ -658,6 +658,9 @@ GUIDES_PUBLISHED = "2026-11-18"
 GUIDE_SERVICE = {"guide-locked-out":"door-opening","guide-keys-inside":"door-opening","guide-cylinder":"cylinder","guide-broken-key":"lock-repair",
                  "guide-stuck-lock":"lock-repair","guide-after-burglary":"security","guide-safe-code":"safe"}
 HE_MONTHS = ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"]
+REGION_B = "ב" + (REGION[1:] if REGION.startswith("ה") else REGION)  # « בשרון » (ב + השרון)
+def _fit160(*variants):  # meta description : première variante de 160 caractères ou moins (Google coupe au-delà)
+    return next((v for v in variants if len(v) <= 160), variants[-1])
 def he_date(iso):
     y, m, d = (int(x) for x in iso.split("-"))
     return f"{d} ב{HE_MONTHS[m-1]} {y}"
@@ -795,7 +798,7 @@ body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, ציל
         + prices_all() + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
 pages.append(("index", page("index",
     f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
-    f"מנעולן בכל אזור {REGION}, מקיסריה ועד רמת השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
+    f"מנעולן {REGION_B}, מקיסריה ועד רמת השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
     body, [business(ALL), {"@type":"WebSite","@id":SITE_URL+"/#website","url":SITE_URL+"/","name":NAME,"inLanguage":"he"}, faq_ld(home_faq)])))
 
 # Pages villes
@@ -825,7 +828,9 @@ for s, n, im, t, items, kw in SERVICES:
     svc = {"@type":"Service","name":n,"serviceType":n,"provider":{"@id":BIZ_ID},"areaServed":[{"@type":"City","name":c} for c in ALL],"description":t}
     pages.append((s, page(s,
         f"{n} בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME}",
-        f"{n} בכל אזור {REGION}, מקיסריה ועד רמת השרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
+        _fit160(f"{n} בכל אזור {REGION}, מקיסריה ועד רמת השרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
+                f"{n} {REGION_B}, מקיסריה ועד רמת השרון – {t} הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
+                f"{n} {REGION_B} – {t} הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה."),
         body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)], og_img="og")))
 
 for slug, title, im, desc, sections in GUIDES:
