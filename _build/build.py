@@ -22,8 +22,16 @@ NAME = "רפי המנעולן"
 PHONE_INTL = "+972545301389"
 PHONE = "054-530-1389"
 WA_NUMBER = "972545301389"
-WA_TEXT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp
-CONTENT_DATE = "2026-11-19"                       # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
+WA_TEXT = "שלום רפי, הגעתי מהאתר. אני צריך מנעולן. הכתובת שלי: "   # message pré-rempli WhatsApp du SITE (23 nov. : « הגעתי מהאתר » pour le distinguer des QR imprimés)
+WA_TEXT_PRINT = "שלום רפי, אני צריך מנעולן. הכתובת שלי: "     # message des QR imprimés (autocollants, cartes, flyers) — ne pas changer (déjà imprimé)
+# Shabbat (règle de Rafi, 23 nov. 2026) : vendredi, arrêt 3 h avant l'allumage des bougies ; reprise 1 h 30 après la havdala (Netanya, Hebcal).
+# Mis à jour CHAQUE SEMAINE par la tâche planifiée « suivi quotidien » (aussi le calendrier Google Ads). Arrondi : fin au 1/4 h inférieur, reprise au 1/4 h supérieur.
+SHABBAT = {"week": "2026-11-27", "candles": "16:15", "havdalah": "17:15", "fri_end": "13:15", "sat_start": "18:45"}
+NTFY_TOPIC = "rafi-hamanulan-a7f3c91e5d2b48c6"   # alertes téléphone (appli ntfy) à chaque clic WhatsApp / appel / demande de rappel. Aucune donnée personnelle envoyée.
+# Formulaire « רוצים שאחזור אליכם? » = Google Form du compte refamanoulan (créé le 23 nov., e-mail à chaque réponse). Vide = formulaire masqué.
+CALLBACK_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSf5sx8Da9B3xSk8c0ei16FSKBKweO9yhqSrOW_0EtbbQnj1hQ/formResponse"
+CALLBACK_FIELDS = {"phone": "entry.169157880", "name": "entry.970621745", "page": "entry.480057907"}
+CONTENT_DATE = "2026-11-23"                      # date de dernière mise à jour du contenu (sitemap, articles) – à changer quand le contenu change
 ETA_MIN = 25                                        # délai d'arrivée annoncé (minutes)
 # Majoration selon l'heure de l'appel (fournie par Raphaël le 7 nov. 2026) : (heure début, heure fin, ₪). Jamais plus de 150 ₪.
 NIGHT_TIERS = [(20, 22, 50), (22, 24, 100), (0, 8, 150)]   # pas de supplément de 08:00 à 20:00 (Rafi, 18 nov.)
@@ -32,8 +40,12 @@ def _hh(h): return "00:00" if h == 24 else f"{h:02d}:00"
 NIGHT_TXT = " · ".join(f"{_hh(a)}–{_hh(b)}: +{v} ₪" for a, b, v in NIGHT_TIERS)
 REGION = "השרון"                                    # zone affichée. Volontairement AUCUNE ville de départ (demande de Rafi, 1er nov. 2026)
 # Horaires : jour (0=dimanche … 6=samedi) -> liste de créneaux (heure début, heure fin), fin 24 = minuit
-HOURS = {0: [(0, 24)], 1: [(0, 24)], 2: [(0, 24)], 3: [(0, 24)], 4: [(0, 24)], 5: [(9, 16)], 6: [(19, 24)]}
-HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", "09:00–16:00"), ("מוצאי שבת", "19:00–00:00")]
+def _t2h(t): h, m = t.split(":"); return int(h) + int(m) / 60          # "13:15" -> 13.25
+def _h2t(h): return "00:00" if h >= 24 else f"{int(h):02d}:{round((h % 1) * 60):02d}"
+HOURS = {0: [(0, 24)], 1: [(0, 24)], 2: [(0, 24)], 3: [(0, 24)], 4: [(0, 24)],
+         5: [(9, _t2h(SHABBAT["fri_end"]))], 6: [(_t2h(SHABBAT["sat_start"]), 24)]}
+HOURS_DISPLAY = [("ראשון – חמישי", "24 שעות"), ("שישי", f"09:00–{SHABBAT['fri_end']}"), ("מוצאי שבת", f"{SHABBAT['sat_start']}–00:00")]
+SHABBAT_RULE = "שישי ומוצאי שבת משתנים כל שבוע לפי זמני השבת: עד 3 שעות לפני כניסת השבת, וחוזר לעבוד שעה וחצי אחרי צאת השבת."
 # Code de vérification Google Search Console (balise HTML) : coller seulement la valeur content="..."
 GSC_VERIFICATION = ""
 # Lien « laisser un avis » de la fiche Google Business (quand elle sera vérifiée). Vide = bouton masqué.
@@ -219,7 +231,7 @@ FAQ = [
 ("תוך כמה זמן אתה מגיע?",f"אני עובד בקטנוע בכל אזור {REGION}, אז גם בפקקים אני מגיע בדרך כלל תוך כ-{ETA_MIN} דקות, מקיסריה ועד רמת השרון."),
 ("אדע כמה זה עולה לפני שמתחילים?","כן. אחרי שאני רואה את הדלת או המנעול אני אומר לכם מחיר ברור, ומתחילים לעבוד רק אחרי שאישרתם."),
 ("הדלת תיפגע בזמן הפריצה?","ברוב המקרים אפשר לפתוח בלי לגרום נזק לדלת. אם צריך להחליף את הצילינדר אחרי הפתיחה, אני מחליף אותו באותו ביקור."),
-("מתי אתה זמין?","24 שעות בימים ראשון עד חמישי, ביום שישי מ-09:00 עד 16:00, ובמוצאי שבת עד חצות."),
+("מתי אתה זמין?",f"24 שעות בימים ראשון עד חמישי. ביום שישי מ-09:00 ועד 3 שעות לפני כניסת השבת (השבוע עד {SHABBAT['fri_end']}), ובמוצאי שבת משעה וחצי אחרי צאת השבת (השבוע מ-{SHABBAT['sat_start']}) ועד חצות."),
 ("מה עושים אחרי פריצה לבית?","מומלץ להחליף צילינדר כמה שיותר מהר. אני מגיע, מחליף ויכול להמליץ על שדרוג מיגון לדלת."),
 ]
 
@@ -431,9 +443,9 @@ footer{background:#F5F5F7;border-top:0;font-size:12px}
 
 # ------------------------------------------------------------------ statut « disponible » (calculé depuis HOURS)
 JS = ("<script>(function(){try{var H=" + json.dumps({str(k): v for k, v in HOURS.items()}) + ";"
-      "var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',hour12:false});"
+      "var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false});"
       "var p=f.formatToParts(new Date());var D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];"
-      "var d=D.indexOf(p.find(function(x){return x.type==='weekday'}).value),h=+p.find(function(x){return x.type==='hour'}).value%24;"
+      "var d=D.indexOf(p.find(function(x){return x.type==='weekday'}).value),h=(+p.find(function(x){return x.type==='hour'}).value%24)+(+p.find(function(x){return x.type==='minute'}).value)/60;"
       "var on=(H[d]||[]).some(function(s){return h>=s[0]&&h<s[1]});"
       "document.querySelectorAll('.status').forEach(function(el){if(on){el.classList.add('on');el.querySelector('.t').textContent='זמין עכשיו – עונה מיד'}"
       "else{el.classList.add('off');el.querySelector('.t').textContent='מחוץ לשעות – השאירו הודעה בוואטסאפ'}})}catch(e){}})();</script>")
@@ -481,9 +493,9 @@ def business(area_names):
     for d, slots in HOURS.items():
         for a, b in slots:
             spec.append({"@type":"OpeningHoursSpecification","dayOfWeek":days[d],
-                         "opens":f"{a:02d}:00","closes":"23:59" if b == 24 else f"{b:02d}:00"})
+                         "opens":_h2t(a),"closes":"23:59" if b >= 24 else _h2t(b)})
     return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
-            "image":SITE_URL+"/img/og.jpg","founder":{"@type":"Person","name":"רפי","image":SITE_URL+"/img/rafi.webp"},"logo":SITE_URL+"/img/logo.png",
+            "image":SITE_URL+"/img/og.jpg","founder":{"@type":"Person","@id":SITE_URL+"/#rafi","name":"רפי","image":SITE_URL+"/img/rafi.webp","url":SITE_URL+"/about.html","knowsLanguage":["he","fr"]},"logo":SITE_URL+"/img/logo.png",
             "address":{"@type":"PostalAddress","addressRegion":REGION,"addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
@@ -520,8 +532,18 @@ def nav_menu(body):   # menu classique (☰) : renvoie aux sections de la page s
             f'<a class="nbig" href="{h("prix")}">{ic("tag")}מחירים – כל השירותים</a>'
             f'<a class="nbig" href="{h("faq")}">{ic("chat")}שאלות נפוצות ושעות</a>'
             f'<a class="nbig" href="{h("areas")}">{ic("pin")}אזורי שירות</a>'
+            f'<a class="nbig" href="about.html">{ic("hand")}מי אני</a>'
             f'<p>שירותים</p><ul>{sv}</ul><p>מדריכים</p><ul>{gd}</ul>{cta()}</div></details>')
 
+CSS += """
+.art img.aboutpic,.aboutpic{width:100%;max-width:300px;aspect-ratio:1;object-fit:cover;border-radius:24px;margin:0 0 18px}
+.aboutmini{display:flex;gap:18px;align-items:center}.aboutmini .aboutpic{width:112px;height:112px;margin:0;flex:none}.aboutmini h2{margin:0 0 6px}.aboutmini p{margin:0 0 8px}
+.fr{color:#6E6E73;margin-top:18px}
+.cb{margin:26px auto 4px;max-width:540px;background:#fff;color:#1D1D1F;border-radius:20px;padding:16px 18px;box-shadow:0 4px 18px rgba(0,0,0,.08);text-align:start}
+.cb p{margin:0 0 10px}.cbr{display:flex;flex-wrap:wrap;gap:8px}.cbr[hidden],.cbok[hidden]{display:none}
+.cbr input{flex:1 1 150px;min-width:0;font:inherit;font-size:16px;padding:12px 14px;border:1px solid #D2D2D7;border-radius:12px;background:#fff;color:#1D1D1F}
+.cb .btn{flex:1 1 120px;justify-content:center}.cbok{color:#18A957;font-weight:600;margin:0}
+"""
 CSS_V = __import__("hashlib").sha1(CSS.encode()).hexdigest()[:8]
 def page(slug, title, desc, body, graph, og_img="og"):
     url = url_of(slug)
@@ -534,9 +556,9 @@ def page(slug, title, desc, body, graph, og_img="og"):
 <link rel="stylesheet" href="style.css?v={CSS_V}">{gsc}{ld(graph)}</head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="index.html"><span class="mk">{LOGO_SVG}</span><span>רפי <em>המנעולן</em></span></a><a class="pill" href="tel:{PHONE_INTL}">{ic("phone")}<span>{PHONE}</span></a>{nav_menu(body)}</div></header>
 <main>{body}</main>
-<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="prices.html">מחירון</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
+<footer><div class="wrap"><span><b>{NAME}</b> · מנעולן בכל אזור {REGION}</span><span><a href="tel:{PHONE_INTL}">{PHONE}</a> · <a href="{WA}">וואטסאפ</a> · <a href="rafi-hamanulan.vcf" download>שמרו את המספר</a> · <a href="prices.html">מחירון</a> · <a href="about.html">אודות</a> · <a href="privacy.html">פרטיות</a></span></div></footer>
 <nav class="bar" aria-label="יצירת קשר"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></nav>
-{JS}{UI_JS}{gads_js()}</body></html>'''
+{JS}{UI_JS}{gads_js()}{notify_js()}</body></html>'''
 
 def cta():
     return f'<div class="cta"><a class="btn btn-call" href="tel:{PHONE_INTL}">{ic("phone")}התקשרו</a><a class="btn btn-wa" href="{WA_LINK}">{WA_SVG}וואטסאפ</a></div>'
@@ -564,13 +586,36 @@ def faq_sec(faq):
     q = "".join(f'<details><summary>{a}</summary><p>{b}</p></details>' for a, b in faq)
     hrs = "".join(f'<div><b>{d}</b><span>{h}</span></div>' for d, h in HOURS_DISPLAY)
     return (f'<section class="sec alt" id="faq"><div class="wrap two"><div><h2>שאלות נפוצות</h2><div class="faq">{q}</div></div>'
-            f'<div><h2>שעות זמינות</h2><div class="hours">{hrs}</div><p class="note">בשבת סגור. מחוץ לשעות אפשר להשאיר הודעה בוואטסאפ.</p></div></div></section>')
+            f'<div><h2>שעות זמינות</h2><div class="hours">{hrs}</div><p class="note">{SHABBAT_RULE} בשבת סגור. מחוץ לשעות אפשר להשאיר הודעה בוואטסאפ.</p></div></div></section>')
 
 def band(h="ננעלתם בחוץ?", p="מתקשרים, ואני בדרך."):
     rev = f'<p class="note"><a href="{REVIEW_URL}">עבדתי אצלכם? אשמח שתשאירו ביקורת בגוגל</a></p>' if REVIEW_URL else ""
     mid = f'<p class="note"><a href="{MIDRAG_URL.replace("&", "&amp;")}" rel="noopener" target="_blank">ההמלצות עליי במדרג</a></p>' if MIDRAG_URL else ""
     save = '<p class="note"><a href="rafi-hamanulan.vcf" download>שמרו את המספר באנשי הקשר – למקרה חירום</a></p>'
-    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{save}{mid}{rev}</div></section>'
+    return f'<section class="band"><div class="wrap"><h2>{h}</h2><p>{p}</p>{cta()}{callback_form()}{save}{mid}{rev}</div></section>'
+
+def callback_form():   # « רוצים שאחזור אליכם? » : envoi vers le Google Form de Rafi (iframe cachée), alerte ntfy SANS le numéro
+    if not CALLBACK_FORM:
+        return ""
+    F = CALLBACK_FIELDS
+    return (f'<form class="cb" action="{CALLBACK_FORM}" method="POST" target="cbi"><p><b>רוצים שאחזור אליכם?</b> השאירו מספר ואחזור בהקדם.</p>'
+            f'<div class="cbr"><input type="tel" name="{F["phone"]}" placeholder="מספר טלפון" inputmode="tel" autocomplete="tel" required minlength="9" maxlength="16" aria-label="מספר טלפון">'
+            f'<input type="text" name="{F["name"]}" placeholder="שם (לא חובה)" autocomplete="given-name" maxlength="40" aria-label="שם">'
+            f'<input type="hidden" name="{F["page"]}" class="cbp"><button class="btn btn-call">חזרו אליי</button></div>'
+            '<p class="cbok" hidden>תודה! קיבלתי את המספר ואחזור אליכם בהקדם.</p></form>')
+
+def notify_js():   # alertes ntfy + gestion du formulaire de rappel
+    t = NTFY_TOPIC
+    return ("<iframe name=\"cbi\" title=\"שליחה\" hidden></iframe><script>(function(){"
+            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim(),keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
+            + "document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
+            "if(h.indexOf('tel:')===0)nt('📞 לחיצה על התקשרו');else if(h.indexOf('wa.me')>-1)nt('💬 לחיצה על וואטסאפ')});"
+            "document.addEventListener('submit',function(e){var f=e.target;if(!f.classList||!f.classList.contains('cb'))return;"
+            "var ph=f.querySelector('input[type=tel]'),d=(ph.value||'').replace(/\\D/g,'');if(d.length<9||d.length>13){e.preventDefault();ph.focus();ph.setCustomValidity('מספר טלפון לא תקין');ph.reportValidity();setTimeout(function(){ph.setCustomValidity('')},2000);return}"
+            "f.querySelector('.cbp').value=document.title.split('|')[0].trim()+' ('+location.pathname+')';"
+            "nt('📝 בקשת חזרה חדשה – המספר במייל של Google Forms');try{gtag('event','callback_request')}catch(x){}"
+            "setTimeout(function(){f.querySelector('.cbr').hidden=true;f.querySelector('.cbok').hidden=false},300)});"
+            "})();</script>")
 
 def crumb_html(label):
     return f'<p class="crumb"><a href="index.html">ראשי</a> / {label}</p>'
@@ -680,7 +725,7 @@ def guide_body(slug, title, im, desc, sections):
     rel = (f'<p class="rel">השירות הקשור: <a href="{svc}.html">{next(n for s, n, *_ in SERVICES if s == svc)}</a> – מחירים, מה כולל השירות ושאלות נפוצות.</p>'
            if svc else "")
     return (f'<article class="sec"><div class="wrap art">{crumb_html("מדריכים")}<h1>{title}</h1>'
-            f'<p class="meta">מאת רפי המנעולן · עודכן ב-<time datetime="{TODAY}">{he_date(TODAY)}</time></p><p class="intro">{desc}</p>'
+            f'<p class="meta">מאת <a href="about.html">רפי המנעולן</a> · עודכן ב-<time datetime="{TODAY}">{he_date(TODAY)}</time></p><p class="intro">{desc}</p>'
             f'{img(im, title, 800, 600, eager=True)}{secs}{rel}'
             f'<div class="cta-box"><b>צריכים מנעולן עכשיו?</b>{cta()}</div>'
             f'<h2>מדריכים נוספים</h2><ul class="links">{others}</ul></div></article>' + area_sec() + band())
@@ -800,7 +845,11 @@ pages = []  # (slug, html)
 # Accueil
 home_faq = FAQ + [("לאילו אזורים אתה מגיע?", ", ".join(c[1] for c in CITIES if c[0] != "moshavim") + " והמושבים שבדרך.")]
 body = (hero("מנעולן קרוב אליכם", f"פריצת דלתות, צילינדרים, מנעולים וכספות בכל אזור {REGION}. אצלכם תוך כ-{ETA_MIN} דקות.")
-        + prices_all() + gallery_sec() + faq_sec(home_faq) + area_sec() + more_sec() + band())
+        + prices_all() + gallery_sec()
+        + '<section class="sec"><div class="wrap aboutmini"><img src="img/rafi.webp" alt="רפי המנעולן" width="480" height="480" class="aboutpic" loading="lazy" decoding="async">'
+          '<div><h2>מי אני</h2><p>כ-15 שנות ניסיון – 10 שנים בישראל ו-5 בצרפת. לא יוצא מלקוח לפני שהכול חוזר לעבוד, ונותן אחריות על העבודה.</p>'
+          '<a href="about.html">עוד עליי ›</a></div></div></section>'
+        + faq_sec(home_faq) + area_sec() + more_sec() + band())
 pages.append(("index", page("index",
     f"מנעולן בשרון – כפר סבא, רעננה, נתניה, הרצליה | {NAME} – {PHONE}",
     f"מנעולן {REGION_B}, מקיסריה ועד רמת השרון: פריצת דלתות, החלפת צילינדר, תיקון מנעולים ופתיחת כספות. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה. {PHONE}",
@@ -840,7 +889,7 @@ for s, n, im, t, items, kw in SERVICES:
 
 for slug, title, im, desc, sections in GUIDES:
     art = {"@type":"Article","headline":title,"description":desc,"inLanguage":"he","image":f"{SITE_URL}/img/{im}.webp",
-           "author":{"@type":"Person","name":"רפי","url":SITE_URL+"/","worksFor":{"@id":BIZ_ID}},"publisher":{"@id":BIZ_ID},
+           "author":{"@type":"Person","@id":SITE_URL+"/#rafi","name":"רפי","url":SITE_URL+"/about.html","worksFor":{"@id":BIZ_ID}},"publisher":{"@id":BIZ_ID},
            "mainEntityOfPage":url_of(slug),"datePublished":GUIDES_PUBLISHED,"dateModified":TODAY}
     pages.append((slug, page(slug, f"{title} | {NAME}", desc, guide_body(slug, title, im, desc, sections),
         [business(ALL), art, crumbs_ld([("ראשי", SITE_URL+"/"), (title, url_of(slug))])])))
@@ -866,12 +915,36 @@ with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
 
 # Politique de confidentialité (le site utilise la balise Google Ads quand GADS_ID est renseigné)
 PRIVACY = f"""<section class="sec"><div class="wrap art"><h1>מדיניות פרטיות</h1>
-<p>האתר שייך ל{NAME}. אין באתר טפסים, ואנחנו לא אוספים שם, כתובת או פרטים אישיים דרך האתר.</p>
+<p>האתר שייך ל{NAME}. הפרט האישי היחיד שנאסף דרך האתר הוא מספר הטלפון (ושם, אם בחרתם לכתוב) שאתם משאירים בטופס "רוצים שאחזור אליכם?" – והוא משמש רק כדי לחזור אליכם. הטופס נשמר בחשבון Google של רפי (Google Forms) ולא מועבר לאף אחד אחר.</p>
+<h2>התראות</h2><p>כשלוחצים על "התקשרו", "וואטסאפ" או שולחים את הטופס, רפי מקבל התראה בטלפון דרך שירות ntfy, עם שם העמוד בלבד – בלי מספר טלפון ובלי פרט מזהה.</p>
 <h2>עוגיות ומדידה</h2><p>כדי לדעת אילו מודעות מביאות פניות, האתר משתמש בתג של Google Ads, ולמדידת כמות המבקרים – ב-Google Analytics. שניהם עשויים לשמור עוגיות בדפדפן ולספור ביקורים ולחיצות על כפתורי ההתקשרות והוואטסאפ, בלי לקבל את מספר הטלפון שלכם. Google מעבדת את המידע לפי מדיניות הפרטיות שלה: <a href="https://policies.google.com/privacy?hl=iw">policies.google.com/privacy</a>.</p>
 <p>אפשר לחסום או למחוק עוגיות בהגדרות הדפדפן, והאתר ימשיך לעבוד כרגיל.</p>
 <h2>יצירת קשר</h2><p>לכל שאלה על פרטיות: <a href="tel:{PHONE_INTL}">{PHONE}</a> או בוואטסאפ.</p></div></section>"""
 pages.append(("privacy", page("privacy", f"מדיניות פרטיות | {NAME}", f"מדיניות הפרטיות והעוגיות של אתר {NAME}.", PRIVACY, [business(ALL)])))
 with open(f"{OUT}/privacy.html", "w") as f: f.write(pages[-1][1])
+
+# Page « אודות » (texte validé par Rafi le 23 nov. 2026 : 10 ans en Israël + 5 ans à l'étranger dont la France, tout le Sharon,
+# rapide, ne part jamais avant que tout soit rétabli, garantie sur le travail). Ne pas ajouter d'agrément ni de durée de garantie non confirmés.
+ABOUT_INTRO = "מנעולן עם כ-15 שנות ניסיון: 10 שנים בישראל ו-5 שנים בחו״ל, בעיקר בצרפת."
+ABOUT_P = [f"אני עובד בכל אזור {REGION}, מקיסריה ועד רמת השרון, ומגיע בקטנוע – כך שגם בשעות העומס אני אצלכם מהר, בדרך כלל תוך כ-{ETA_MIN} דקות.",
+           "העיקרון שלי פשוט: אני לא יוצא מבית של לקוח לפני שהכול חוזר לעבוד כמו שצריך – הדלת נפתחת ונסגרת, המנעול נועל, והמפתחות בידיים שלכם.",
+           "המחיר נאמר מראש, לפני שמתחילים, ואני נותן אחריות על העבודה שלי.",
+           "כשאתם מתקשרים, אתם מדברים איתי ישירות – לא עם מוקד. אני מדבר עברית וצרפתית."]
+ABOUT_POINTS = ["כ-15 שנות ניסיון, בישראל ובצרפת", "לא עוזב לפני שהכול תקין", "אחריות על העבודה", "מחיר ברור לפני העבודה", "ישירות מול רפי, בלי מוקד"]
+RAFI_ID = SITE_URL + "/#rafi"
+ABOUT_BODY = (f'<section class="sec"><div class="wrap art">{crumb_html("אודות")}<h1>נעים להכיר, אני רפי</h1><p class="intro">{ABOUT_INTRO}</p>'
+    '<img src="img/rafi.webp" alt="רפי המנעולן" width="480" height="480" class="aboutpic" fetchpriority="high">'
+    + "".join(f"<p>{p}</p>" for p in ABOUT_P)
+    + '<ul class="incl">' + "".join(f'<li>{ic("check")}<span>{x}</span></li>' for x in ABOUT_POINTS) + '</ul>'
+    + '<p lang="fr" dir="ltr" class="fr">Je parle aussi français : n’hésitez pas à m’appeler ou à m’écrire en français.</p>'
+    + f'<div class="cta-box"><b>צריכים מנעולן?</b>{cta()}</div></div></section>' + area_sec() + band())
+_rafi = {"@type":"Person","@id":RAFI_ID,"name":"רפי","jobTitle":"מנעולן","image":SITE_URL+"/img/rafi.webp","url":url_of("about"),
+         "knowsLanguage":["he","fr"],"worksFor":{"@id":BIZ_ID},"description":ABOUT_INTRO + " " + ABOUT_P[1]}
+pages.append(("about", page("about", f"אודות – רפי המנעולן, כ-15 שנות ניסיון | {NAME}",
+    f"נעים להכיר, אני רפי: מנעולן עם כ-15 שנות ניסיון בישראל ובצרפת, בכל אזור {REGION}. לא יוצא לפני שהכול תקין, ונותן אחריות על העבודה.",
+    ABOUT_BODY, [business(ALL), _rafi, {"@type":"AboutPage","url":url_of("about"),"mainEntity":{"@id":RAFI_ID}},
+                 crumbs_ld([("ראשי", SITE_URL+"/"), ("אודות", url_of("about"))])])))
+with open(f"{OUT}/about.html", "w") as f: f.write(pages[-1][1])
 
 # 404
 with open(f"{OUT}/404.html", "w") as f:
@@ -894,7 +967,8 @@ with open(f"{OUT}/sitemap.xml", "w") as f:
 # llms.txt : fiche en texte simple pour les assistants IA (standard llmstxt.org) — mêmes réglages que le site
 _llms = [f"# {NAME}", "", f"> מנעולן עצמאי בכל אזור {REGION}, מקיסריה ועד רמת השרון. מגיע בקטנוע, בדרך כלל תוך כ-{ETA_MIN} דקות. מחיר ברור לפני העבודה.", "",
          f"- טלפון: {PHONE} ({PHONE_INTL})", f"- וואטסאפ: {WA}", f"- אתר: {SITE_URL}/",
-         "- שעות: " + "; ".join(f"{d} {h}" for d, h in HOURS_DISPLAY) + ". בשבת סגור.",
+         "- שעות: " + "; ".join(f"{d} {h}" for d, h in HOURS_DISPLAY) + f" (השבוע). {SHABBAT_RULE} בשבת סגור.",
+         f"- על רפי: {ABOUT_INTRO} {ABOUT_P[1]} נותן אחריות על העבודה. מדבר עברית וצרפתית. עמוד: {url_of('about')}",
          f"- תוספת לילה: {NIGHT_TXT}. בין 08:00 ל-20:00 בלי תוספת.", "", "## שירותים ומחירים (כולל חלקים והתקנה)"]
 for g in PRICES:
     _llms.append(f"### {g[1]}")

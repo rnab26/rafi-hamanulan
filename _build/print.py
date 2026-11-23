@@ -8,7 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 src = open(os.path.join(ROOT, "_build/build.py"), encoding="utf-8").read().split("# ==================================================================")[0]
 cfg = {"__file__": os.path.join(ROOT, "_build/build.py")}; exec(src, cfg)
 import urllib.parse, qrcode
-WA_LINK = f"https://wa.me/{cfg['WA_NUMBER']}?text=" + urllib.parse.quote(cfg["WA_TEXT"])
+WA_LINK = f"https://wa.me/{cfg['WA_NUMBER']}?text=" + urllib.parse.quote(cfg.get("WA_TEXT_PRINT") or cfg["WA_TEXT"])   # texte des QR imprimés (≠ site)
 def qr_data_uri(data):
     q = qrcode.QRCode(border=1, box_size=10, error_correction=qrcode.constants.ERROR_CORRECT_M); q.add_data(data); q.make(fit=True)
     b = io.BytesIO(); q.make_image(fill_color="#0E1A2B", back_color="white").save(b, format="PNG")
