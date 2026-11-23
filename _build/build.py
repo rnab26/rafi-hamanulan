@@ -45,6 +45,8 @@ MIDRAG_URL = "https://www.midrag.co.il/SpCard/Sp/99543?areaId=10&serviceId=340&s
 GADS_ID = "AW-18553668064"            # ex. "AW-123456789"
 GADS_LABEL_CALL = "NJHACOy_prEdEOCDio9F"    # libellé de la conversion « Clic sur appel »   (la partie après le « / » de send_to)
 GADS_LABEL_WA = "S4QNCO-_prEdEOCDio9F"      # libellé de la conversion « Clic WhatsApp »
+# Google Analytics 4 (compte « רפי המנעולן » créé le 23 nov. 2026 sur refamanoulan@gmail.com, propriété 565533714). Vide = pas de GA4.
+GA4_ID = "G-4RL79X9YXG"
 INDEXNOW_KEY = "b8684d5c82d2840ec10bbd84289ad0c2"
 # ==================================================================
 
@@ -497,15 +499,18 @@ def faq_ld(faq):
     return {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}
 
 # ------------------------------------------------------------------ gabarit
-def gads_js():
-    if not GADS_ID:
+def gads_js():   # balise Google (Ads + GA4) : conversions Ads et événements GA4 « click_call » / « click_whatsapp » sur tous les visiteurs
+    tag = GADS_ID or GA4_ID
+    if not tag:
         return ""
+    ga = (lambda name: f"gtag('event','{name}',{{send_to:'{GA4_ID}',link_id:a.id||a.className||''}});") if GA4_ID else (lambda name: "")
     ev = ("document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
-          + (f"if(h.indexOf('tel:')===0)gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_CALL}'}});" if GADS_LABEL_CALL else "")
-          + (f"if(h.indexOf('wa.me')>-1)gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_WA}'}});" if GADS_LABEL_WA else "")
+          + "if(h.indexOf('tel:')===0){" + (f"gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_CALL}'}});" if GADS_ID and GADS_LABEL_CALL else "") + ga("click_call") + "}"
+          + "if(h.indexOf('wa.me')>-1){" + (f"gtag('event','conversion',{{send_to:'{GADS_ID}/{GADS_LABEL_WA}'}});" if GADS_ID and GADS_LABEL_WA else "") + ga("click_whatsapp") + "}"
           + "});")
-    return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={GADS_ID}"></script>'
-            f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{GADS_ID}');{ev}</script>")
+    cfg = "".join(f"gtag('config','{t}');" for t in (GADS_ID, GA4_ID) if t)
+    return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={tag}"></script>'
+            f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());{cfg}{ev}</script>")
 
 def nav_menu(body):   # menu classique (☰) : renvoie aux sections de la page si elles existent, sinon à l'accueil
     h = lambda a: ("" if f'id="{a}"' in body else "index.html") + "#" + a
@@ -862,7 +867,7 @@ with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
 # Politique de confidentialité (le site utilise la balise Google Ads quand GADS_ID est renseigné)
 PRIVACY = f"""<section class="sec"><div class="wrap art"><h1>מדיניות פרטיות</h1>
 <p>האתר שייך ל{NAME}. אין באתר טפסים, ואנחנו לא אוספים שם, כתובת או פרטים אישיים דרך האתר.</p>
-<h2>עוגיות ומדידה</h2><p>כדי לדעת אילו מודעות מביאות פניות, האתר משתמש בתג של Google Ads, שעשוי לשמור עוגיות בדפדפן ולספור לחיצות על כפתורי ההתקשרות והוואטסאפ. Google מעבדת את המידע לפי מדיניות הפרטיות שלה: <a href="https://policies.google.com/privacy?hl=iw">policies.google.com/privacy</a>.</p>
+<h2>עוגיות ומדידה</h2><p>כדי לדעת אילו מודעות מביאות פניות, האתר משתמש בתג של Google Ads, ולמדידת כמות המבקרים – ב-Google Analytics. שניהם עשויים לשמור עוגיות בדפדפן ולספור ביקורים ולחיצות על כפתורי ההתקשרות והוואטסאפ, בלי לקבל את מספר הטלפון שלכם. Google מעבדת את המידע לפי מדיניות הפרטיות שלה: <a href="https://policies.google.com/privacy?hl=iw">policies.google.com/privacy</a>.</p>
 <p>אפשר לחסום או למחוק עוגיות בהגדרות הדפדפן, והאתר ימשיך לעבוד כרגיל.</p>
 <h2>יצירת קשר</h2><p>לכל שאלה על פרטיות: <a href="tel:{PHONE_INTL}">{PHONE}</a> או בוואטסאפ.</p></div></section>"""
 pages.append(("privacy", page("privacy", f"מדיניות פרטיות | {NAME}", f"מדיניות הפרטיות והעוגיות של אתר {NAME}.", PRIVACY, [business(ALL)])))
