@@ -610,7 +610,7 @@ def callback_form():   # « רוצים שאחזור אליכם? » : envoi vers 
 def notify_js():   # alertes ntfy + gestion du formulaire de rappel
     t = NTFY_TOPIC
     return ("<iframe name=\"cbi\" title=\"שליחה\" hidden></iframe><script>(function(){"
-            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim(),keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
+            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}?priority=high',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim(),keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
             + "document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
             "if(h.indexOf('tel:')===0)nt('📞 לחיצה על התקשרו');else if(h.indexOf('wa.me')>-1)nt('💬 לחיצה על וואטסאפ')});"
             "document.addEventListener('submit',function(e){var f=e.target;if(!f.classList||!f.classList.contains('cb'))return;"
