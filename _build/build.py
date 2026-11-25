@@ -496,7 +496,7 @@ def business(area_names):
             spec.append({"@type":"OpeningHoursSpecification","dayOfWeek":days[d],
                          "opens":_h2t(a),"closes":"23:59" if b >= 24 else _h2t(b)})
     return {"@type":"Locksmith","@id":BIZ_ID,"name":NAME,"telephone":PHONE_INTL,"url":SITE_URL+"/",
-            "image":SITE_URL+"/img/og.jpg","founder":{"@type":"Person","@id":SITE_URL+"/#rafi","name":"רפי","image":SITE_URL+"/img/rafi.webp","url":SITE_URL+"/about.html","knowsLanguage":["he","fr"]},"logo":SITE_URL+"/img/logo.png",
+            "image":SITE_URL+"/img/og-rafi.jpg","founder":{"@type":"Person","@id":SITE_URL+"/#rafi","name":"רפי","image":SITE_URL+"/img/rafi.webp","url":SITE_URL+"/about.html","knowsLanguage":["he","fr"]},"logo":SITE_URL+"/img/logo.png",
             "address":{"@type":"PostalAddress","addressRegion":REGION,"addressCountry":"IL"},
             "areaServed":[{"@type":"City","name":n} for n in area_names],
             "openingHoursSpecification":spec,
@@ -547,12 +547,12 @@ CSS += """
 .cb .btn{flex:1 1 120px;justify-content:center}.cbok{color:#18A957;font-weight:600;margin:0}
 """
 CSS_V = __import__("hashlib").sha1(CSS.encode()).hexdigest()[:8]
-def page(slug, title, desc, body, graph, og_img="og"):
+def page(slug, title, desc, body, graph, og_img="og-rafi"):   # og-rafi.jpg = carte 1200x630 (photo + nom + numéro), source _build/og/
     url = url_of(slug)
     gsc = f'<meta name="google-site-verification" content="{GSC_VERIFICATION}">' if GSC_VERIFICATION and slug == "index" else ""
     return f'''<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title><meta name="description" content="{desc}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#1A56DB">
-<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="he_IL"><meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}/img/{og_img}.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="{NAME}"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css?v={CSS_V}">{gsc}{ld(graph)}</head><body>
@@ -889,7 +889,7 @@ for s, n, im, t, items, kw in SERVICES:
         _fit160(f"{n} בכל אזור {REGION}, מקיסריה ועד רמת השרון – {t} {kw}. הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
                 f"{n} {REGION_B}, מקיסריה ועד רמת השרון – {t} הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה.",
                 f"{n} {REGION_B} – {t} הגעה בקטנוע תוך כ-{ETA_MIN} דקות, מחיר ברור לפני העבודה."),
-        body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)], og_img="og")))
+        body, [business(ALL), svc, crumbs_ld([("ראשי", SITE_URL+"/"), (n, url_of(s))]), faq_ld(faq)])))
 
 for slug, title, im, desc, sections in GUIDES:
     art = {"@type":"Article","headline":title,"description":desc,"inLanguage":"he","image":f"{SITE_URL}/img/{im}.webp",
