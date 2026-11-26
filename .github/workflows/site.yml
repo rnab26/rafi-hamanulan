@@ -20,6 +20,8 @@ jobs:
           git diff --stat --exit-code || (echo "::error::Les .html versionnés ne correspondent pas à build.py : lancer python3 _build/build.py puis commit" && exit 1)
       - name: Contrôles (liens, données Google, textes interdits)
         run: python3 _build/check.py
+      - name: Test de l'origine des visiteurs dans les alertes ntfy
+        run: node _build/test_source.js
   indexation:
     needs: controle
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

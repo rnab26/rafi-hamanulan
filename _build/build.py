@@ -611,7 +611,13 @@ def callback_form():   # « רוצים שאחזור אליכם? » : envoi vers 
 def notify_js():   # alertes ntfy + gestion du formulaire de rappel
     t = NTFY_TOPIC
     return ("<iframe name=\"cbi\" title=\"שליחה\" hidden></iframe><script>(function(){"
-            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}?priority=high',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim(),keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
+            # 26 nov. : origine du visiteur dans l'alerte (gclid = pub Google Ads ; référent google = recherche gratuite / Maps ; utm_source=gbp = lien de la fiche),
+            # mémorisée pour la visite (sessionStorage 'rsrc'). Aucune donnée personnelle.
+            "var S=(function(){var q=location.search,r=document.referrer||'',h=r.split('/')[2]||'';"
+            "return /[?&](gclid|gbraid|wbraid)=/.test(q)?'מודעה בגוגל':/utm_source=gbp/.test(q)?'פרופיל העסק בגוגל':"
+            "/(^|\\.)google\\./.test(h)?'גוגל (חיפוש רגיל/מפות)':h&&h!==location.hostname?'אתר אחר: '+h:'ישיר / קישור'})();"
+            "try{var s0=sessionStorage.getItem('rsrc');if(s0)S=s0;else sessionStorage.setItem('rsrc',S)}catch(e){}"
+            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}?priority=high',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim()+' · מקור: '+S,keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
             + "document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
             "if(h.indexOf('tel:')===0)nt('📞 לחיצה על התקשרו');else if(h.indexOf('wa.me')>-1)nt('💬 לחיצה על וואטסאפ')});"
             "document.addEventListener('submit',function(e){var f=e.target;if(!f.classList||!f.classList.contains('cb'))return;"
@@ -920,7 +926,7 @@ with open(f"{OUT}/prices.html", "w") as f: f.write(pages[-1][1])
 # Politique de confidentialité (le site utilise la balise Google Ads quand GADS_ID est renseigné)
 PRIVACY = f"""<section class="sec"><div class="wrap art"><h1>מדיניות פרטיות</h1>
 <p>האתר שייך ל{NAME}. הפרט האישי היחיד שנאסף דרך האתר הוא מספר הטלפון (ושם, אם בחרתם לכתוב) שאתם משאירים בטופס "רוצים שאחזור אליכם?" – והוא משמש רק כדי לחזור אליכם. הטופס נשמר בחשבון Google של רפי (Google Forms) ולא מועבר לאף אחד אחר.</p>
-<h2>התראות</h2><p>כשלוחצים על "התקשרו", "וואטסאפ" או שולחים את הטופס, רפי מקבל התראה בטלפון דרך שירות ntfy, עם שם העמוד בלבד – בלי מספר טלפון ובלי פרט מזהה.</p>
+<h2>התראות</h2><p>כשלוחצים על "התקשרו", "וואטסאפ" או שולחים את הטופס, רפי מקבל התראה בטלפון דרך שירות ntfy, עם שם העמוד ומקור הביקור (למשל מודעה בגוגל) בלבד – בלי מספר טלפון ובלי פרט מזהה.</p>
 <h2>עוגיות ומדידה</h2><p>כדי לדעת אילו מודעות מביאות פניות, האתר משתמש בתג של Google Ads, ולמדידת כמות המבקרים – ב-Google Analytics. שניהם עשויים לשמור עוגיות בדפדפן ולספור ביקורים ולחיצות על כפתורי ההתקשרות והוואטסאפ, בלי לקבל את מספר הטלפון שלכם. Google מעבדת את המידע לפי מדיניות הפרטיות שלה: <a href="https://policies.google.com/privacy?hl=iw">policies.google.com/privacy</a>.</p>
 <p>אפשר לחסום או למחוק עוגיות בהגדרות הדפדפן, והאתר ימשיך לעבוד כרגיל.</p>
 <h2>יצירת קשר</h2><p>לכל שאלה על פרטיות: <a href="tel:{PHONE_INTL}">{PHONE}</a> או בוואטסאפ.</p></div></section>"""
