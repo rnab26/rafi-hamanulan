@@ -614,16 +614,18 @@ def notify_js():   # alertes ntfy + gestion du formulaire de rappel
             # 26 nov. : origine du visiteur dans l'alerte (gclid = pub Google Ads ; référent google = recherche gratuite / Maps ; utm_source=gbp = lien de la fiche),
             # mémorisée pour la visite (sessionStorage 'rsrc'). Aucune donnée personnelle.
             "var S=(function(){var q=location.search,r=document.referrer||'',h=r.split('/')[2]||'';"
-            "return /[?&](gclid|gbraid|wbraid)=/.test(q)?'מודעה בגוגל':/utm_source=gbp/.test(q)?'פרופיל העסק בגוגל':"
-            "/(^|\\.)google\\./.test(h)?'גוגל (חיפוש רגיל/מפות)':h&&h!==location.hostname?'אתר אחר: '+h:'ישיר / קישור'})();"
+            "return /[?&](gclid|gbraid|wbraid)=/.test(q)?'pub Google Ads':/utm_source=gbp/.test(q)?'fiche Google':"
+            "/(^|\\.)google\\./.test(h)?'Google gratuit (recherche ou Maps)':h&&h!==location.hostname?'autre site : '+h:'direct ou lien partagé'})();"
             "try{var s0=sessionStorage.getItem('rsrc');if(s0)S=s0;else sessionStorage.setItem('rsrc',S)}catch(e){}"
-            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}?priority=high',{{method:'POST',body:m+' – '+document.title.split('|')[0].trim()+' · מקור: '+S,keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
+            # 26 nov. : titre clair + 2 lignes (page, origine) ; priorité 5 = alarme insistante de l'appli ntfy (sonne même en silencieux si
+            # « Conserver les notifications avec une priorité maximale » est activé et le volume d'alarme > 0).
+            + (f"function nt(m){{try{{fetch('https://ntfy.sh/{t}?priority=5&title='+encodeURIComponent(m),{{method:'POST',body:'Page : '+document.title.split('|')[0].split(' – ')[0].trim()+'\\nVenu par : '+S,keepalive:true,mode:'no-cors'}})}}catch(e){{}}}}" if t else "function nt(){}")
             + "document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';"
-            "if(h.indexOf('tel:')===0)nt('📞 לחיצה על התקשרו');else if(h.indexOf('wa.me')>-1)nt('💬 לחיצה על וואטסאפ')});"
+            "if(h.indexOf('tel:')===0)nt('📞 Client : clic sur « Appeler »');else if(h.indexOf('wa.me')>-1)nt('💬 Client : clic sur WhatsApp')});"
             "document.addEventListener('submit',function(e){var f=e.target;if(!f.classList||!f.classList.contains('cb'))return;"
             "var ph=f.querySelector('input[type=tel]'),d=(ph.value||'').replace(/\\D/g,'');if(d.length<9||d.length>13){e.preventDefault();ph.focus();ph.setCustomValidity('מספר טלפון לא תקין');ph.reportValidity();setTimeout(function(){ph.setCustomValidity('')},2000);return}"
             "f.querySelector('.cbp').value=document.title.split('|')[0].trim()+' ('+location.pathname+')';"
-            "nt('📝 בקשת חזרה חדשה – המספר במייל של Google Forms');try{gtag('event','callback_request')}catch(x){}"
+            "nt('📝 Demande de rappel – numéro dans le mail Google Forms');try{gtag('event','callback_request')}catch(x){}"
             "setTimeout(function(){f.querySelector('.cbr').hidden=true;f.querySelector('.cbok').hidden=false},300)});"
             "})();</script>")
 
